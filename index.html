@@ -5,9 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PET CARE — Veterinary & Wellness Center</title>
 <meta name="description" content="Premium Pet Care veterinary wellness web app">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Prompt:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -28,396 +27,29 @@ main{max-width:1280px;margin:auto;padding:28px 22px 65px}.page{display:none}.pag
 .pet-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.pet{border:1px solid var(--line);border-radius:18px;padding:15px;background:#fbfdfc}.pet-avatar{width:52px;height:52px;background:var(--mint);border-radius:16px;display:grid;place-items:center;font-size:27px;margin-bottom:10px}.pet b{font:600 18px Prompt}.pet small{display:block;color:var(--muted);margin-top:3px}
 .upcoming{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid #edf1ef}.upcoming:last-child{border-bottom:0}.datebox{width:54px;height:56px;border-radius:15px;background:var(--mint);display:grid;place-items:center;text-align:center;color:var(--navy);font-weight:700}.datebox small{font-size:10px}.upcoming b{display:block}.upcoming span{font-size:12px;color:var(--muted)}.badge{padding:6px 9px;border-radius:999px;background:var(--mint);color:var(--navy);font-size:11px;font-weight:700;margin-left:auto;white-space:nowrap}.badge.gold{background:#fff1cf}.badge.red{background:#fae6e4;color:#9c3f39}
 .notification-list{display:flex;flex-direction:column;gap:9px}.notice{display:flex;gap:11px;padding:12px;border-radius:15px;background:#f6faf8}.notice.unread{background:#eaf7f3}.notice-icon{width:34px;height:34px;border-radius:11px;background:#fff;display:grid;place-items:center}.notice b{font-size:14px}.notice p{margin:2px 0 0;color:var(--muted);font-size:12px}
-.doctor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.doctor{position:relative;overflow:hidden}.doctor-top{display:flex;gap:14px;align-items:center}.doctor-photo{width:70px;height:70px;border-radius:21px;background:linear-gradient(135deg,#d8efe9,#edf8f5);display:grid;place-items:center;font-size:32px}.doctor h3{margin:0;font:600 18px Prompt}.doctor p{margin:4px 0;color:var(--muted);font-size:13px}.stars{color:#e3ae45;font-size:13px}.doctor .actions{display:flex;gap:8px;margin-top:15px}.doctor .actions .btn{flex:1}
-.calendar-wrap{display:grid;grid-template-columns:1fr 310px;gap:18px}.calendar{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}.cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.cal-title{font:600 22px Prompt}.cal-controls{display:flex;gap:6px}.icon-btn{width:38px;height:38px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--navy)}.week,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.week div{text-align:center;color:var(--muted);font-size:12px;padding:6px}.day{min-height:82px;border:1px solid #edf1ef;border-radius:13px;padding:8px;background:#fbfdfc;position:relative}.day.muted{opacity:.45}.day.today{border:2px solid var(--teal)}.day.selected{background:var(--mint);border-color:var(--teal)}.day-num{font-weight:700}.event{margin-top:8px;background:#dff3ed;color:#126e64;border-radius:8px;padding:4px 6px;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.booking-side h3{margin-bottom:8px}.slots{display:grid;grid-template-columns:1fr 1fr;gap:8px}.slot{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff;text-align:center}.slot.selected{background:var(--navy);color:#fff;border-color:var(--navy)}.slot.disabled{opacity:.4}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{display:block;font-weight:600;margin:13px 0 7px}input,select,textarea{width:100%;border:1px solid #dbe5e1;border-radius:13px;padding:11px 12px;background:#fbfdfc;outline:0}textarea{min-height:90px;resize:vertical}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{display:block;font-weight:600;margin:13px 0 7px}input,select,textarea{width:100%;border:1px solid #dbe5e1;border-radius:13px;padding:11px 12px;background:#fbfdfc;outline:0}textarea{min-height:90px;resize:vertical}
 .symptoms{display:grid;grid-template-columns:1fr 1fr;gap:8px}.symptom{display:flex;gap:8px;align-items:center;padding:11px;border:1px solid var(--line);border-radius:12px;background:#fbfdfc;font-weight:500}.symptom input{width:auto}.result{display:none;margin-top:15px;padding:16px;border-radius:16px;background:var(--mint)}.result.show{display:block}.result.danger{background:#fae6e4}.result.warn{background:#fff1cf}
-.chat{height:400px;display:flex;flex-direction:column}.messages{flex:1;overflow:auto}.bubble{max-width:82%;padding:11px 14px;border-radius:16px;margin:8px 0;line-height:1.6}.bot{background:var(--mint);border-bottom-left-radius:5px}.me{background:var(--navy);color:#fff;margin-left:auto;border-bottom-right-radius:5px}.chatbar{display:flex;gap:8px;margin-top:9px}.chatbar input{flex:1}
 .table-list .record{display:flex;justify-content:space-between;gap:12px;padding:15px 0;border-bottom:1px solid #edf1ef}.record:last-child{border-bottom:0}.muted{color:var(--muted);line-height:1.6}
 .modal{display:none;position:fixed;inset:0;z-index:200;background:rgba(10,33,44,.5);place-items:center;padding:20px}.modal.open{display:grid}.modalbox{width:min(520px,100%);background:#fff;border-radius:25px;padding:25px;box-shadow:0 30px 80px rgba(0,0,0,.25)}
 #loginScreen{position:fixed;inset:0;z-index:300;background:linear-gradient(135deg,#103e5a,#0f756f);display:grid;place-items:center;padding:20px}#loginScreen.hidden{display:none}.login-box{width:min(430px,100%);background:#fff;border-radius:30px;padding:30px;box-shadow:0 30px 80px rgba(0,0,0,.25)}.login-logo{display:block;width:215px;height:88px;object-fit:contain;margin:auto}.login-box h1{font:700 27px Prompt;text-align:center;color:var(--navy);margin:8px 0}.login-sub{text-align:center;color:var(--muted);margin:0 0 20px}.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--mint);padding:4px;border-radius:13px}.tabs button{border:0;background:transparent;padding:10px;border-radius:10px;font-weight:700;color:var(--muted)}.tabs button.active{background:#fff;color:var(--navy)}.auth-form{display:none}.auth-form.active{display:block}.pass{position:relative}.pass input{padding-right:45px}.pass button{position:absolute;right:5px;top:4px;border:0;background:transparent;padding:8px}.error{display:none;background:#fae6e4;color:#963d37;padding:10px;border-radius:11px;font-size:13px;margin-top:10px}.error.show{display:block}.remember{display:flex;gap:7px;align-items:center;font-weight:400;color:var(--muted)}.remember input{width:auto}
 .toast{position:fixed;right:20px;bottom:20px;z-index:400;background:var(--navy);color:#fff;border-radius:14px;padding:12px 16px;box-shadow:var(--shadow);transform:translateY(100px);opacity:0;transition:.25s}.toast.show{transform:none;opacity:1}
-.nearby-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.nearby-empty{padding:30px;text-align:center;color:var(--muted);background:#f7faf8;border-radius:18px;grid-column:1/-1}.hospital-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)}.hospital-card h3{font:600 18px Prompt;margin:0 0 8px;color:var(--navy)}.hospital-card p{font-size:12px;color:var(--muted);line-height:1.6;margin:0 0 10px}.hospital-distance{display:inline-block;background:var(--mint);color:#16766c;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:700}.hospital-actions{display:flex;gap:8px;margin-top:13px}.hospital-actions a{flex:1;text-align:center;text-decoration:none;padding:9px;border-radius:12px;font-weight:700;font-size:12px}.map-link{background:#eef5ff;color:#315da8}.route-link{background:var(--teal);color:#fff}.nav-login{border:1px solid #cfe4df!important;color:var(--navy)!important;background:#f5fbf9!important}.article-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.article-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}.article-card .article-icon{font-size:30px;margin-bottom:10px}.article-card h3{font:600 18px Prompt;margin:0 0 7px}.article-card p{color:var(--muted);font-size:13px;line-height:1.7;margin:0}.article-tag{display:inline-block;margin-top:12px;padding:5px 9px;border-radius:999px;background:var(--mint);color:var(--navy);font-size:10px;font-weight:700}@media(max-width:1000px){.article-grid{grid-template-columns:1fr 1fr}}@media(max-width:680px){.nearby-grid,.article-grid{grid-template-columns:1fr}}
+.nearby-layout{display:grid;grid-template-columns:1.25fr .75fr;gap:14px}.map-panel{min-height:380px;position:relative;overflow:hidden;border-radius:22px;background:#dcebea;box-shadow:0 12px 32px rgba(0,65,75,.10);border:1px solid #e0eceb}#petMap{width:100%;height:380px}
+.map-overlay{position:absolute;left:14px;top:14px;z-index:500;display:flex;gap:9px;align-items:center;padding:10px 13px;background:rgba(255,255,255,.94);border-radius:14px;box-shadow:0 8px 24px rgba(0,40,50,.13);backdrop-filter:blur(8px)}.live-dot{width:10px;height:10px;background:#13a38e;border-radius:50%;box-shadow:0 0 0 5px #dff7f0}
+.hospital-panel{min-height:380px;border:1px solid #e1eceb;border-radius:22px;padding:16px;background:linear-gradient(145deg,#ffffff,#f6fbfb);box-shadow:0 12px 32px rgba(0,65,75,.08)}
+.panel-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.panel-top h3{font-family:"Prompt";color:#174a58;font-size:17px}.count-pill{background:#e2f7f4;color:#078b87;border-radius:20px;padding:5px 9px;font-size:9px;font-weight:700}
+.hospital-list{display:flex;flex-direction:column;gap:9px;max-height:325px;overflow-y:auto;padding-right:3px}
+.hospital-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)}.hospital-card h3{font:600 18px Prompt;margin:0 0 8px;color:var(--navy)}.hospital-card p{font-size:12px;color:var(--muted);line-height:1.6;margin:0 0 10px}.hospital-distance{display:inline-block;background:var(--mint);color:#16766c;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:700}.hospital-actions{display:flex;gap:8px;margin-top:13px}.hospital-actions a{flex:1;text-align:center;text-decoration:none;padding:9px;border-radius:12px;font-weight:700;font-size:12px}.map-link{background:#eef5ff;color:#315da8}.route-link{background:var(--teal);color:#fff}
+.empty-hospital{text-align:center;padding:70px 20px;color:#789097}.empty-icon{width:56px;height:56px;margin:0 auto 10px;border-radius:18px;background:#e4f7f4;display:flex;align-items:center;justify-content:center;font-size:26px}
+.check-pet-card{display:flex;align-items:center;gap:12px;margin:12px 0 16px;padding:12px;border:1px solid var(--line);border-radius:15px;background:#f7fbfa;min-height:64px}.check-pet-avatar{width:48px;height:48px;border-radius:14px;background:var(--mint);display:grid;place-items:center;font-size:25px}.check-pet-card b{font:600 16px Prompt;color:#174a58}.check-pet-card small{display:block;color:var(--muted);font-size:11px;margin-top:2px}.check-pet-empty{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px}
+.symptom-topics{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.topic-chip{border:1px solid #d8e9e8;background:#fff;color:#4b6970;border-radius:20px;padding:8px 11px;font-family:inherit;font-size:12px;cursor:pointer}.topic-chip.active{background:#e2f7f4;border-color:#82cbc4;color:#087f7d;font-weight:700}
+.article-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.article-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}.article-card .article-icon{font-size:30px;margin-bottom:10px}.article-card h3{font:600 18px Prompt;margin:0 0 7px}.article-card p{color:var(--muted);font-size:13px;line-height:1.7;margin:0}.article-tag{display:inline-block;margin-top:12px;padding:5px 9px;border-radius:999px;background:var(--mint);color:var(--navy);font-size:10px;font-weight:700}
 footer{background:#0e344c;color:#cfe0e7;padding:28px 22px}.foot{max-width:1280px;margin:auto;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}.foot b{color:#fff}
-@media(max-width:1000px){.hero{grid-template-columns:1fr}.hero-visual{padding:0 35px 40px}.trust{grid-template-columns:1fr 1fr}.dash-grid,.calendar-wrap{grid-template-columns:1fr}.doctor-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:680px){.topin{flex-wrap:wrap}.brand-logo{width:130px;height:50px}.user{order:2}.nav{order:3;flex-basis:100%}main{padding:18px 13px 50px}.hero-copy{padding:38px 25px}.hero h1{font-size:43px}.hero-visual{padding:0 20px 28px}.trust,.pet-strip,.doctor-grid,.form-row{grid-template-columns:1fr}.symptoms{grid-template-columns:1fr}.day{min-height:62px}.event{font-size:9px}.section-head{align-items:flex-start;flex-direction:column}}
-
-        /* =========================
-           PREMIUM NEARBY SECTION
-        ========================= */
-
-        .nearby-premium {
-            max-width: 1400px;
-            margin: 18px auto 0;
-            padding: 0 22px;
-        }
-
-        .nearby-heading {
-            display: flex;
-            align-items: end;
-            justify-content: space-between;
-            gap: 20px;
-            margin-bottom: 12px;
-        }
-
-        .eyebrow {
-            display: inline-block;
-            color: #078d8a;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 1.8px;
-            margin-bottom: 4px;
-        }
-
-        .nearby-heading h2 {
-            font-family: "Prompt";
-            color: #08495d;
-            font-size: 25px;
-            line-height: 1.2;
-        }
-
-        .nearby-heading p {
-            color: #71868c;
-            font-size: 12px;
-            margin-top: 3px;
-        }
-
-        .location-btn {
-            border: none;
-            background: linear-gradient(135deg,#078f91,#006b75);
-            color: white;
-            padding: 11px 18px;
-            border-radius: 14px;
-            font-weight: 600;
-            box-shadow: 0 8px 20px rgba(0,110,120,.18);
-            transition: .25s;
-            white-space: nowrap;
-        }
-
-        .location-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 25px rgba(0,110,120,.24);
-        }
-
-        .nearby-layout {
-            display: grid;
-            grid-template-columns: 1.25fr .75fr;
-            gap: 14px;
-        }
-
-        .map-panel {
-            min-height: 380px;
-            position: relative;
-            overflow: hidden;
-            border-radius: 22px;
-            background: #dcebea;
-            box-shadow: 0 12px 32px rgba(0,65,75,.10);
-            border: 1px solid #e0eceb;
-        }
-
-        #petMap {
-            width: 100%;
-            height: 380px;
-        }
-
-        .map-overlay {
-            position: absolute;
-            left: 14px;
-            top: 14px;
-            z-index: 500;
-            display: flex;
-            gap: 9px;
-            align-items: center;
-            padding: 10px 13px;
-            background: rgba(255,255,255,.94);
-            border: 1px solid rgba(255,255,255,.7);
-            border-radius: 14px;
-            box-shadow: 0 8px 24px rgba(0,40,50,.13);
-            backdrop-filter: blur(8px);
-        }
-
-        .map-overlay strong {
-            display: block;
-            font-size: 11px;
-            color: #174a58;
-        }
-
-        .map-overlay small {
-            display: block;
-            color: #799097;
-            font-size: 9px;
-            margin-top: 1px;
-        }
-
-        .live-dot {
-            width: 10px;
-            height: 10px;
-            background: #13a38e;
-            border-radius: 50%;
-            box-shadow: 0 0 0 5px #dff7f0;
-        }
-
-        .hospital-panel {
-            min-height: 380px;
-            border: 1px solid #e1eceb;
-            border-radius: 22px;
-            padding: 16px;
-            background: linear-gradient(145deg,#ffffff,#f6fbfb);
-            box-shadow: 0 12px 32px rgba(0,65,75,.08);
-        }
-
-        .panel-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .panel-top h3 {
-            font-family: "Prompt";
-            color: #174a58;
-            font-size: 17px;
-        }
-
-        .count-pill {
-            background: #e2f7f4;
-            color: #078b87;
-            border-radius: 20px;
-            padding: 5px 9px;
-            font-size: 9px;
-            font-weight: 700;
-        }
-
-        .hospital-list {
-            display: flex;
-            flex-direction: column;
-            gap: 9px;
-            max-height: 325px;
-            overflow-y: auto;
-            padding-right: 3px;
-        }
-
-        .hospital-card {
-            display: grid;
-            grid-template-columns: 42px 1fr auto;
-            gap: 10px;
-            align-items: center;
-            padding: 10px;
-            border-radius: 15px;
-            background: white;
-            border: 1px solid #e5efee;
-            transition: .2s;
-        }
-
-        .hospital-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 18px rgba(0,80,90,.08);
-        }
-
-        .hospital-icon {
-            width: 42px;
-            height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 13px;
-            background: #e2f8f5;
-            font-size: 20px;
-        }
-
-        .hospital-info strong {
-            display: block;
-            color: #194b59;
-            font-size: 11px;
-            line-height: 1.35;
-        }
-
-        .hospital-info small {
-            display: block;
-            color: #819197;
-            font-size: 9px;
-            line-height: 1.4;
-            margin-top: 2px;
-        }
-
-        .distance {
-            color: #078c89;
-            font-size: 10px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .hospital-actions {
-            grid-column: 2 / 4;
-            display: flex;
-            gap: 6px;
-            margin-top: -2px;
-        }
-
-        .hospital-actions a {
-            text-decoration: none;
-            padding: 5px 9px;
-            border-radius: 9px;
-            font-size: 9px;
-            font-weight: 600;
-        }
-
-        .map-link {
-            background: #e8f8f6;
-            color: #087e7d;
-        }
-
-        .route-link {
-            background: #087f86;
-            color: white;
-        }
-
-        .empty-hospital {
-            text-align: center;
-            padding: 70px 20px;
-            color: #789097;
-        }
-
-        .empty-icon {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto 10px;
-            border-radius: 18px;
-            background: #e4f7f4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-        }
-
-        .empty-hospital strong {
-            color: #315963;
-            display: block;
-            font-size: 13px;
-        }
-
-        .empty-hospital p {
-            font-size: 10px;
-            margin-top: 4px;
-            line-height: 1.5;
-        }
-
-        @media (max-width: 850px) {
-            .nearby-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .nearby-heading {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
-            .location-btn {
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 520px) {
-            .nearby-premium {
-                padding: 0 10px;
-            }
-
-            .nearby-heading h2 {
-                font-size: 21px;
-            }
-
-            .map-panel,
-            #petMap {
-                height: 300px;
-                min-height: 300px;
-            }
-
-            .hospital-panel {
-                min-height: 340px;
-            }
-        }
-
-
-        .hospital-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 4px;
-        }
-
-        .rating-badge {
-            color: #9a6500;
-            background: #fff5dc;
-            border-radius: 8px;
-            padding: 3px 6px;
-            font-size: 9px;
-            font-weight: 700;
-        }
-
-        .open-badge {
-            border-radius: 8px;
-            padding: 3px 6px;
-            font-size: 9px;
-            font-weight: 700;
-        }
-
-        .open-badge.open {
-            color: #167445;
-            background: #e5f8ed;
-        }
-
-        .open-badge.closed {
-            color: #a34343;
-            background: #fdeaea;
-        }
-
-        .hospital-hours {
-            color: #71878d;
-            font-size: 9px;
-            margin-top: 3px;
-        }
-
-        .hospital-phone {
-            color: #078b88;
-            font-size: 9px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 2px;
-        }
-
-        .hospital-phone:hover {
-            text-decoration: underline;
-        }
-
-        .hospital-distance {
-            color: #078c89;
-            font-size: 10px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-
-.check-pet-card{display:flex;align-items:center;gap:12px;margin:9px 0 16px;padding:12px;border:1px solid var(--line);border-radius:15px;background:#f7fbfa;min-height:64px}.check-pet-avatar{width:48px;height:48px;border-radius:14px;background:var(--mint);display:grid;place-items:center;font-size:25px}.check-pet-card b{font:600 16px Prompt;color:#174a58}.check-pet-card small{display:block;color:var(--muted);font-size:11px;margin-top:2px}.check-pet-empty{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px}
-
-.location-result{position:absolute;left:14px;right:14px;bottom:14px;z-index:500;display:none;align-items:center;gap:9px;padding:10px 12px;background:rgba(255,255,255,.96);border-radius:14px;box-shadow:0 8px 24px rgba(0,40,50,.14);border:1px solid #dceceb}
-.location-result.show{display:flex}.location-result.success{border-color:#bfe8d6}.location-result.error{border-color:#f1cccc}
-.location-result-icon{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:11px;background:#e4f8f3;font-size:17px}
-.location-result strong{display:block;color:#174a58;font-size:10px}.location-result small{display:block;color:#778c92;font-size:9px;margin-top:2px}
-.manual-location-btn{display:block;width:100%;margin-top:8px;border:1px solid #d8e9e8;background:#fff;color:#087e7d;border-radius:11px;padding:8px;font-size:9px;font-weight:700}
-.location-btn.loading{opacity:.7;pointer-events:none}
-
-
-.symptom-premium{max-width:1400px;margin:18px auto;padding:0 22px}.symptom-head{margin-bottom:12px}
-.symptom-eyebrow{color:#078d8a;font-size:10px;font-weight:700;letter-spacing:1.8px}.symptom-head h2{font-family:"Prompt";color:#08495d;font-size:25px;margin:3px 0}.symptom-head p{color:#71868c;font-size:12px}
-.symptom-card{background:linear-gradient(145deg,#fff,#f7fbfb);border:1px solid #dfebea;border-radius:22px;padding:20px;box-shadow:0 12px 32px rgba(0,65,75,.08)}
-.symptom-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.symptom-field.full{grid-column:1/-1}.symptom-field label{display:block;color:#365b64;font-size:11px;font-weight:700;margin-bottom:6px}
-.symptom-field input,.symptom-field select,.symptom-field textarea{width:100%;box-sizing:border-box;border:1px solid #dce9e8;background:#fff;color:#315963;border-radius:12px;padding:11px 12px;outline:none;font-family:inherit;font-size:11px}.symptom-field textarea{resize:vertical;line-height:1.65}
-.symptom-topics{display:flex;flex-wrap:wrap;gap:8px}.topic-chip{border:1px solid #d8e9e8;background:#fff;color:#4b6970;border-radius:20px;padding:8px 11px;font-family:inherit;font-size:10px;cursor:pointer}.topic-chip.active{background:#e2f7f4;border-color:#82cbc4;color:#087f7d;font-weight:700}
-.symptom-counter{text-align:right;color:#9aa9ad;font-size:9px;margin-top:4px}.symptom-warning{display:flex;gap:9px;margin-top:15px;padding:11px 12px;background:#fff9e9;border:1px solid #f2e4b8;border-radius:13px;color:#80651d;font-size:10px}.symptom-warning p{color:#87784d;font-size:9px;line-height:1.55;margin:2px 0 0}.symptom-submit{width:100%;border:0;border-radius:13px;padding:12px;margin-top:14px;color:#fff;background:linear-gradient(135deg,#078f91,#006b75);font-family:inherit;font-size:11px;font-weight:700;cursor:pointer}.symptom-result{display:none;margin-top:12px;padding:12px;border-radius:13px;background:#edf9f7;color:#27626a;font-size:10px;line-height:1.6}
-@media(max-width:700px){.symptom-premium{padding:0 10px}.symptom-grid{grid-template-columns:1fr}.symptom-field.full{grid-column:auto}.symptom-head h2{font-size:21px}}
+@media(max-width:1000px){.hero{grid-template-columns:1fr}.trust{grid-template-columns:1fr 1fr}.dash-grid,.nearby-layout{grid-template-columns:1fr}.article-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:680px){.topin{flex-wrap:wrap}.nav{order:3;flex-basis:100%}.trust,.pet-strip,.form-row,.article-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+
 <div id="loginScreen">
   <div class="login-box">
     <img class="login-logo" src="assets/pet-care-logo.png" alt="PET CARE Veterinary & Wellness Center">
@@ -440,7 +72,6 @@ footer{background:#0e344c;color:#cfe0e7;padding:28px 22px}.foot{max-width:1280px
       <div id="regError" class="error"></div>
       <button class="btn teal" style="width:100%;margin-top:14px" onclick="register()">สร้างบัญชี</button>
     </div>
-    <p style="text-align:center;color:var(--muted);font-size:11px;margin:17px 0 0">Prototype • ข้อมูลตัวอย่างถูกเก็บใน Local Storage</p>
   </div>
 </div>
 
@@ -459,13 +90,14 @@ footer{background:#0e344c;color:#cfe0e7;padding:28px 22px}.foot{max-width:1280px
 </div></header>
 
 <main>
+<!-- หน้าหลัก -->
 <section id="home" class="page active">
   <div class="hero">
     <div class="hero-copy">
       <div class="eyebrow">VETERINARY • WELLNESS • TRUST</div>
       <h1>สุขภาพดี<br>เริ่มต้นที่การดูแล</h1>
       <p>แพลตฟอร์มดูแลสัตว์เลี้ยงที่รวมโปรไฟล์สุขภาพ การคัดกรองอาการ โรงพยาบาลใกล้ฉัน และประวัติการดูแลไว้ในประสบการณ์เดียว</p>
-      <div class="hero-actions"><button class="btn teal" onclick="go('nearby')">ดูโรงพยาบาลใกล้ฉัน →</button><button class="btn soft" onclick="go('dashboard')">ดู Dashboard →</button></div>
+      <div class="hero-actions"><button class="btn teal" onclick="go('nearby')">ดูโรงพยาบาลใกล้ฉัน →</button><button class="btn soft" onclick="go('symptom')">เช็กอาการเบื้องต้น →</button></div>
     </div>
     <div class="hero-visual"><div class="hero-card">
       <div class="hero-card-top"><b>Pet Care Wellness</b><span class="verified">✓ Trusted Care</span></div>
@@ -482,28 +114,111 @@ footer{background:#0e344c;color:#cfe0e7;padding:28px 22px}.foot{max-width:1280px
   </div>
 </section>
 
+<!-- Dashboard -->
 <section id="dashboard" class="page">
   <div class="section-head"><div><h2>Good morning, <span id="helloName">Pet Parent</span> 👋</h2><p>ภาพรวมการดูแลสัตว์เลี้ยงของคุณวันนี้</p></div><button class="btn teal" onclick="openPet()">＋ เพิ่มสัตว์เลี้ยง</button></div>
   <div class="dash-grid">
     <div class="panel"><div class="mini-head"><h3>สัตว์เลี้ยงของฉัน</h3><button class="link" onclick="go('pets')">ดูทั้งหมด →</button></div><div id="dashPets" class="pet-strip"></div></div>
     <div class="panel"><div class="mini-head"><h3>การแจ้งเตือน</h3><button class="link" onclick="markNotices()">อ่านแล้ว</button></div><div class="notification-list" id="notifications"></div></div>
   </div>
-  <div class="section-head"><div><h2>กำหนดการใกล้ถึง</h2><p>นัดหมายที่กำลังจะมาถึง</p></div><button class="btn teal" onclick="go('nearby')">ดูโรงพยาบาลใกล้ฉัน →</button></div>
-  <div class="panel" id="dashBookings"></div>
 </section>
 
-<section id="pets" class="page"><div class="section-head"><div><h2>โปรไฟล์สัตว์เลี้ยง</h2><p>ข้อมูลสุขภาพเบื้องต้นสำหรับใช้ในระบบ</p></div><button class="btn teal" onclick="openPet()">＋ เพิ่มสัตว์เลี้ยง</button></div><div class="panel"><div id="petList" class="pet-strip"></div></div></section>
+<!-- โปรไฟล์สัตว์เลี้ยง -->
+<section id="pets" class="page">
+  <div class="section-head"><div><h2>โปรไฟล์สัตว์เลี้ยง</h2><p>ข้อมูลสุขภาพเบื้องต้นสำหรับใช้ในระบบ</p></div><button class="btn teal" onclick="openPet()">＋ เพิ่มสัตว์เลี้ยง</button></div>
+  <div class="panel"><div id="petList" class="pet-strip"></div></div>
+</section>
 
-<section id="symptom" class="page"><div class="section-head"><div><h2>Smart Symptom Check</h2><p>เลือกน้องที่ต้องการเช็กอาการ แล้วเลือกอาการที่พบ</p></div></div><div class="dash-grid"><div class="panel"><label>สัตว์เลี้ยง</label><select id="checkPet" onchange="updateCheckPet()"></select><div id="checkPetCard" class="check-pet-card"></div><label>อาการที่พบ</label><div class="symptoms"><label class="symptom"><input type="checkbox" value="breath"> หายใจลำบาก</label><label class="symptom"><input type="checkbox" value="blood"> มีเลือดออก</label><label class="symptom"><input type="checkbox" value="seizure"> ชัก/หมดสติ</label><label class="symptom"><input type="checkbox" value="vomit"> อาเจียน</label><label class="symptom"><input type="checkbox" value="diarrhea"> ท้องเสีย</label><label class="symptom"><input type="checkbox" value="fever"> ซึม/ตัวร้อน</label><label class="symptom"><input type="checkbox" value="eat"> กินอาหารน้อย</label><label class="symptom"><input type="checkbox" value="pain"> เจ็บ/ร้องผิดปกติ</label></div><label>รายละเอียด</label><textarea id="checkNote" placeholder="เริ่มมีอาการเมื่อไร และมีอะไรเปลี่ยนแปลงบ้าง?"></textarea><button class="btn teal" style="margin-top:15px" onclick="checkSymptoms()">ประเมินเบื้องต้น</button><div id="checkResult" class="result"></div></div><div class="panel"><h3>Safety first</h3><div class="record"><span>หายใจลำบาก</span><span class="badge red">เร่งด่วน</span></div><div class="record"><span>ชัก / หมดสติ</span><span class="badge red">เร่งด่วน</span></div><div class="record"><span>เลือดออกมาก</span><span class="badge red">เร่งด่วน</span></div><div class="record"><span>อาการต่อเนื่อง</span><span class="badge gold">ควรปรึกษา</span></div><p class="muted" style="margin-top:15px">หากน้องมีอาการรุนแรงหรือแย่ลงอย่างรวดเร็ว ให้ติดต่อโรงพยาบาลสัตว์หรือสัตวแพทย์ทันที</p></div></div></section>
+<!-- หน้าเช็กอาการ (คงเหลือไว้เฉพาะหัวข้อ "เช็กอาการ" ที่นี่จุดเดียว) -->
+<section id="symptom" class="page">
+  <div class="section-head">
+    <div>
+      <h2>เช็กอาการ</h2>
+      <p>เลือกสัตว์เลี้ยงและระบุอาการที่พบเพื่อประเมินความรุนแรงเบื้องต้น</p>
+    </div>
+  </div>
+  <div class="dash-grid">
+    <div class="panel">
+      <label>🐾 สัตว์เลี้ยง</label>
+      <select id="checkPet" onchange="updateCheckPet()"></select>
+      <div id="checkPetCard" class="check-pet-card"></div>
 
+      <label>📋 หัวข้ออาการที่พบ</label>
+      <div class="symptom-topics">
+        <button type="button" class="topic-chip">🍚 กินอาหารน้อยลง</button>
+        <button type="button" class="topic-chip">🤢 อาเจียน</button>
+        <button type="button" class="topic-chip">💧 ท้องเสีย</button>
+        <button type="button" class="topic-chip">🤧 ไอ / จาม</button>
+        <button type="button" class="topic-chip">😴 ซึม / ตัวร้อน</button>
+        <button type="button" class="topic-chip">🫁 หายใจลำบาก</button>
+        <button type="button" class="topic-chip">🩸 มีเลือดออก</button>
+        <button type="button" class="topic-chip">⚡ ชัก / หมดสติ</button>
+      </div>
+
+      <div class="form-row" style="margin-top:10px">
+        <div>
+          <label>ระยะเวลาที่มีอาการ</label>
+          <select id="symptomDuration">
+            <option value="">เลือกช่วงเวลา</option>
+            <option>เพิ่งเริ่มวันนี้</option>
+            <option>1–2 วัน</option>
+            <option>3–7 วัน</option>
+            <option>มากกว่า 1 สัปดาห์</option>
+          </select>
+        </div>
+        <div>
+          <label>ระดับความรุนแรงเบื้องต้น</label>
+          <select id="symptomSeverity">
+            <option value="">เลือกประเมินตนเอง</option>
+            <option>เล็กน้อย</option>
+            <option>ปานกลาง</option>
+            <option>รุนแรง / ฉุกเฉิน</option>
+          </select>
+        </div>
+      </div>
+
+      <label>📝 รายละเอียดอาการเพิ่มเติม</label>
+      <textarea id="checkNote" placeholder="ระบุเพิ่มเติม เช่น เริ่มเป็นเมื่อไร อาเจียนกี่ครั้ง กินน้ำได้หรือไม่..."></textarea>
+
+      <button class="btn teal" style="width:100%;margin-top:15px;padding:14px" onclick="checkSymptoms()">วิเคราะห์อาการเบื้องต้น →</button>
+      <div id="checkResult" class="result"></div>
+    </div>
+
+    <div class="panel">
+      <h3>Safety First (อาการเร่งด่วน)</h3>
+      <div class="record"><span>หายใจลำบาก / อ้าปากหายใจ</span><span class="badge red">ฉุกเฉิน</span></div>
+      <div class="record"><span>ชัก / หมดสติ / ไม่รับรู้</span><span class="badge red">ฉุกเฉิน</span></div>
+      <div class="record"><span>มีเลือดออกมาก / อุบัติเหตุ</span><span class="badge red">ฉุกเฉิน</span></div>
+      <div class="record"><span>อาเจียนหรือท้องเสียติดต่อกัน</span><span class="badge gold">ควรพบแพทย์</span></div>
+      <p class="muted" style="margin-top:15px;font-size:12px">
+        ⚠️ หมายเหตุ: การประเมินนี้ใช้สำหรับเป็นข้อมูลเบื้องต้นเท่านั้น หากสัตว์เลี้ยงมีอาการรุนแรง สับสน หรือวิกฤต กรุณาพาไปโรงพยาบาลสัตว์ที่ใกล้ที่สุดทันที
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- โรงพยาบาลใกล้ฉัน -->
 <section id="nearby" class="page">
   <div class="section-head"><div><h2>โรงพยาบาลสัตว์ใกล้ฉัน</h2><p>ค้นหาจากตำแหน่งปัจจุบัน พร้อมแผนที่และระยะทาง</p></div><button class="btn teal" id="nearbyBtn" onclick="findNearbyHospitals()">📍 ใช้ตำแหน่งของฉัน</button></div>
   <div class="nearby-layout">
     <div class="map-panel"><div id="petMap"></div><div class="map-overlay"><div class="live-dot"></div><div><strong>ตำแหน่งของคุณ</strong><small id="nearbyStatus">กดปุ่มเพื่อค้นหาโรงพยาบาลใกล้คุณ</small></div></div></div>
-    <div class="hospital-panel"><div class="panel-top"><div><span class="eyebrow">NEARBY</span><h3>สถานพยาบาลใกล้คุณ</h3></div><span class="count-pill" id="hospitalCount">0 แห่ง</span></div><div id="hospitalList" class="hospital-list"><div class="empty-hospital"><div class="empty-icon">🏥</div><strong>ยังไม่ได้ระบุตำแหน่ง</strong><p>กด “ใช้ตำแหน่งของฉัน” เพื่อเริ่มค้นหา</p></div></div></div>
+    <div class="hospital-panel"><div class="panel-top"><div><h3>สถานพยาบาลใกล้คุณ</h3></div><span class="count-pill" id="hospitalCount">0 แห่ง</span></div><div id="hospitalList" class="hospital-list"><div class="empty-hospital"><div class="empty-icon">🏥</div><strong>ยังไม่ได้ระบุตำแหน่ง</strong><p>กด “ใช้ตำแหน่งของฉัน” เพื่อเริ่มค้นหา</p></div></div></div>
   </div>
 </section>
 
+<!-- ประวัติ -->
+<section id="records" class="page">
+  <div class="section-head">
+    <div><h2>ประวัติและกิจกรรม</h2><p>ติดตามนัดหมายและประวัติการเช็กอาการ</p></div>
+    <button class="btn outline" onclick="clearAll()">ล้างข้อมูล</button>
+  </div>
+  <div class="dash-grid">
+    <div class="panel"><h3>นัดหมายทั้งหมด</h3><div id="bookingList" class="table-list"></div></div>
+    <div class="panel"><h3>ประวัติการเช็กอาการ</h3><div id="checkList" class="table-list"></div></div>
+  </div>
+</section>
+
+<!-- บทความ -->
 <section id="articles" class="page">
   <div class="section-head"><div><h2>บทความดูแลสัตว์เลี้ยง</h2><p>ความรู้สั้น ๆ สำหรับดูแลน้องให้แข็งแรงและมีความสุข</p></div></div>
   <div class="article-grid">
@@ -512,222 +227,296 @@ footer{background:#0e344c;color:#cfe0e7;padding:28px 22px}.foot{max-width:1280px
     <article class="article-card"><div class="article-icon">🐾</div><h3>สัญญาณที่ไม่ควรมองข้าม</h3><p>สังเกตอาการผิดปกติ เช่น ซึม หายใจลำบาก อาเจียน หรือพฤติกรรมที่เปลี่ยนไป</p><span class="article-tag">สังเกตอาการ</span></article>
   </div>
 </section>
-
-<section id="records" class="page"><div class="section-head"><div><h2>ประวัติและกิจกรรม</h2><p>ติดตามนัดหมายและผลการเช็กอาการ</p></div><button class="btn outline" onclick="clearAll()">ล้างข้อมูล</button></div><div class="dash-grid"><div class="panel"><h3>นัดหมายทั้งหมด</h3><div id="bookingList" class="table-list"></div></div><div class="panel"><h3>ประวัติ Symptom Check</h3><div id="checkList" class="table-list"></div></div></div></section>
-
-<section class="symptom-premium" id="symptoms">
-  <div class="symptom-head">
-    <span class="symptom-eyebrow">PET HEALTH CHECK</span>
-    <h2>เช็กอาการสัตว์เลี้ยง</h2>
-    <p>เลือกหัวข้ออาการและระบุรายละเอียดเพิ่มเติม เพื่อช่วยประเมินอาการเบื้องต้น</p>
-  </div>
-  <div class="symptom-card">
-    <div class="symptom-grid">
-      <div class="symptom-field full">
-        <label>🐾 สัตว์เลี้ยง</label>
-        <select id="symptomPet">
-          <option value="">เลือกสัตว์เลี้ยง</option><option>🐶 สุนัข</option><option>🐱 แมว</option>
-          <option>🐰 กระต่าย</option><option>🐦 นก</option><option>🐾 อื่น ๆ</option>
-        </select>
-      </div>
-      <div class="symptom-field"><label>อายุ</label><input id="symptomAge" placeholder="เช่น 2 ปี"></div>
-      <div class="symptom-field"><label>เพศ</label><select id="symptomGender"><option value="">เลือกเพศ</option><option>ตัวผู้</option><option>ตัวเมีย</option><option>ไม่ทราบ</option></select></div>
-      <div class="symptom-field full">
-        <label>📋 หัวข้ออาการ</label>
-        <div class="symptom-topics">
-          <button type="button" class="topic-chip">🍚 กินอาหารน้อยลง</button><button type="button" class="topic-chip">🤢 อาเจียน</button>
-          <button type="button" class="topic-chip">💧 ท้องเสีย</button><button type="button" class="topic-chip">🤧 ไอ / จาม</button>
-          <button type="button" class="topic-chip">😴 ซึม / ไม่ร่าเริง</button><button type="button" class="topic-chip">🚰 ไม่กินน้ำ</button>
-          <button type="button" class="topic-chip">🐾 คัน / เกา</button><button type="button" class="topic-chip">🦴 เดินผิดปกติ</button>
-          <button type="button" class="topic-chip">🩹 ผิวหนังผิดปกติ</button><button type="button" class="topic-chip">👁️ ตา / หูผิดปกติ</button>
-          <button type="button" class="topic-chip">🫁 หายใจลำบาก</button><button type="button" class="topic-chip">＋ อื่น ๆ</button>
-        </div>
-      </div>
-      <div class="symptom-field full">
-        <label for="symptomDescription">📝 ระบุอาการเพิ่มเติม</label>
-        <textarea id="symptomDescription" maxlength="500" rows="6" placeholder="เว้นช่องนี้ไว้สำหรับระบุอาการ เช่น เริ่มมีอาการเมื่อไร เป็นมากแค่ไหน กินอาหารได้หรือไม่ อาเจียนกี่ครั้ง หรือมีอาการอื่นร่วมด้วย..."></textarea>
-        <div class="symptom-counter"><span id="symptomCounter">0</span>/500 ตัวอักษร</div>
-      </div>
-      <div class="symptom-field"><label>ระยะเวลาที่มีอาการ</label><select id="symptomDuration"><option value="">เลือกช่วงเวลา</option><option>เพิ่งเริ่มวันนี้</option><option>1–2 วัน</option><option>3–7 วัน</option><option>มากกว่า 1 สัปดาห์</option><option>เป็น ๆ หาย ๆ</option></select></div>
-      <div class="symptom-field"><label>ระดับความรุนแรง</label><select id="symptomSeverity"><option value="">ประเมินระดับอาการ</option><option>เล็กน้อย</option><option>ปานกลาง</option><option>รุนแรง</option><option>ฉุกเฉิน</option></select></div>
-    </div>
-    <div class="symptom-warning">⚠️ <div><strong>หมายเหตุ</strong><p>ข้อมูลนี้ใช้เพื่อการประเมินเบื้องต้น ไม่ใช่การวินิจฉัยโรค หากมีอาการรุนแรง หายใจลำบาก ชัก หมดสติ หรือเลือดออกมาก ควรพบสัตวแพทย์ทันที</p></div></div>
-    <button type="button" class="symptom-submit" onclick="saveSymptomCheck()">วิเคราะห์อาการเบื้องต้น →</button>
-    <div class="symptom-result" id="symptomResult"></div>
-  </div>
-</section>
 </main>
+
 <footer><div class="foot"><div><b>PET CARE — Veterinary & Wellness Center</b><br>Smart care for every pet.</div><div>Premium Web App Prototype</div></div></footer>
 </div>
 
-<div id="petModal" class="modal"><div class="modalbox"><h3 style="font:600 22px Prompt;margin-top:0">เพิ่มสัตว์เลี้ยง</h3><label>ชื่อ</label><input id="petName" placeholder="เช่น มะลิ"><label>ประเภท</label><select id="petType"><option>สุนัข</option><option>แมว</option><option>กระต่าย</option><option>อื่น ๆ</option></select><div class="form-row"><div><label>สายพันธุ์</label><input id="petBreed" placeholder="Golden Retriever"></div><div><label>อายุ (ปี)</label><input id="petAge" type="number" min="0"></div></div><label>น้ำหนัก (กก.)</label><input id="petWeight" type="number" min="0" step=".1"><div class="hero-actions"><button class="btn teal" onclick="savePet()">บันทึก</button><button class="btn outline" onclick="closePet()">ยกเลิก</button></div></div></div>
+<!-- Modal เพิ่มสัตว์เลี้ยง -->
+<div id="petModal" class="modal"><div class="modalbox"><h3 style="font:600 22px Prompt;margin-top:0">เพิ่มสัตว์เลี้ยง</h3><label>ชื่อ</label><input id="petName" placeholder="เช่น มะลิ"><label>ประเภท</label><select id="petType"><option>สุนัข</option><option>แมว</option><option>กระต่าย</option><option>อื่น ๆ</option></select><div class="form-row"><div><label>สายพันธุ์</label><input id="petBreed" placeholder="Golden Retriever"></div><div><label>อายุ (ปี)</label><input id="petAge" type="number" min="0"></div></div><label>น้ำหนัก (กก.)</label><input id="petWeight" type="number" min="0" step=".1"><div class="hero-actions" style="margin-top:20px"><button class="btn teal" onclick="savePet()">บันทึก</button><button class="btn outline" onclick="closePet()">ยกเลิก</button></div></div></div>
 <div id="toast" class="toast"></div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const setHTML=(sel,html)=>{const e=$(sel);if(e)e.innerHTML=html};
 const store={get(k,d=[]){try{return JSON.parse(localStorage.getItem('petcare_'+k))??d}catch{return d}},set(k,v){localStorage.setItem('petcare_'+k,JSON.stringify(v))}};
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function toast(t){let e=$('#toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2300)}
-function go(id){$$('.page').forEach(p=>p.classList.toggle('active',p.id===id));$$('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));refresh();scrollTo({top:0,behavior:'smooth'})}
-$$('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.page));
+function toast(t){let e=$('#toast');if(!e)return;e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2300)}
 
-function users(){return store.get('users',[])} function user(){return store.get('currentUser',null)}
+function go(id){
+  $$('.page').forEach(p=>p.classList.toggle('active',p.id===id));
+  $$('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
+  refresh();
+  scrollTo({top:0,behavior:'smooth'});
+}
+$$('.nav button').forEach(b=>{if(b.dataset.page) b.onclick=()=>go(b.dataset.page);});
+
+function users(){return store.get('users',[])}
+function user(){return store.get('currentUser',null)}
 function openLoginScreen(){$('#loginScreen').classList.remove('hidden');switchAuth('login')}
 
-function switchAuth(mode){$('#loginForm').classList.toggle('active',mode==='login');$('#registerForm').classList.toggle('active',mode==='register');$('#tabLogin').classList.toggle('active',mode==='login');$('#tabRegister').classList.toggle('active',mode==='register');$('#authTitle').textContent=mode==='login'?'ยินดีต้อนรับกลับมา':'สร้างบัญชี Pet Care';$('#authSub').textContent=mode==='login'?'ดูแลสุขภาพน้องง่ายขึ้น ในที่เดียว':'เริ่มต้นจัดการสุขภาพสัตว์เลี้ยงของคุณ'}
+function switchAuth(mode){
+  $('#loginForm').classList.toggle('active',mode==='login');
+  $('#registerForm').classList.toggle('active',mode==='register');
+  $('#tabLogin').classList.toggle('active',mode==='login');
+  $('#tabRegister').classList.toggle('active',mode==='register');
+  $('#authTitle').textContent=mode==='login'?'ยินดีต้อนรับกลับมา':'สร้างบัญชี Pet Care';
+  $('#authSub').textContent=mode==='login'?'ดูแลสุขภาพน้องง่ายขึ้น ในที่เดียว':'เริ่มต้นจัดการสุขภาพสัตว์เลี้ยงของคุณ';
+}
 function togglePw(id,b){let i=$('#'+id);i.type=i.type==='password'?'text':'password';b.textContent=i.type==='password'?'👁':'🙈'}
 function err(id,msg){$(id).textContent=msg;$(id).classList.add('show')}
 function clearErr(){$$('.error').forEach(e=>e.classList.remove('show'))}
-function register(){clearErr();let n=$('#regName').value.trim(),e=$('#regEmail').value.trim().toLowerCase(),p=$('#regPw').value,c=$('#regCf').value;if(!n||!e||!p)return err('#regError','กรุณากรอกข้อมูลให้ครบ');if(p.length<6)return err('#regError','รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร');if(p!==c)return err('#regError','รหัสผ่านไม่ตรงกัน');let a=users();if(a.some(x=>x.email===e))return err('#regError','อีเมลนี้มีบัญชีแล้ว');let u={id:Date.now(),name:n,email:e,password:p};a.push(u);store.set('users',a);store.set('currentUser',{id:u.id,name:u.name,email:u.email});showApp();toast('สมัครสมาชิกสำเร็จ')}
-function login(){clearErr();let e=$('#loginEmail').value.trim().toLowerCase(),p=$('#loginPassword').value,u=users().find(x=>x.email===e&&x.password===p);if(!u)return err('#loginError','อีเมลหรือรหัสผ่านไม่ถูกต้อง');store.set('currentUser',{id:u.id,name:u.name,email:u.email});showApp();toast('เข้าสู่ระบบสำเร็จ')}
-function demo(){let a=users(),u=a.find(x=>x.email==='demo@petcare.local');if(!u){u={id:1,name:'Demo User',email:'demo@petcare.local',password:'petcare123'};a.push(u);store.set('users',a)}store.set('currentUser',{id:u.id,name:u.name,email:u.email});showApp();toast('เข้าสู่ระบบทดลองแล้ว')}
-function logout(){store.set('currentUser',null);$('#loginScreen').classList.remove('hidden');$('#userChip').classList.remove('show');$('#logout').classList.remove('show');switchAuth('login')}
-function showApp(){let u=user();if(!u){$('#loginScreen').classList.remove('hidden');return}$('#loginScreen').classList.add('hidden');const chip=$('#userChip'),lo=$('#logout'),hello=$('#helloName');if(chip){chip.textContent='👤 '+u.name;chip.classList.add('show')}if(lo)lo.classList.add('show');if(hello)hello.textContent=u.name}
+
+function register(){
+  clearErr();
+  let n=$('#regName').value.trim(),e=$('#regEmail').value.trim().toLowerCase(),p=$('#regPw').value,c=$('#regCf').value;
+  if(!n||!e||!p)return err('#regError','กรุณากรอกข้อมูลให้ครบ');
+  if(p.length<6)return err('#regError','รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร');
+  if(p!==c)return err('#regError','รหัสผ่านไม่ตรงกัน');
+  let a=users();
+  if(a.some(x=>x.email===e))return err('#regError','อีเมลนี้มีบัญชีแล้ว');
+  let u={id:Date.now(),name:n,email:e,password:p};
+  a.push(u);
+  store.set('users',a);
+  store.set('currentUser',{id:u.id,name:u.name,email:u.email});
+  showApp();
+  toast('สมัครสมาชิกสำเร็จ');
+}
+
+function login(){
+  clearErr();
+  let e=$('#loginEmail').value.trim().toLowerCase(),p=$('#loginPassword').value,u=users().find(x=>x.email===e&&x.password===p);
+  if(!u)return err('#loginError','อีเมลหรือรหัสผ่านไม่ถูกต้อง');
+  store.set('currentUser',{id:u.id,name:u.name,email:u.email});
+  showApp();
+  toast('เข้าสู่ระบบสำเร็จ');
+}
+
+function demo(){
+  let a=users(),u=a.find(x=>x.email==='demo@petcare.local');
+  if(!u){u={id:1,name:'Demo User',email:'demo@petcare.local',password:'petcare123'};a.push(u);store.set('users',a)}
+  store.set('currentUser',{id:u.id,name:u.name,email:u.email});
+  showApp();
+  toast('เข้าสู่ระบบทดลองแล้ว');
+}
+
+function logout(){
+  store.set('currentUser',null);
+  $('#loginScreen').classList.remove('hidden');
+  $('#userChip').classList.remove('show');
+  $('#logout').classList.remove('show');
+  switchAuth('login');
+}
+
+function showApp(){
+  let u=user();
+  if(!u){$('#loginScreen').classList.remove('hidden');return}
+  $('#loginScreen').classList.add('hidden');
+  const chip=$('#userChip'),lo=$('#logout'),hello=$('#helloName');
+  if(chip){chip.textContent='👤 '+u.name;chip.classList.add('show')}
+  if(lo)lo.classList.add('show');
+  if(hello)hello.textContent=u.name;
+}
 
 function pets(){return store.get('pets',[])}
-function openPet(){$('#petModal').classList.add('open');$('#petName').focus()} function closePet(){$('#petModal').classList.remove('open')}
-function savePet(){let n=$('#petName').value.trim();if(!n)return toast('กรุณาใส่ชื่อสัตว์เลี้ยง');let a=pets();a.push({id:Date.now(),name:n,type:$('#petType').value,breed:$('#petBreed').value||'ไม่ระบุ',age:$('#petAge').value||'ไม่ระบุ',weight:$('#petWeight').value||'ไม่ระบุ'});store.set('pets',a);['petName','petBreed','petAge','petWeight'].forEach(id=>$('#'+id).value='');closePet();refresh();toast('เพิ่มโปรไฟล์เรียบร้อย')}
+function openPet(){$('#petModal').classList.add('open');$('#petName').focus()} 
+function closePet(){$('#petModal').classList.remove('open')}
+function savePet(){
+  let n=$('#petName').value.trim();
+  if(!n)return toast('กรุณาใส่ชื่อสัตว์เลี้ยง');
+  let a=pets();
+  a.push({id:Date.now(),name:n,type:$('#petType').value,breed:$('#petBreed').value||'ไม่ระบุ',age:$('#petAge').value||'ไม่ระบุ',weight:$('#petWeight').value||'ไม่ระบุ'});
+  store.set('pets',a);
+  ['petName','petBreed','petAge','petWeight'].forEach(id=>$('#'+id).value='');
+  closePet();
+  refresh();
+  toast('เพิ่มโปรไฟล์เรียบร้อย');
+}
 function removePet(id){store.set('pets',pets().filter(p=>p.id!==id));refresh();toast('ลบโปรไฟล์แล้ว')}
 function avatar(t){return t==='แมว'?'🐱':t==='สุนัข'?'🐶':t==='กระต่าย'?'🐰':'🐾'}
-function petCards(list){return list.length?list.map(p=>`<div class="pet"><div class="pet-avatar">${avatar(p.type)}</div><b>${esc(p.name)}</b><small>${esc(p.type)} • ${esc(p.breed)}</small><small>อายุ ${esc(p.age)} ปี • ${esc(p.weight)} กก.</small><button class="btn outline" style="margin-top:10px;padding:8px 11px;font-size:12px" onclick="removePet(${p.id})">ลบ</button></div>`).join(''):'<div class="muted" style="padding:30px;text-align:center;grid-column:1/-1">ยังไม่มีโปรไฟล์สัตว์เลี้ยง<br><button class="btn teal" style="margin-top:10px" onclick="openPet()">＋ เพิ่มน้องตัวแรก</button></div>'}
-function fillPets(){let a=pets();setHTML('#petList',petCards(a));setHTML('#dashPets',petCards(a.slice(0,3)));const cp=$('#checkPet');if(cp){const current=cp.value;cp.innerHTML=a.length?a.map(p=>`<option value="${p.id}">${esc(p.name)} • ${esc(p.type)}</option>`).join(''):'<option value="">ยังไม่มีสัตว์เลี้ยง</option>';if(a.some(p=>String(p.id)===String(current)))cp.value=current;else if(a.length)cp.value=String(a[0].id);updateCheckPet();}}
-function updateCheckPet(){const cp=$('#checkPet'),card=$('#checkPetCard');if(!cp||!card)return;const p=pets().find(x=>String(x.id)===String(cp.value));if(!p){card.innerHTML='<div class="check-pet-empty"><span>ยังไม่มีโปรไฟล์สัตว์เลี้ยง</span><button class="btn teal" onclick="openPet()">＋ เพิ่มสัตว์เลี้ยง</button></div>';return;}card.innerHTML=`<div class="check-pet-avatar">${avatar(p.type)}</div><div><b>${esc(p.name)}</b><small>${esc(p.type)} • ${esc(p.breed)} • อายุ ${esc(p.age)} ปี</small></div>`;}
 
-const months=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
-let cal=new Date(),selected=new Date();let selectedSlot='09:00–11:00';
-function iso(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
-function renderCalendar(){let y=cal.getFullYear(),m=cal.getMonth();$('#calTitle').textContent=`${months[m]} ${y+543}`;let first=new Date(y,m,1).getDay(),last=new Date(y,m+1,0).getDate(),prev=new Date(y,m,0).getDate(),days=[];for(let i=0;i<42;i++){let n=i-first+1,d;if(n<1)d=new Date(y,m-1,prev+n);else if(n>last)d=new Date(y,m+1,n-last);else d=new Date(y,m,n);let cls=d.getMonth()!==m?'muted':'';if(iso(d)===iso(new Date()))cls+=' today';if(iso(d)===iso(selected))cls+=' selected';let ev=store.get('bookings',[]).filter(x=>x.date===iso(d));days.push(`<button class="day ${cls}" onclick="pickDate('${iso(d)}')"><div class="day-num">${d.getDate()}</div>${ev.slice(0,1).map(x=>`<div class="event">${esc(x.service)}</div>`).join('')}</button>`)}$('#calendarDays').innerHTML=days.join('');$('#selectedDate').value=iso(selected);renderSlots()}
-function pickDate(s){let [y,m,d]=s.split('-').map(Number);selected=new Date(y,m-1,d);cal=new Date(y,m-1,1);renderCalendar()}
-function changeMonth(n){cal.setMonth(cal.getMonth()+n);renderCalendar()}
-function renderSlots(){let slots=['09:00–11:00','11:00–13:00','13:00–15:00','15:00–17:00','17:00–19:00','19:00–20:00'];$('#slots').innerHTML=slots.map(s=>`<button class="slot ${s===selectedSlot?'selected':''}" onclick="selectSlot('${s}')">${s}</button>`).join('')}
-function selectSlot(s){selectedSlot=s;renderSlots()}
-function createBooking(){if(!pets().length)return toast('กรุณาเพิ่มสัตว์เลี้ยงก่อน');let a=store.get('bookings',[]);a.unshift({id:Date.now(),pet:$('#bookPet').selectedOptions[0].textContent,doctor:$('#bookDoctor').value,service:$('#bookService').value,date:iso(selected),time:selectedSlot,note:$('#bookNote').value});store.set('bookings',a);$('#bookNote').value='';renderCalendar();refresh();toast('สร้างนัดหมายเรียบร้อย')}
-function bookingRows(){let a=store.get('bookings',[]);return a.length?a.map((x,i)=>`<div class="record"><div><b>📅 ${esc(x.pet)}</b><br><span class="muted">${esc(x.service)} • ${esc(x.doctor)} • ${esc(x.date)} • ${esc(x.time)}</span>${x.note?`<br><small class="muted">${esc(x.note)}</small>`:''}</div><span class="badge">#${a.length-i}</span></div>`).join(''):'<div class="muted" style="padding:20px 0">ยังไม่มีนัดหมาย</div>'}
-function renderBookings(){let a=store.get('bookings',[]);$('#bookingList').innerHTML=bookingRows();let upcoming=a.slice(0,4);$('#dashBookings').innerHTML=upcoming.length?upcoming.map(x=>{let p=x.date.split('-');return `<div class="upcoming"><div class="datebox"><b>${p[2]}</b><small>${p[1]}/${p[0]}</small></div><div><b>${esc(x.pet)}</b><span>${esc(x.service)} • ${esc(x.doctor)} • ${esc(x.time)}</span></div><span class="badge">ยืนยัน</span></div>`}).join(''):'<div class="muted" style="padding:20px 0">ยังไม่มีนัดหมาย</div>'}
+function petCards(list){
+  return list.length?list.map(p=>`<div class="pet"><div class="pet-avatar">${avatar(p.type)}</div><b>${esc(p.name)}</b><small>${esc(p.type)} • ${esc(p.breed)}</small><small>อายุ ${esc(p.age)} ปี • ${esc(p.weight)} กก.</small><button class="btn outline" style="margin-top:10px;padding:8px 11px;font-size:12px" onclick="removePet(${p.id})">ลบ</button></div>`).join('')
+  :'<div class="muted" style="padding:30px;text-align:center;grid-column:1/-1">ยังไม่มีโปรไฟล์สัตว์เลี้ยง<br><button class="btn teal" style="margin-top:10px" onclick="openPet()">＋ เพิ่มน้องตัวแรก</button></div>';
+}
+
+function fillPets(){
+  let a=pets();
+  setHTML('#petList',petCards(a));
+  setHTML('#dashPets',petCards(a.slice(0,3)));
+  const cp=$('#checkPet');
+  if(cp){
+    const current=cp.value;
+    cp.innerHTML=a.length?a.map(p=>`<option value="${p.id}">${esc(p.name)} (${esc(p.type)})</option>`).join(''):'<option value="">ยังไม่มีสัตว์เลี้ยง</option>';
+    if(a.some(p=>String(p.id)===String(current)))cp.value=current;
+    else if(a.length)cp.value=String(a[0].id);
+    updateCheckPet();
+  }
+}
+
+function updateCheckPet(){
+  const cp=$('#checkPet'),card=$('#checkPetCard');
+  if(!cp||!card)return;
+  const p=pets().find(x=>String(x.id)===String(cp.value));
+  if(!p){
+    card.innerHTML='<div class="check-pet-empty"><span>ยังไม่มีโปรไฟล์สัตว์เลี้ยง</span><button class="btn teal" onclick="openPet()">＋ เพิ่มสัตว์เลี้ยง</button></div>';
+    return;
+  }
+  card.innerHTML=`<div class="check-pet-avatar">${avatar(p.type)}</div><div><b>${esc(p.name)}</b><small>${esc(p.type)} • ${esc(p.breed)} • อายุ ${esc(p.age)} ปี</small></div>`;
+}
 
 function notices(){return store.get('notices',[{id:1,title:'ยินดีต้อนรับสู่ Pet Care',text:'เริ่มจากเพิ่มโปรไฟล์สัตว์เลี้ยงของคุณ',unread:true},{id:2,title:'เตือนความพร้อมก่อนพบหมอ',text:'เตรียมประวัติ ยา และรูปอาการถ้ามี',unread:true},{id:3,title:'ดูแลเชิงป้องกัน',text:'ตรวจสุขภาพสม่ำเสมอช่วยติดตามสุขภาพได้ดีขึ้น',unread:false}])}
-function renderNotices(){let a=notices();$('#notifications').innerHTML=a.map(x=>`<div class="notice ${x.unread?'unread':''}"><div class="notice-icon">${x.unread?'🔔':'✓'}</div><div><b>${esc(x.title)}</b><p>${esc(x.text)}</p></div></div>`).join('')}
+function renderNotices(){
+  let a=notices();
+  if($('#notifications')) $('#notifications').innerHTML=a.map(x=>`<div class="notice ${x.unread?'unread':''}"><div class="notice-icon">${x.unread?'🔔':'✓'}</div><div><b>${esc(x.title)}</b><p>${esc(x.text)}</p></div></div>`).join('');
+}
 function markNotices(){store.set('notices',notices().map(x=>({...x,unread:false})));renderNotices();toast('อ่านการแจ้งเตือนแล้ว')}
 
-function checkSymptoms(){let v=$$('#symptom input:checked').map(x=>x.value),r=$('#checkResult');if(!v.length){r.className='result show';r.innerHTML='<b>กรุณาเลือกอาการ</b>';return}let l=v.some(x=>['breath','blood','seizure'].includes(x))?'danger':v.some(x=>['vomit','diarrhea','fever','pain'].includes(x))?'warn':'ok',title=l==='danger'?'ควรพบสัตวแพทย์โดยเร็ว':l==='warn'?'แนะนำให้ปรึกษาสัตวแพทย์':'ติดตามอาการเบื้องต้น';r.className='result show '+l;r.innerHTML=`<b>${title}</b><br><span>${l==='danger'?'มีสัญญาณที่อาจเร่งด่วนสูง หากรุนแรงขึ้นให้ติดต่อโรงพยาบาลสัตว์ทันที':l==='warn'?'ควรติดตามอย่างใกล้ชิด และนัดตรวจหากไม่ดีขึ้น':'ยังไม่พบสัญญาณเร่งด่วนจากตัวเลือกนี้ แต่ควรสังเกตอาการต่อเนื่อง'}</span>`;let a=store.get('checks',[]);a.unshift({id:Date.now(),pet:$('#checkPet').selectedOptions[0]?.textContent||'ไม่ระบุ',title,level:l,note:$('#checkNote').value});store.set('checks',a.slice(0,20));refresh();toast('บันทึกผลแล้ว')}
-function renderChecks(){let a=store.get('checks',[]);$('#checkList').innerHTML=a.length?a.map(x=>`<div class="record"><div><b>${esc(x.pet)}</b><br><span class="muted">${esc(x.title)}</span></div><span class="badge ${x.level==='danger'?'red':x.level==='warn'?'gold':''}">${x.level==='danger'?'เร่งด่วน':x.level==='warn'?'ควรปรึกษา':'ติดตาม'}</span></div>`).join(''):'<div class="muted" style="padding:20px 0">ยังไม่มีประวัติ</div>'}
+/* ฟังก์ชันเช็กอาการ */
+function checkSymptoms(){
+  let cp=$('#checkPet');
+  if(!cp||!cp.value){toast('กรุณาเลือกสัตว์เลี้ยงก่อน');return}
+  let petObj=pets().find(p=>String(p.id)===String(cp.value));
+  let petName=petObj?petObj.name:'สัตว์เลี้ยง';
 
-function sendChat(){let i=$('#chatInput'),t=i.value.trim();if(!t)return;let m=$('#messages');m.insertAdjacentHTML('beforeend',`<div class="bubble me">${esc(t)}</div>`);i.value='';let rep=t.match(/หายใจ|ชัก|เลือด/)?'ถ้ามีอาการหายใจลำบาก ชัก หรือเลือดออกมาก แนะนำติดต่อสัตวแพทย์หรือโรงพยาบาลสัตว์ทันทีครับ':t.match(/อาเจียน|ท้องเสีย|ไม่กิน/)?'ควรจดระยะเวลาที่เป็น อาหาร น้ำ และการขับถ่ายไว้ แล้วพิจารณานัดสัตวแพทย์หากอาการต่อเนื่องครับ':'รับทราบครับ แนะนำบันทึกเวลาเริ่มอาการและถ้ามีรูปหรือวิดีโอจะช่วยคุณหมอประเมินได้มากขึ้นครับ';setTimeout(()=>{m.insertAdjacentHTML('beforeend',`<div class="bubble bot">${rep}</div>`);m.scrollTop=m.scrollHeight},400);m.scrollTop=m.scrollHeight}
-$('#chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()})
-function selectDoctor(n){$('#bookDoctor').value=n;go('booking');toast('เลือก '+n+' แล้ว')}
-function clearAll(){if(confirm('ลบข้อมูลนัดหมายและประวัติการเช็กอาการทั้งหมดหรือไม่?')){['bookings','checks'].forEach(k=>localStorage.removeItem('petcare_'+k));refresh();toast('ล้างข้อมูลแล้ว')}}
-function refresh(){fillPets();renderBookings();renderChecks();renderNotices();renderCalendar()}
-/* =========================
-       STABLE NEARBY HOSPITALS
-       - Browser GPS
-       - Leaflet/OpenStreetMap map
-       - Overpass API with timeout + fallback
-       - Session cache to avoid repeated requests
-    ========================= */
+  let topics=[...document.querySelectorAll('.topic-chip.active')].map(x=>x.textContent.trim());
+  let note=$('#checkNote')?.value.trim()||'';
+  let duration=$('#symptomDuration')?.value||'';
+  let severity=$('#symptomSeverity')?.value||'';
 
-    let petMap = null;
-    let userMarker = null;
-    let hospitalMarkers = [];
-    let nearbyBusy = false;
+  if(!topics.length && !note){toast('กรุณาเลือกหัวข้ออาการหรือระบุรายละเอียด');return}
 
-    function initPetMap() {
-        const el = document.getElementById('petMap');
-        if (!el || !window.L) return;
-        petMap = L.map(el, { zoomControl: true }).setView([13.7563, 100.5018], 12);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(petMap);
-    }
+  let isDanger = topics.some(t=>t.includes('หายใจ')||t.includes('เลือด')||t.includes('ชัก')) || severity==='รุนแรง / ฉุกเฉิน';
+  let isWarn = topics.some(t=>t.includes('อาเจียน')||t.includes('ท้องเสีย')||t.includes('ซึม')) || severity==='ปานกลาง';
+  
+  let level = isDanger ? 'danger' : isWarn ? 'warn' : 'ok';
+  let title = isDanger ? 'ควรพบสัตวแพทย์โดยเร็ว' : isWarn ? 'แนะนำให้ปรึกษาสัตวแพทย์' : 'ติดตามอาการเบื้องต้น';
 
-    function haversine(lat1, lon1, lat2, lon2) {
-        const R = 6371, rad = Math.PI / 180;
-        const dLat = (lat2-lat1)*rad, dLon=(lon2-lon1)*rad;
-        const a = Math.sin(dLat/2)**2 + Math.cos(lat1*rad)*Math.cos(lat2*rad)*Math.sin(dLon/2)**2;
-        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    }
+  let r=$('#checkResult');
+  r.className='result show '+level;
+  r.innerHTML=`<b>${title} (${esc(petName)})</b><br><span>${isDanger?'มีสัญญาณฉุกเฉินหรือรุนแรง หากน้องอาการไม่ดีขึ้นโปรดพบสัตวแพทย์ทันที':isWarn?'ควรติดตามอาการใกล้ชิด หากไม่ดีขึ้นใน 1-2 วันควรพาไปตรวจ':'ยังไม่พบสัญญาณฉุกเฉินเบื้องต้น สังเกตอาการต่อเนื่อง'}</span>`;
 
-    function formatDistance(km){ return km < 1 ? Math.round(km*1000)+' ม.' : km.toFixed(1)+' กม.'; }
-    function mapsSearchUrl(lat,lon){return `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;}
-    function routeUrl(lat,lon){return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}&travelmode=driving`;}
-
-    async function fetchWithTimeout(url, options={}, ms=12000){
-        const controller = new AbortController();
-        const timer = setTimeout(()=>controller.abort(), ms);
-        try { return await fetch(url,{...options,signal:controller.signal}); }
-        finally { clearTimeout(timer); }
-    }
-
-    function setNearbyStatus(text){const e=$('#nearbyStatus');if(e)e.textContent=text;}
-
-    function renderNearby(hospitals){
-        const list=$('#hospitalList'), count=$('#hospitalCount');
-        if(!list) return;
-        if(count) count.textContent=`${hospitals.length} แห่ง`;
-        if(!hospitals.length){
-            list.innerHTML='<div class="empty-hospital"><div class="empty-icon">🔎</div><strong>ไม่พบโรงพยาบาลสัตว์ใกล้เคียง</strong><p>ลองค้นหาเพิ่มเติมจาก Google Maps</p></div>';
-            return;
-        }
-        list.innerHTML=hospitals.map(h=>`<article class="hospital-card"><div class="hospital-icon">🏥</div><div class="hospital-info"><strong>${esc(h.name)}</strong><small>${esc(h.address)}</small><div class="hospital-meta"><span class="rating-badge">★ —</span><span class="open-badge closed">● ตรวจสอบเวลา</span></div><div class="hospital-hours">🕐 ${h.hours ? esc(h.hours) : 'ไม่มีข้อมูลเวลาเปิด-ปิด'}</div>${h.phone?`<a class="hospital-phone" href="tel:${esc(h.phone)}">☎ ${esc(h.phone)}</a>`:''}</div><div class="hospital-distance">${formatDistance(h.distance)}</div><div class="hospital-actions"><a class="map-link" target="_blank" rel="noopener" href="${mapsSearchUrl(h.lat,h.lon)}">ดูแผนที่</a><a class="route-link" target="_blank" rel="noopener" href="${routeUrl(h.lat,h.lon)}">นำทาง →</a></div></article>`).join('');
-        if(window.L && petMap){
-            hospitalMarkers.forEach(m=>m.remove()); hospitalMarkers=[];
-            hospitals.forEach(h=>{const m=L.marker([h.lat,h.lon]).addTo(petMap).bindPopup(`<b>${esc(h.name)}</b><br>${formatDistance(h.distance)}`);hospitalMarkers.push(m);});
-        }
-    }
-
-    async function findNearbyHospitals(){
-        if(nearbyBusy) return;
-        nearbyBusy=true;
-        const btn=$('#nearbyBtn'); if(btn){btn.disabled=true;btn.textContent='⏳ กำลังค้นหา...';}
-        setNearbyStatus('กำลังขอตำแหน่งของคุณ...');
-        try {
-            if(!navigator.geolocation) throw new Error('geolocation');
-            const pos=await new Promise((resolve,reject)=>navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:false,timeout:12000,maximumAge:300000}));
-            const lat=pos.coords.latitude, lon=pos.coords.longitude;
-            if(petMap){ if(userMarker) userMarker.remove(); userMarker=L.marker([lat,lon]).addTo(petMap).bindPopup('<b>📍 ตำแหน่งของคุณ</b>'); petMap.setView([lat,lon],14); setTimeout(()=>petMap.invalidateSize(),100); }
-            setNearbyStatus('กำลังค้นหาโรงพยาบาลใกล้คุณ...');
-            const cacheKey='nearby_'+lat.toFixed(3)+'_'+lon.toFixed(3), cached=store.get(cacheKey,null);
-            if(cached && Date.now()-cached.time<10*60*1000){renderNearby(cached.data);setNearbyStatus('แสดงผลจากข้อมูลล่าสุด');return;}
-            const query=`[out:json][timeout:10];(node["amenity"="veterinary"](around:12000,${lat},${lon});way["amenity"="veterinary"](around:12000,${lat},${lon}););out center tags;`;
-            const res=await fetchWithTimeout('https://overpass-api.de/api/interpreter',{method:'POST',body:query},15000);
-            if(!res.ok) throw new Error('overpass');
-            const data=await res.json();
-            const hospitals=data.elements.map(x=>{const hLat=x.lat??x.center?.lat,hLon=x.lon??x.center?.lon,t=x.tags||{};return {lat:hLat,lon:hLon,name:t.name||'โรงพยาบาล/คลินิกสัตว์',address:[t['addr:housenumber'],t['addr:street'],t['addr:suburb']].filter(Boolean).join(' ')||t['addr:full']||'ดูรายละเอียดบนแผนที่',phone:t.phone||t['contact:phone']||'',hours:t.opening_hours||'',distance:haversine(lat,lon,hLat,hLon)}}).filter(x=>Number.isFinite(x.lat)&&Number.isFinite(x.lon)).sort((a,b)=>a.distance-b.distance).slice(0,8);
-            store.set(cacheKey,{time:Date.now(),data:hospitals});
-            renderNearby(hospitals); setNearbyStatus(`พบ ${hospitals.length} แห่งใกล้คุณ`);
-        } catch(err){
-            setNearbyStatus('ไม่สามารถโหลดรายชื่ออัตโนมัติได้ในขณะนี้');
-            const list=$('#hospitalList'); if(list) list.innerHTML=`<div class="empty-hospital"><div class="empty-icon">🗺️</div><strong>ลองค้นหาจาก Google Maps</strong><p>ระบบจะไม่ค้างเมื่อบริการแผนที่ภายนอกไม่ตอบสนอง</p><a class="route-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/veterinary+hospital/">เปิด Google Maps</a></div>`;
-        } finally { nearbyBusy=false; if(btn){btn.disabled=false;btn.textContent='📍 ใช้ตำแหน่งของฉัน';} }
-    }
-
-    document.addEventListener('DOMContentLoaded',()=>{initPetMap();showApp();refresh();});
-
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded',()=>{
-  document.querySelectorAll('.topic-chip').forEach(b=>b.addEventListener('click',()=>{
-    b.classList.toggle('active'); updateSymptomCounter();
-    const box=document.getElementById('symptomDescription');
-    const selected=[...document.querySelectorAll('.topic-chip.active')].map(x=>x.textContent.trim());
-    if(box && selected.length && !box.value.trim()) box.value='อาการที่เลือก: '+selected.join(', ')+'\n';
-    updateSymptomCounter();
-  }));
-  const box=document.getElementById('symptomDescription');
-  if(box) box.addEventListener('input',updateSymptomCounter);
-});
-function updateSymptomCounter(){const b=document.getElementById('symptomDescription'),c=document.getElementById('symptomCounter');if(b&&c)c.textContent=b.value.length}
-function saveSymptomCheck(){
- const pet=document.getElementById('symptomPet')?.value||'', desc=document.getElementById('symptomDescription')?.value.trim()||'';
- const topics=[...document.querySelectorAll('.topic-chip.active')].map(x=>x.textContent.trim());
- if(!pet){alert('กรุณาเลือกสัตว์เลี้ยงก่อน');return}
- if(!topics.length&&!desc){alert('กรุณาเลือกหัวข้ออาการหรือระบุอาการเพิ่มเติม');return}
- const result=document.getElementById('symptomResult'); result.style.display='block';
- result.innerHTML='<strong>บันทึกข้อมูลอาการแล้ว ✓</strong><br>ข้อมูลพร้อมสำหรับการประเมินเบื้องต้น โปรดพบสัตวแพทย์ทันทีหากอาการรุนแรงหรือฉุกเฉิน';
- try{const h=JSON.parse(localStorage.getItem('petcare_symptom_history')||'[]');h.unshift({pet,topics,description:desc,age:document.getElementById('symptomAge')?.value||'',duration:document.getElementById('symptomDuration')?.value||'',severity:document.getElementById('symptomSeverity')?.value||'',createdAt:new Date().toISOString()});localStorage.setItem('petcare_symptom_history',JSON.stringify(h.slice(0,30)))}catch(e){}
+  let a=store.get('checks',[]);
+  a.unshift({
+    id:Date.now(),
+    pet:petName,
+    title,
+    level,
+    note:`อาการ: ${topics.join(', ')} ${note?`(${note})`:''} | ระยะเวลา: ${duration||'ไม่ระบุ'}`
+  });
+  store.set('checks',a.slice(0,20));
+  refresh();
+  toast('บันทึกผลการเช็กอาการแล้ว');
 }
+
+function renderChecks(){
+  let a=store.get('checks',[]);
+  if($('#checkList')) $('#checkList').innerHTML=a.length?a.map(x=>`<div class="record"><div><b>${esc(x.pet)}</b><br><span class="muted">${esc(x.title)} — ${esc(x.note||'')}</span></div><span class="badge ${x.level==='danger'?'red':x.level==='warn'?'gold':''}">${x.level==='danger'?'เร่งด่วน':x.level==='warn'?'ควรปรึกษา':'ติดตาม'}</span></div>`).join('')
+  :'<div class="muted" style="padding:20px 0">ยังไม่มีประวัติ</div>';
+}
+
+function clearAll(){
+  if(confirm('ลบประวัติการเช็กอาการทั้งหมดหรือไม่?')){
+    localStorage.removeItem('petcare_checks');
+    refresh();
+    toast('ล้างข้อมูลแล้ว');
+  }
+}
+
+function refresh(){
+  fillPets();
+  renderChecks();
+  renderNotices();
+}
+
+/* แผนที่โรงพยาบาลใกล้ฉัน */
+let petMap = null, userMarker = null, hospitalMarkers = [], nearbyBusy = false;
+
+function initPetMap() {
+  const el = document.getElementById('petMap');
+  if (!el || !window.L) return;
+  petMap = L.map(el, { zoomControl: true }).setView([13.7563, 100.5018], 12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(petMap);
+}
+
+function haversine(lat1, lon1, lat2, lon2) {
+  const R = 6371, rad = Math.PI / 180;
+  const dLat = (lat2-lat1)*rad, dLon=(lon2-lon1)*rad;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*rad)*Math.cos(lat2*rad)*Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function formatDistance(km){ return km < 1 ? Math.round(km*1000)+' ม.' : km.toFixed(1)+' กม.'; }
+
+async function findNearbyHospitals(){
+  if(nearbyBusy) return;
+  nearbyBusy=true;
+  const btn=$('#nearbyBtn'); if(btn){btn.disabled=true;btn.textContent='⏳ กำลังค้นหา...';}
+  const status=$('#nearbyStatus'); if(status) status.textContent='กำลังขอตำแหน่งของคุณ...';
+
+  try {
+    if(!navigator.geolocation) throw new Error('geolocation');
+    const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{timeout:10000}));
+    const lat=pos.coords.latitude, lon=pos.coords.longitude;
+    if(petMap){
+      if(userMarker) userMarker.remove();
+      userMarker=L.marker([lat,lon]).addTo(petMap).bindPopup('<b>📍 ตำแหน่งของคุณ</b>');
+      petMap.setView([lat,lon],14);
+    }
+    if(status) status.textContent='กำลังดึงข้อมูลโรงพยาบาลสัตว์ใกล้เคียง...';
+
+    const query=`[out:json][timeout:10];(node["amenity"="veterinary"](around:12000,${lat},${lon});way["amenity"="veterinary"](around:12000,${lat},${lon}););out center tags;`;
+    const res=await fetch('https://overpass-api.de/api/interpreter',{method:'POST',body:query});
+    const data=await res.json();
+    const list=$('#hospitalList');
+    
+    const hospitals=data.elements.map(x=>{
+      const hLat=x.lat??x.center?.lat, hLon=x.lon??x.center?.lon, t=x.tags||{};
+      return {
+        name:t.name||'โรงพยาบาล/คลินิกสัตว์',
+        address:t['addr:full']||t['addr:street']||'ดูบนแผนที่',
+        lat:hLat, lon:hLon,
+        distance:haversine(lat,lon,hLat,hLon)
+      };
+    }).sort((a,b)=>a.distance-b.distance).slice(0,8);
+
+    if($('#hospitalCount')) $('#hospitalCount').textContent=`${hospitals.length} แห่ง`;
+
+    if(list){
+      list.innerHTML=hospitals.length?hospitals.map(h=>`
+        <article class="hospital-card">
+          <h3>🏥 ${esc(h.name)}</h3>
+          <p>${esc(h.address)}</p>
+          <span class="hospital-distance">${formatDistance(h.distance)}</span>
+          <div class="hospital-actions">
+            <a class="route-link" target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lon}">นำทาง →</a>
+          </div>
+        </article>
+      `).join(''):'<div class="empty-hospital">ไม่พบโรงพยาบาลสัตว์ในรัศมี 12 กม.</div>';
+    }
+    if(status) status.textContent=`พบ ${hospitals.length} แห่งใกล้คุณ`;
+
+  } catch(e) {
+    if(status) status.textContent='เกิดข้อผิดพลาดในการดึงตำแหน่ง';
+  } finally {
+    nearbyBusy=false;
+    if(btn){btn.disabled=false;btn.textContent='📍 ใช้ตำแหน่งของฉัน';}
+  }
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  initPetMap();
+  showApp();
+  refresh();
+
+  document.querySelectorAll('.topic-chip').forEach(b=>b.addEventListener('click',()=>{
+    b.classList.toggle('active');
+  }));
+});
 </script>
 </body>
 </html>
