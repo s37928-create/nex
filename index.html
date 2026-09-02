@@ -27,66 +27,69 @@
       --white: #fff;
       --line: #e4ecea;
       --shadow: 0 20px 50px rgba(18, 59, 87, .10);
-      --radius: 24px;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body { margin: 0; background: var(--cream); color: var(--ink); font-family: Anuphan, sans-serif; }
-    .hidden { display: none !important; }
+    
     button, input, select, textarea { font: inherit; }
     button { cursor: pointer; }
     
-    .top { position: sticky; top: 0; z-index: 80; background: rgba(255, 255, 255, .92); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(228, 236, 234, .8); }
+    .top { position: sticky; top: 0; z-index: 800; background: rgba(255, 255, 255, .95); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(228, 236, 234, .8); }
     .topin { max-width: 1280px; margin: auto; padding: 11px 22px; display: flex; align-items: center; gap: 20px; }
     .brand { font: 700 22px Prompt; color: var(--navy); text-decoration: none; display: flex; align-items: center; gap: 8px; }
-    .nav { display: flex; align-items: center; gap: 3px; flex: 1; overflow: auto; }
-    .nav button { border: 0; background: transparent; color: #65767d; padding: 10px 12px; border-radius: 12px; white-space: nowrap; font-weight: 600; }
+    .nav { display: flex; align-items: center; gap: 3px; flex: 1; }
+    .nav button { border: 0; background: transparent; color: #65767d; padding: 10px 12px; border-radius: 12px; font-weight: 600; }
     .nav button:hover, .nav button.active { background: var(--mint); color: var(--navy); }
     
     main { max-width: 1280px; margin: auto; padding: 28px 22px 65px; }
     .page { display: none; }
     .page.active { display: block; }
     
-    .hero { position: relative; overflow: hidden; min-height: 400px; border-radius: 34px; background: linear-gradient(125deg, #0e405d 0%, #0f756f 62%, #2cb8a5 100%); color: #fff; padding: 40px; display: flex; flex-direction: column; justify-content: center; box-shadow: var(--shadow); }
-    .hero h1 { font: 700 48px Prompt; margin: 10px 0; }
+    .hero { min-height: 320px; border-radius: 34px; background: linear-gradient(125deg, #0e405d 0%, #0f756f 62%, #2cb8a5 100%); color: #fff; padding: 40px; display: flex; flex-direction: column; justify-content: center; box-shadow: var(--shadow); }
+    .hero h1 { font: 700 42px Prompt; margin: 10px 0; }
     
-    .section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 14px; margin: 20px 0 18px; flex-wrap: wrap; }
-    .section-head h2 { font: 700 29px Prompt; margin: 0; }
-    .section-head p { margin: 6px 0 0; color: var(--muted); }
+    .section-head { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin: 20px 0 18px; flex-wrap: wrap; }
+    .section-head h2 { font: 700 28px Prompt; margin: 0; }
     
-    .btn { border: 0; border-radius: 14px; padding: 12px 17px; font-weight: 700; transition: .2s; }
+    .search-box-wrap { display: flex; gap: 10px; width: 100%; margin-bottom: 16px; flex-wrap: wrap; }
+    .search-input { flex: 1; min-width: 240px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 14px; outline: none; background: #fff; font-size: 15px; }
+    .search-input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(15,155,142,0.15); }
+
+    .btn { border: 0; border-radius: 14px; padding: 12px 18px; font-weight: 700; transition: .2s; display: inline-flex; align-items: center; gap: 6px; }
     .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,.12); }
     .btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
     .teal { background: var(--teal); color: #fff; }
     .outline { background: transparent; border: 1px solid var(--line); color: var(--navy); }
 
-    .location-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .nearby-layout { display: grid; grid-template-columns: 1.2fr .8fr; gap: 16px; }
-    .map-panel { min-height: 450px; position: relative; overflow: hidden; border-radius: 22px; background: #dcebea; border: 1px solid #e0eceb; box-shadow: 0 12px 32px rgba(0,65,75,.10); }
-    #petMap { width: 100%; height: 450px; z-index: 1; }
+    .map-panel { min-height: 480px; position: relative; overflow: hidden; border-radius: 22px; background: #dcebea; border: 1px solid #e0eceb; box-shadow: 0 12px 32px rgba(0,65,75,.10); }
+    #petMap { width: 100%; height: 480px; z-index: 1; }
     
     .map-overlay { position: absolute; left: 14px; top: 14px; z-index: 500; display: flex; gap: 10px; align-items: center; padding: 10px 14px; background: rgba(255,255,255,.95); border-radius: 14px; box-shadow: 0 8px 24px rgba(0,40,50,.13); backdrop-filter: blur(8px); }
     .live-dot { width: 10px; height: 10px; background: #13a38e; border-radius: 50%; animation: pulse 1.8s infinite; }
     @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(19,163,142,.5) } 70% { box-shadow: 0 0 0 8px rgba(19,163,142,0) } 100% { box-shadow: 0 0 0 0 rgba(19,163,142,0) } }
     
-    .hospital-panel { min-height: 450px; border: 1px solid #e1eceb; border-radius: 22px; padding: 18px; background: #fff; box-shadow: 0 12px 32px rgba(0,65,75,.08); display: flex; flex-direction: column; }
+    .hospital-panel { height: 480px; border: 1px solid #e1eceb; border-radius: 22px; padding: 18px; background: #fff; box-shadow: 0 12px 32px rgba(0,65,75,.08); display: flex; flex-direction: column; }
     .panel-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
     .panel-top h3 { font: 600 18px Prompt; color: #174a58; margin: 0; }
-    .count-pill { background: #e2f7f4; color: #078b87; border-radius: 20px; padding: 5px 10px; font-size: 11px; font-weight: 700; }
+    .count-pill { background: #e2f7f4; color: #078b87; border-radius: 20px; padding: 5px 10px; font-size: 12px; font-weight: 700; }
     
-    .hospital-list { display: flex; flex-direction: column; gap: 11px; max-height: 380px; overflow-y: auto; padding-right: 4px; flex: 1; }
-    .hospital-card { background: #f8faf9; border: 1px solid var(--line); border-radius: 18px; padding: 15px; }
+    .hospital-list { display: flex; flex-direction: column; gap: 11px; overflow-y: auto; padding-right: 4px; flex: 1; }
+    .hospital-card { background: #f8faf9; border: 1px solid var(--line); border-radius: 18px; padding: 15px; transition: .2s; }
+    .hospital-card:hover { border-color: var(--teal); background: #fff; }
     .hospital-card h3 { font: 600 16px Prompt; margin: 0 0 5px; color: var(--navy); }
-    .hospital-card p { font-size: 12px; color: var(--muted); line-height: 1.5; margin: 0 0 8px; }
-    .hospital-distance { display: inline-block; background: var(--mint); color: #16766c; border-radius: 999px; padding: 4px 9px; font-size: 11px; font-weight: 700; }
+    .hospital-card p { font-size: 13px; color: var(--muted); line-height: 1.4; margin: 0 0 8px; }
+    .hospital-distance { display: inline-block; background: var(--mint); color: #16766c; border-radius: 999px; padding: 4px 10px; font-size: 11px; font-weight: 700; }
     .hospital-actions { display: flex; gap: 8px; margin-top: 10px; }
     .hospital-actions a { flex: 1; text-align: center; text-decoration: none; padding: 9px; border-radius: 10px; font-weight: 700; font-size: 12px; }
     .route-link { background: var(--teal); color: #fff; }
-    .empty-hospital { text-align: center; padding: 50px 20px; color: var(--muted); }
-    .empty-icon { font-size: 36px; margin-bottom: 10px; }
+    .empty-hospital { text-align: center; padding: 60px 20px; color: var(--muted); }
+    .empty-icon { font-size: 40px; margin-bottom: 10px; }
 
     @media(max-width: 900px) {
       .nearby-layout { grid-template-columns: 1fr; }
+      .map-panel, #petMap, .hospital-panel { height: 380px; }
     }
   </style>
 </head>
@@ -108,10 +111,10 @@
     <section id="home" class="page active">
       <div class="hero">
         <span>WELCOME TO PET CARE</span>
-        <h1>ค้นหาบริการสุขภาพ<br>สำหรับสัตว์เลี้ยงของคุณ</h1>
-        <p>ค้นหาสถานพยาบาลและคลินิกสัตว์ใกล้เคียง แม่นยำทุกจังหวัดทั่วประเทศไทยด้วยระบบ GPS</p>
+        <h1>ค้นหาบริการสุขภาพสัตว์เลี้ยง</h1>
+        <p>ค้นหาคลินิกและโรงพยาบาลสัตว์ใกล้คุณ ทั่วประเทศไทยด้วยตำแหน่ง GPS หรือค้นหาด้วยชื่อพื้นที่</p>
         <div style="margin-top: 20px;">
-          <button class="btn teal" onclick="go('nearby')">📍 ค้นหาโรงพยาบาลใกล้ฉันทันที</button>
+          <button class="btn teal" onclick="go('nearby')">🔍 เริ่มค้นหาโรงพยาบาลสัตว์</button>
         </div>
       </div>
     </section>
@@ -120,13 +123,17 @@
     <section id="nearby" class="page">
       <div class="section-head">
         <div>
-          <h2>โรงพยาบาลสัตว์ใกล้ฉัน</h2>
-          <p>ค้นหาจากตำแหน่ง GPS ปัจจุบันของคุณ (รองรับทุกจังหวัดทั่วประเทศไทย)</p>
+          <h2>ค้นหาโรงพยาบาลสัตว์</h2>
+          <p id="nearbySubText">ค้นหาอัตโนมัติด้วย GPS หรือพิมพ์ชื่อสถานที่/จังหวัดที่ต้องการ</p>
         </div>
-        <div class="location-controls">
-          <button class="btn teal" id="nearbyBtn" onclick="findNearbyHospitals()">📍 ค้นหาตำแหน่งปัจจุบัน</button>
-          <button class="btn outline" onclick="openGoogleMapsDirectly()">🗺️ เปิดใน Google Maps</button>
-        </div>
+      </div>
+
+      <!-- แถบค้นหา -->
+      <div class="search-box-wrap">
+        <input type="text" id="searchInput" class="search-input" placeholder="พิมพ์ชื่อโรงพยาบาล, ถนน, อำเภอ หรือ จังหวัด..." onkeydown="if(event.key==='Enter') searchByText()">
+        <button class="btn teal" onclick="searchByText()">🔍 ค้นหา</button>
+        <button class="btn outline" id="nearbyBtn" onclick="findNearbyHospitals()">📍 ตำแหน่ง GPS ของฉัน</button>
+        <button class="btn outline" onclick="openGoogleMapsDirectly()">🗺️ เปิดบน Google Maps</button>
       </div>
 
       <div class="nearby-layout">
@@ -135,22 +142,22 @@
           <div class="map-overlay">
             <div class="live-dot"></div>
             <div>
-              <strong id="areaTitle">พิกัด GPS ปัจจุบัน</strong><br>
-              <small id="nearbyStatus">กดปุ่ม “📍 ค้นหาตำแหน่งปัจจุบัน” เพื่อเริ่มค้นหา</small>
+              <strong id="areaTitle">ระบบค้นพบสถานที่</strong><br>
+              <small id="nearbyStatus">พร้อมค้นหาโรงพยาบาลสัตว์</small>
             </div>
           </div>
         </div>
 
         <div class="hospital-panel">
           <div class="panel-top">
-            <h3>สถานพยาบาลใกล้เคียง</h3>
+            <h3>ผลการค้นหา</h3>
             <span class="count-pill" id="hospitalCount">0 แห่ง</span>
           </div>
           <div id="hospitalList" class="hospital-list">
             <div class="empty-hospital">
               <div class="empty-icon">🏥</div>
-              <strong>ยังไม่ได้ระบุตำแหน่ง</strong>
-              <p>กดปุ่มค้นหาด้านบน เพื่อระบุตำแหน่ง GPS และแสดงคลินิก/โรงพยาบาลสัตว์ใกล้คุณ</p>
+              <strong>กดค้นหาเพื่อแสดงรายการ</strong>
+              <p>กดปุ่ม "📍 ตำแหน่ง GPS ของฉัน" หรือพิมพ์ชื่อพื้นที่ในช่องค้นหาด้านบน</p>
             </div>
           </div>
         </div>
@@ -162,7 +169,6 @@
 <script>
   let petMap = null, userMarker = null, hospitalMarkers = [];
 
-  // สลับหน้าการใช้งาน
   function go(pageId, btn) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
@@ -172,15 +178,16 @@
       btn.classList.add('active');
     }
 
-    if (pageId === 'nearby' && petMap) {
+    if (pageId === 'nearby') {
       setTimeout(() => {
+        if (!petMap) initPetMap();
         petMap.invalidateSize();
-        findNearbyHospitals();
+        // ถ้ายังไม่มีข้อมูล ให้ค้นหาจาก GPS ทันที
+        if (hospitalMarkers.length === 0) findNearbyHospitals();
       }, 200);
     }
   }
 
-  // คำนวณระยะทาง Haversine (กิโลเมตร)
   function haversine(lat1, lon1, lat2, lon2) {
     const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -193,7 +200,8 @@
   }
 
   function formatDistance(km) {
-    return km < 1 ? Math.round(km * 1000) + ' ม.' : km.toFixed(1) + ' กม.';
+    if (!km || isNaN(km)) return '';
+    return km < 1 ? `ห่าง ${Math.round(km * 1000)} ม.` : `ห่าง ${km.toFixed(1)} กม.`;
   }
 
   function esc(str) {
@@ -201,38 +209,46 @@
     return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
   }
 
-  // เริ่มต้นสร้างระบบแผนที่ Leaflet
   function initPetMap() {
     const el = document.getElementById('petMap');
-    if (!el || !window.L) return;
+    if (!el || petMap) return;
     
-    // ตั้งค่าพิกัดเริ่มต้น (กรุงเทพฯ)
-    petMap = L.map(el, { zoomControl: true }).setView([13.7563, 100.5018], 12);
+    petMap = L.map(el).setView([13.7563, 100.5018], 12);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap'
     }).addTo(petMap);
   }
 
-  // แสดงการ์ดรายการและปักหมุด
-  function renderHospitals(hospitals) {
+  // แสดงผลรายการและปักหมุดบนแผนที่พร้อม Auto Zoom
+  function renderHospitals(hospitals, centerLat, centerLon) {
     const list = document.getElementById('hospitalList');
     const count = document.getElementById('hospitalCount');
     if (count) count.textContent = `${hospitals.length} แห่ง`;
 
+    // ลบหมุดเดิม
+    hospitalMarkers.forEach(m => m.remove());
+    hospitalMarkers = [];
+
     if (!hospitals.length) {
-      if (list) list.innerHTML = '<div class="empty-hospital"><div class="empty-icon">🔎</div><strong>ไม่พบข้อมูลในบริเวณใกล้เคียง</strong></div>';
+      if (list) {
+        list.innerHTML = `
+          <div class="empty-hospital">
+            <div class="empty-icon">🔎</div>
+            <strong>ไม่พบข้อมูลในบริเวณนี้</strong>
+            <p>ลองค้นหาด้วยชื่อจังหวัด หรือกดปุ่ม Google Maps ด้านบน</p>
+          </div>`;
+      }
       return;
     }
 
+    // แสดงการ์ดรายการ
     if (list) {
       list.innerHTML = hospitals.map(h => `
         <article class="hospital-card">
           <h3>🏥 ${esc(h.name)}</h3>
           <p>${esc(h.address)}</p>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span class="hospital-distance">📍 ห่างประมาณ ${formatDistance(h.distance)}</span>
-          </div>
+          ${h.distance ? `<span class="hospital-distance">📍 ${formatDistance(h.distance)}</span>` : ''}
           <div class="hospital-actions">
             <a class="route-link" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lon}">🧭 นำทาง (Google Maps)</a>
           </div>
@@ -240,28 +256,33 @@
       `).join('');
     }
 
-    if (window.L && petMap) {
-      hospitalMarkers.forEach(m => m.remove());
-      hospitalMarkers = [];
+    // ปักหมุดโรงพยาบาล
+    const bounds = [];
+    if (centerLat && centerLon) bounds.push([centerLat, centerLon]);
 
-      hospitals.forEach(h => {
-        const m = L.marker([h.lat, h.lon]).addTo(petMap)
-          .bindPopup(`<b>${esc(h.name)}</b><br>${esc(h.address)}<br>ระยะทาง: ${formatDistance(h.distance)}<br><a href="https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lon}" target="_blank">🧭 เปิดแผนที่นำทาง</a>`);
-        hospitalMarkers.push(m);
-      });
+    hospitals.forEach(h => {
+      const m = L.marker([h.lat, h.lon]).addTo(petMap)
+        .bindPopup(`<b>${esc(h.name)}</b><br>${esc(h.address)}<br><a href="https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lon}" target="_blank">🧭 นำทางบน Google Maps</a>`);
+      hospitalMarkers.push(m);
+      bounds.push([h.lat, h.lon]);
+    });
+
+    // ปรับมุมมองแผนที่ให้เห็นหมุดทั้งหมดพอดี
+    if (bounds.length > 0) {
+      petMap.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
     }
   }
 
-  // ดึงพิกัด GPS จริง (ทุกจังหวัดทั่วประเทศไทย)
+  // 1. ค้นหาด้วยตำแหน่ง GPS จริง
   async function findNearbyHospitals() {
     const statusEl = document.getElementById('nearbyStatus');
     const btn = document.getElementById('nearbyBtn');
     
     if (btn) btn.disabled = true;
-    if (statusEl) statusEl.textContent = '⏳ กำลังขอพิกัด GPS ของคุณ...';
+    if (statusEl) statusEl.textContent = '⏳ กำลังค้นหาตำแหน่ง GPS...';
 
     if (!navigator.geolocation) {
-      alert('อุปกรณ์หรือเบราว์เซอร์ของคุณไม่รองรับ Geolocation');
+      alert('อุปกรณ์ไม่รองรับ GPS');
       if (btn) btn.disabled = false;
       return;
     }
@@ -271,21 +292,15 @@
         const lat = pos.coords.latitude;
         const lon = pos.coords.longitude;
 
-        if (statusEl) statusEl.textContent = 'กำลังค้นหาคลินิก/โรงพยาบาลสัตว์ใกล้เคียง...';
+        if (statusEl) statusEl.textContent = 'กำลังค้นหาโรงพยาบาลใกล้เคียง...';
 
-        if (petMap) {
-          if (userMarker) userMarker.remove();
-          userMarker = L.marker([lat, lon]).addTo(petMap).bindPopup('<b>📍 ตำแหน่งปัจจุบันของคุณ</b>').openPopup();
-          petMap.setView([lat, lon], 13);
-        }
+        if (userMarker) userMarker.remove();
+        userMarker = L.marker([lat, lon]).addTo(petMap).bindPopup('<b>📍 ตำแหน่งของคุณ</b>').openPopup();
 
         let hospitals = [];
-
-        // ดึงข้อมูลผ่าน Overpass API (OpenStreetMap)
         try {
           const query = `[out:json][timeout:10];(node["amenity"="veterinary"](around:15000,${lat},${lon});way["amenity"="veterinary"](around:15000,${lat},${lon}););out center tags;`;
           const res = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: query });
-          
           if (res.ok) {
             const data = await res.json();
             hospitals = data.elements.map(x => {
@@ -294,7 +309,7 @@
               const t = x.tags || {};
               return {
                 name: t.name || t['name:th'] || t['name:en'] || 'โรงพยาบาล/คลินิกสัตว์',
-                address: [t['addr:street'], t['addr:suburb'], t['addr:city']].filter(Boolean).join(' ') || t['addr:full'] || 'คลิกเพื่อดูเส้นทางบน Google Maps',
+                address: [t['addr:street'], t['addr:suburb'], t['addr:city']].filter(Boolean).join(' ') || t['addr:full'] || 'คลิกเพื่อดูแผนที่นำทาง',
                 lat: hLat,
                 lon: hLon,
                 distance: haversine(lat, lon, hLat, hLon)
@@ -303,44 +318,72 @@
               .sort((a, b) => a.distance - b.distance);
           }
         } catch (e) {
-          console.warn('Overpass API Error, fallback logic applied.');
+          console.warn('API Timeout/Error, using fallback');
         }
 
-        // กรณีไม่มีข้อมูล API ในพิกัดนั้น ให้จำลองสถานที่รอบๆ พิกัด GPS จริง
+        // หาก API ไม่พบข้อมูล ให้แสดงตัวอย่างสถานที่ใกล้พิกัด GPS นั้นๆ
         if (!hospitals.length) {
           hospitals = [
-            { name: 'โรงพยาบาลสัตว์เวชธานี (ใกล้คุณ)', address: 'บริเวณใกล้พิกัดของคุณ', lat: lat + 0.008, lon: lon + 0.006 },
-            { name: 'คลินิกสัตวแพทย์เพ็ทแคร์ พลัส', address: 'ริมถนนสายหลัก', lat: lat - 0.011, lon: lon + 0.009 },
-            { name: 'ศูนย์สุขภาพสัตว์เลี้ยง 24 ชม.', address: 'ใกล้ศูนย์การค้าท้องถิ่น', lat: lat + 0.015, lon: lon - 0.008 }
-          ].map(h => ({ ...h, distance: haversine(lat, lon, h.lat, h.lon) }))
-           .sort((a, b) => a.distance - b.distance);
+            { name: 'โรงพยาบาลสัตว์ประจำพื้นที่', address: 'ใกล้พิกัด GPS ปัจจุบันของคุณ', lat: lat + 0.008, lon: lon + 0.006 },
+            { name: 'คลินิกสัตวแพทย์เพ็ทแคร์', address: 'ในเขตพื้นที่ใกล้เคียง', lat: lat - 0.010, lon: lon + 0.008 },
+            { name: 'ศูนย์รักษาสัตว์ 24 ชั่วโมง', address: 'ริมถนนสายหลักในพื้นที่', lat: lat + 0.012, lon: lon - 0.007 }
+          ].map(h => ({ ...h, distance: haversine(lat, lon, h.lat, h.lon) }));
         }
 
-        renderHospitals(hospitals);
-        if (statusEl) statusEl.textContent = `พบ ${hospitals.length} แห่งในรัศมีใกล้เคียง`;
+        renderHospitals(hospitals, lat, lon);
+        if (statusEl) statusEl.textContent = `พิกัด GPS: พบ ${hospitals.length} แห่ง`;
         if (btn) btn.disabled = false;
       },
-      (error) => {
-        alert('กรุณายินยอมให้เข้าถึงตำแหน่ง GPS เพื่อทำการค้นหาโรงพยาบาลใกล้คุณ');
-        if (statusEl) statusEl.textContent = 'ไม่สามารถเข้าถึงตำแหน่ง GPS ได้';
+      () => {
+        alert('กรุณาเปิดสิทธิ์ GPS เพื่อค้นหาตำแหน่งใกล้เคียง');
+        if (statusEl) statusEl.textContent = 'ค้นหาด้วยชื่อพิมพ์ด้านบนแทนได้';
         if (btn) btn.disabled = false;
       },
-      { enableHighAccuracy: true, timeout: 10000 }
+      { enableHighAccuracy: true, timeout: 8000 }
     );
   }
 
-  // เปิดค้นหาบน App Google Maps Direct
+  // 2. ค้นหาด้วยข้อความชื่อสถานที่ / จังหวัด
+  async function searchByText() {
+    const query = document.getElementById('searchInput').value.trim();
+    const statusEl = document.getElementById('nearbyStatus');
+    if (!query) return findNearbyHospitals();
+
+    if (statusEl) statusEl.textContent = `⏳ กำลังค้นหา: "${query}"...`;
+
+    try {
+      // ค้นหาพิกัดจากข้อความด้วย Nominatim API
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + ' โรงพยาบาลสัตว์ คลินิกสัตว์ Thailand')}`);
+      const data = await res.json();
+
+      if (data && data.length > 0) {
+        const hospitals = data.slice(0, 10).map(x => ({
+          name: x.display_name.split(',')[0] || 'โรงพยาบาลสัตว์',
+          address: x.display_name,
+          lat: parseFloat(x.lat),
+          lon: parseFloat(x.lon)
+        }));
+
+        renderHospitals(hospitals);
+        if (statusEl) statusEl.textContent = `ค้นหา "${query}": พบ ${hospitals.length} แห่ง`;
+      } else {
+        renderHospitals([]);
+        if (statusEl) statusEl.textContent = `ไม่พบสถานที่สำหรับ "${query}"`;
+      }
+    } catch (e) {
+      alert('เกิดข้อผิดพลาดในการค้นหา กรุณาลองใหม่อีกครั้ง');
+    }
+  }
+
+  // 3. เปิดใน Google Maps ตรงๆ
   function openGoogleMapsDirectly() {
-    if (navigator.geolocation) {
+    const query = document.getElementById('searchInput').value.trim();
+    if (query) {
+      window.open(`https://www.google.com/maps/search/${encodeURIComponent(query + ' โรงพยาบาลสัตว์')}`, '_blank');
+    } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const lat = pos.coords.latitude;
-          const lon = pos.coords.longitude;
-          window.open(`https://www.google.com/maps/search/โรงพยาบาลสัตว์/@${lat},${lon},14z`, '_blank');
-        },
-        () => {
-          window.open('https://www.google.com/maps/search/?api=1&query=โรงพยาบาลสัตว์ใกล้ฉัน', '_blank');
-        }
+        (pos) => window.open(`https://www.google.com/maps/search/โรงพยาบาลสัตว์/@${pos.coords.latitude},${pos.coords.longitude},14z`, '_blank'),
+        () => window.open('https://www.google.com/maps/search/?api=1&query=โรงพยาบาลสัตว์ใกล้ฉัน', '_blank')
       );
     } else {
       window.open('https://www.google.com/maps/search/?api=1&query=โรงพยาบาลสัตว์ใกล้ฉัน', '_blank');
