@@ -254,11 +254,21 @@ footer{background:#0e344c;color:#cfe0e7;padding:28px 22px}.foot{max-width:1280px
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+/* =========================================================
+   Helpers ที่ใช้ร่วมกันทั้งไฟล์ (ประกาศครั้งเดียวเพื่อกัน
+   SyntaxError: Identifier has already been declared)
+   ========================================================= */
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const setHTML=(sel,html)=>{const e=$(sel);if(e)e.innerHTML=html};
-const store={get(k,d=[]){try{return JSON.parse(localStorage.getItem('petcare_'+k))??d}catch{return d}},set(k,v){localStorage.setItem('petcare_'+k,JSON.stringify(v))}};
+const store={get(k,d=[]){try{return JSON.parse(localStorage.getItem('petcare_'+k))??d}catch{return d}},set(k,v){try{localStorage.setItem('petcare_'+k,JSON.stringify(v))}catch(e){console.warn('Storage unavailable:',e)}}};
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function toast(t){let e=$('#toast');if(!e)return;e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2300)}
+function toast(t){
+  let e=$('#toast');
+  if(e){e.textContent=t;e.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>e.classList.remove('show'),2300)}
+  else console.log('[Toast]:',t);
+  let s=$('#nearbyStatus');
+  if(s && $('#nearby')?.classList.contains('active')) s.textContent=t;
+}
 
 function go(id){
   $$('.page').forEach(p=>p.classList.toggle('active',p.id===id));
@@ -303,6 +313,7 @@ function register(){
   store.set('users',a);
   store.set('currentUser',{id:u.id,name:u.name,email:u.email});
   showApp();
+  refresh();
   toast('สมัครสมาชิกสำเร็จ');
 }
 
@@ -312,6 +323,7 @@ function login(){
   if(!u)return err('#loginError','อีเมลหรือรหัสผ่านไม่ถูกต้อง');
   store.set('currentUser',{id:u.id,name:u.name,email:u.email});
   showApp();
+  refresh();
   toast('เข้าสู่ระบบสำเร็จ');
 }
 
@@ -320,6 +332,7 @@ function demo(){
   if(!u){u={id:1,name:'Demo User',email:'demo@petcare.local',password:'petcare123'};a.push(u);store.set('users',a)}
   store.set('currentUser',{id:u.id,name:u.name,email:u.email});
   showApp();
+  refresh();
   toast('เข้าสู่ระบบทดลองแล้ว');
 }
 
@@ -392,7 +405,7 @@ function checkSymptoms(){
   let petObj=pets().find(p=>String(p.id)===String(cp.value));
   let petName=petObj?petObj.name:'สัตว์เลี้ยง';
 
-  let topics=[...document.querySelectorAll('.topic-chip.active')].map(x=>x.textContent.trim());
+  let topics=$$('.topic-chip.active').map(x=>x.textContent.trim());
   let note=$('#checkNote')?.value.trim()||'';
   let duration=$('#symptomDuration')?.value||'';
   let severity=$('#symptomSeverity')?.value||'';
@@ -444,30 +457,9 @@ function refresh(){
 /* =========================================================
    ระบบแผนที่โรงพยาบาลใกล้ฉัน (Leaflet + Chonburi Priority & GPS)
    เวอร์ชันปรับปรุงเสถียรภาพ (Crash-Proof & Production-Ready)
+   หมายเหตุ: $ , $$ , esc , toast ใช้ตัวที่ประกาศไว้ด้านบนแล้ว
+   (ห้ามประกาศ const/let ซ้ำชื่อเดิม มิฉะนั้นทั้งสคริปต์จะพังทันที)
    ========================================================= */
-
-// 1. Selector Helper & Safe Functions
-const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => document.querySelectorAll(selector);
-
-// แปลงข้อความป้องกัน XSS Injection
-function esc(str) {
-  if (!str) return '';
-  return String(str).replace(/[&<>"']/g, m => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  }[m]));
-}
-
-// ระบบแจ้งเตือนสำรอง (ป้องกัน ReferenceError กรณีไม่มีฟังก์ชัน toast ในไฟล์อื่น)
-function toast(msg) {
-  if (typeof window.showToast === 'function') {
-    window.showToast(msg);
-  } else {
-    console.log('[Toast Notice]:', msg);
-    const statusEl = $('#nearbyStatus');
-    if (statusEl) statusEl.textContent = msg;
-  }
-}
 
 // 2. Global Map Variables & Config
 let petMap = null;
@@ -482,7 +474,12 @@ const LOCATIONS = {
 // 3. Map Initialization (ป้องกัน Re-initialization Error)
 function initMap() {
   const el = $('#petMap');
-  if (!el || !window.L) return;
+  if (!el || !window.L) {
+    console.warn('Leaflet ไม่พร้อมใช้งาน (อาจโหลดจาก CDN ไม่สำเร็จ) — จะแสดงเฉพาะรายการโรงพยาบาลแบบไม่มีแผนที่');
+    const statusEl = $('#nearbyStatus');
+    if (statusEl) statusEl.textContent = 'ไม่สามารถโหลดแผนที่ได้ แต่ยังค้นหารายชื่อโรงพยาบาลได้ตามปกติ';
+    return;
+  }
 
   // ลบแผนที่เดิมก่อนหากมีอยู่แล้ว
   if (petMap) {
@@ -502,12 +499,13 @@ function initMap() {
     setTimeout(() => { if (petMap) petMap.invalidateSize(); }, 300);
   } catch (err) {
     console.error('Map initialization error:', err);
+    petMap = null;
   }
 }
 
 // 4. Mathematical Distance Calculator (Haversine Formula)
 function haversine(lat1, lon1, lat2, lon2) {
-  if (!lat1 || !lon1 || !lat2 || !lon2) return 0;
+  if (!Number.isFinite(lat1) || !Number.isFinite(lon1) || !Number.isFinite(lat2) || !Number.isFinite(lon2)) return 0;
   const R = 6371, rad = Math.PI / 180;
   const dLat = (lat2 - lat1) * rad;
   const dLon = (lon2 - lon1) * rad;
@@ -558,10 +556,10 @@ function renderHospitals(hospitals, centerLat, centerLon) {
   // ปักหมุด Leaflet และปรับมุมมองแผนที่
   if (window.L && petMap) {
     const bounds = [];
-    if (centerLat && centerLon) bounds.push([centerLat, centerLon]);
+    if (Number.isFinite(centerLat) && Number.isFinite(centerLon)) bounds.push([centerLat, centerLon]);
 
     hospitals.forEach(h => {
-      if (!h.lat || !h.lon) return;
+      if (!Number.isFinite(h.lat) || !Number.isFinite(h.lon)) return;
       const m = L.marker([h.lat, h.lon]).addTo(petMap)
         .bindPopup(`<b>${esc(h.name)}</b><br>${esc(h.address)}<br>ระยะทาง: ${formatDistance(h.distance)}<br><a href="https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lon}" target="_blank">🧭 เปิดแผนที่นำทาง</a>`);
       
@@ -580,62 +578,85 @@ function renderHospitals(hospitals, centerLat, centerLon) {
   }
 }
 
+// ดึงข้อมูลจาก Overpass แบบมี timeout กัน request ค้าง
+async function fetchOverpass(query, timeoutMs = 9000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch('https://overpass-api.de/api/interpreter', {
+      method: 'POST',
+      body: query,
+      signal: controller.signal
+    });
+    if (!res.ok) throw new Error('Overpass HTTP ' + res.status);
+    return await res.json();
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 // 6. Search Logic with Overpass API & Smart Fallback
+let findHospitalsInFlight = false;
 async function findHospitals() {
-  const presetEl = $('#locationPreset');
-  const preset = presetEl ? presetEl.value : 'chonburi';
-  let targetLat, targetLon, areaName;
+  if (findHospitalsInFlight) return; // กันการกดซ้ำซ้อนระหว่างที่กำลังโหลดอยู่
+  findHospitalsInFlight = true;
 
-  const statusEl = $('#nearbyStatus');
-  if (statusEl) statusEl.textContent = 'กำลังโหลดข้อมูลสถานที่...';
+  const nearbyBtn = $('#nearbyBtn');
+  if (nearbyBtn) nearbyBtn.disabled = true;
 
-  if (preset === 'gps') {
-    areaName = 'ตำแหน่ง GPS ของคุณ';
-    try {
-      if (!navigator.geolocation) throw new Error('GPS not supported');
-      const pos = await new Promise((res, rej) => {
-        navigator.geolocation.getCurrentPosition(res, rej, { 
-          enableHighAccuracy: true, 
-          timeout: 8000,
-          maximumAge: 10000 
+  try {
+    const presetEl = $('#locationPreset');
+    const preset = presetEl ? presetEl.value : 'chonburi';
+    let targetLat, targetLon, areaName;
+
+    const statusEl = $('#nearbyStatus');
+    if (statusEl) statusEl.textContent = 'กำลังโหลดข้อมูลสถานที่...';
+
+    if (preset === 'gps') {
+      areaName = 'ตำแหน่ง GPS ของคุณ';
+      try {
+        if (!navigator.geolocation) throw new Error('GPS not supported');
+        const pos = await new Promise((res, rej) => {
+          navigator.geolocation.getCurrentPosition(res, rej, {
+            enableHighAccuracy: true,
+            timeout: 8000,
+            maximumAge: 10000
+          });
         });
-      });
-      targetLat = pos.coords.latitude;
-      targetLon = pos.coords.longitude;
-    } catch(e) {
-      toast('GPS ขัดข้อง — สลับไปใช้ตำแหน่งชลบุรีแทน');
+        targetLat = pos.coords.latitude;
+        targetLon = pos.coords.longitude;
+      } catch (e) {
+        toast('GPS ขัดข้อง — สลับไปใช้ตำแหน่งชลบุรีแทน');
+        targetLat = LOCATIONS.chonburi.lat;
+        targetLon = LOCATIONS.chonburi.lon;
+        areaName = 'ชลบุรี (สำรอง GPS)';
+      }
+    } else if (LOCATIONS[preset]) {
+      targetLat = LOCATIONS[preset].lat;
+      targetLon = LOCATIONS[preset].lon;
+      areaName = LOCATIONS[preset].name;
+    } else {
       targetLat = LOCATIONS.chonburi.lat;
       targetLon = LOCATIONS.chonburi.lon;
-      areaName = 'ชลบุรี (สำรอง GPS)';
+      areaName = LOCATIONS.chonburi.name;
     }
-  } else if (LOCATIONS[preset]) {
-    targetLat = LOCATIONS[preset].lat;
-    targetLon = LOCATIONS[preset].lon;
-    areaName = LOCATIONS[preset].name;
-  } else {
-    targetLat = LOCATIONS.chonburi.lat;
-    targetLon = LOCATIONS.chonburi.lon;
-    areaName = LOCATIONS.chonburi.name;
-  }
 
-  const titleEl = $('#areaTitle');
-  if (titleEl) titleEl.textContent = `พื้นที่: ${areaName}`;
+    const titleEl = $('#areaTitle');
+    if (titleEl) titleEl.textContent = `พื้นที่: ${areaName}`;
 
-  if (petMap) {
-    if (userMarker) userMarker.remove();
-    userMarker = L.marker([targetLat, targetLon]).addTo(petMap)
-      .bindPopup(`<b>📍 จุดศูนย์กลางการค้นหา (${esc(areaName)})</b>`).openPopup();
-  }
+    if (window.L && petMap) {
+      if (userMarker) userMarker.remove();
+      userMarker = L.marker([targetLat, targetLon]).addTo(petMap)
+        .bindPopup(`<b>📍 จุดศูนย์กลางการค้นหา (${esc(areaName)})</b>`).openPopup();
+    }
 
-  let hospitals = [];
+    let hospitals = [];
 
-  // ดึงข้อมูลโรงพยาบาลสัตว์จาก Overpass API
-  try {
-    const query = `[out:json][timeout:10];(node["amenity"="veterinary"](around:15000,${targetLat},${targetLon});way["amenity"="veterinary"](around:15000,${targetLat},${targetLon}););out center tags;`;
-    const res = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: query });
-    if (res.ok) {
-      const data = await res.json();
-      if (data && data.elements) {
+    // ดึงข้อมูลโรงพยาบาลสัตว์จาก Overpass API
+    try {
+      const query = `[out:json][timeout:10];(node["amenity"="veterinary"](around:15000,${targetLat},${targetLon});way["amenity"="veterinary"](around:15000,${targetLat},${targetLon}););out center tags;`;
+      const data = await fetchOverpass(query);
+      if (data && Array.isArray(data.elements)) {
         hospitals = data.elements.map(x => {
           const hLat = x.lat ?? x.center?.lat;
           const hLon = x.lon ?? x.center?.lon;
@@ -650,36 +671,42 @@ async function findHospitals() {
         }).filter(x => Number.isFinite(x.lat) && Number.isFinite(x.lon))
           .sort((a, b) => a.distance - b.distance);
       }
-    }
-  } catch(e) {
-    console.warn('Overpass API error, using fallback data:', e);
-  }
-
-  // กรณี API ล้มเหลว หรือ ไม่พบข้อมูล -> แสดงข้อมูลสำรอง
-  if (!hospitals.length) {
-    if (preset === 'bangkok') {
-      hospitals = [
-        { name: 'โรงพยาบาลสัตว์เกษตร', address: 'ถ.พหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพฯ', lat: 13.8443, lon: 100.5702 },
-        { name: 'โรงพยาบาลสัตว์จุฬาลงกรณ์', address: 'ถ.อังรีดูนังต์ แขวงปทุมวัน เขตปทุมวัน กรุงเทพฯ', lat: 13.7335, lon: 100.5312 },
-        { name: 'โรงพยาบาลสัตว์ทองหล่อ', address: 'ถ.พระราม 9 แขวงบางกะปิ เขตห้วยขวาง กรุงเทพฯ', lat: 13.7538, lon: 100.5823 }
-      ];
-    } else {
-      hospitals = [
-        { name: 'โรงพยาบาลสัตว์ชลบุรี', address: 'ถ.สุขุมวิท ต.บางปลาสรุป อ.เมืองชลบุรี', lat: 13.3635, lon: 100.9821 },
-        { name: 'โรงพยาบาลสัตว์แสนสุข (บางแสน)', address: 'ถ.ลงหาดบางแสน ต.แสนสุข อ.เมืองชลบุรี', lat: 13.2842, lon: 100.9235 },
-        { name: 'โรงพยาบาลสัตว์ศรีราชา', address: 'ถ.เจิมจอมพล อ.ศรีราชา จ.ชลบุรี', lat: 13.1702, lon: 100.9298 },
-        { name: 'โรงพยาบาลสัตว์พัทยา', address: 'ถ.สุขุมวิท พัทยากลาง อ.บางละมุง จ.ชลบุรี', lat: 12.9341, lon: 100.8942 }
-      ];
+    } catch (e) {
+      console.warn('Overpass API error, using fallback data:', e);
     }
 
-    hospitals = hospitals.map(h => ({
-      ...h,
-      distance: haversine(targetLat, targetLon, h.lat, h.lon)
-    })).sort((a, b) => a.distance - b.distance);
-  }
+    // กรณี API ล้มเหลว หรือ ไม่พบข้อมูล -> แสดงข้อมูลสำรอง
+    if (!hospitals.length) {
+      if (preset === 'bangkok') {
+        hospitals = [
+          { name: 'โรงพยาบาลสัตว์เกษตร', address: 'ถ.พหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพฯ', lat: 13.8443, lon: 100.5702 },
+          { name: 'โรงพยาบาลสัตว์จุฬาลงกรณ์', address: 'ถ.อังรีดูนังต์ แขวงปทุมวัน เขตปทุมวัน กรุงเทพฯ', lat: 13.7335, lon: 100.5312 },
+          { name: 'โรงพยาบาลสัตว์ทองหล่อ', address: 'ถ.พระราม 9 แขวงบางกะปิ เขตห้วยขวาง กรุงเทพฯ', lat: 13.7538, lon: 100.5823 }
+        ];
+      } else {
+        hospitals = [
+          { name: 'โรงพยาบาลสัตว์ชลบุรี', address: 'ถ.สุขุมวิท ต.บางปลาสรุป อ.เมืองชลบุรี', lat: 13.3635, lon: 100.9821 },
+          { name: 'โรงพยาบาลสัตว์แสนสุข (บางแสน)', address: 'ถ.ลงหาดบางแสน ต.แสนสุข อ.เมืองชลบุรี', lat: 13.2842, lon: 100.9235 },
+          { name: 'โรงพยาบาลสัตว์ศรีราชา', address: 'ถ.เจิมจอมพล อ.ศรีราชา จ.ชลบุรี', lat: 13.1702, lon: 100.9298 },
+          { name: 'โรงพยาบาลสัตว์พัทยา', address: 'ถ.สุขุมวิท พัทยากลาง อ.บางละมุง จ.ชลบุรี', lat: 12.9341, lon: 100.8942 }
+        ];
+      }
 
-  renderHospitals(hospitals, targetLat, targetLon);
-  if (statusEl) statusEl.textContent = `พบ ${hospitals.length} แห่งในพื้นที่ ${areaName}`;
+      hospitals = hospitals.map(h => ({
+        ...h,
+        distance: haversine(targetLat, targetLon, h.lat, h.lon)
+      })).sort((a, b) => a.distance - b.distance);
+    }
+
+    renderHospitals(hospitals, targetLat, targetLon);
+    if (statusEl) statusEl.textContent = `พบ ${hospitals.length} แห่งในพื้นที่ ${areaName}`;
+  } catch (e) {
+    console.error('findHospitals unexpected error:', e);
+    toast('เกิดข้อผิดพลาดในการค้นหาโรงพยาบาล ลองใหม่อีกครั้ง');
+  } finally {
+    findHospitalsInFlight = false;
+    if (nearbyBtn) nearbyBtn.disabled = false;
+  }
 }
 
 function changePresetLocation() {
@@ -689,14 +716,14 @@ function changePresetLocation() {
 // 7. Event Listener เมื่อ DOM พร้อม
 document.addEventListener('DOMContentLoaded', () => {
   initMap();
-
-  // เรียกใช้ฟังก์ชันอย่างปลอดภัย
-  if (typeof showApp === 'function') showApp();
-  if (typeof refresh === 'function') refresh();
-
+  showApp();
+  refresh();
   findHospitals();
 
   $$('.topic-chip').forEach(b => {
     b.addEventListener('click', () => b.classList.toggle('active'));
   });
 });
+</script>
+</body>
+</html>
