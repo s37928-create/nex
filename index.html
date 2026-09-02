@@ -156,193 +156,7 @@ footer{background:#0e344c;color:#cfe0e7;padding:28px 22px}.foot{max-width:1280px
         <div>
           <label>ระดับความรุนแรงเบื้องต้น</label>
           <select id="symptomSeverity">
-            <option value="">เลือกประเมินด้วยตนเอง</option>
-            <option>เล็กน้อย</option>
-            <option>ปานกลาง</option>
-            <option>รุนแรง / ฉุกเฉิน</option>
-          </select>
-        </div>
-      </div>
-
-      <label>📝 รายละเอียดอาการเพิ่มเติม</label>
-      <textarea id="checkNote" placeholder="ระบุเพิ่มเติม เช่น เริ่มเป็นเมื่อไร อาเจียนกี่ครั้ง กินน้ำได้หรือไม่..."></textarea>
-
-      <button class="btn teal" style="width:100%;margin-top:15px;padding:14px" onclick="checkSymptoms()">วิเคราะห์อาการเบื้องต้น →</button>
-      <div id="checkResult" class="result"></div>
-    </div>
-
-    <div class="panel">
-      <h3>Safety First (อาการเร่งด่วน)</h3>
-      <div class="record"><span>หายใจลำบาก / อ้าปากหายใจ</span><span class="badge red">ฉุกเฉิน</span></div>
-      <div class="record"><span>ชัก / หมดสติ / ไม่รับรู้</span><span class="badge red">ฉุกเฉิน</span></div>
-      <div class="record"><span>มีเลือดออกมาก / อุบัติเหตุ</span><span class="badge red">ฉุกเฉิน</span></div>
-      <div class="record"><span>อาเจียนหรือท้องเสียติดต่อกัน</span><span class="badge gold">ควรพบแพทย์</span></div>
-      <p class="muted" style="margin-top:15px;font-size:12px">
-        ⚠️ หมายเหตุ: การประเมินนี้ใช้สำหรับเป็นข้อมูลเบื้องต้นเท่านั้น หากสัตว์เลี้ยงมีอาการรุนแรง สับสน หรือวิกฤต กรุณาพาไปโรงพยาบาลสัตว์ที่ใกล้ที่สุดทันที
-      </p>
-    </div>
-  </div>
-</section>
-
-<!doctype html>
-<html lang="th">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PET CARE — Veterinary & Wellness Center</title>
-<meta name="description" content="Premium Pet Care veterinary wellness web app">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Prompt:wght@500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{--navy:#123b57;--teal:#0f9b8e;--teal2:#21b7a8;--mint:#e8f6f2;--cream:#f7faf8;--ink:#193443;--muted:#71838b;--white:#fff;--line:#e4ecea;--gold:#e7b957;--red:#d85b55;--shadow:0 20px 50px rgba(18,59,87,.10);--radius:24px}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:Anuphan,sans-serif}.hidden{display:none!important}
-button,input,select,textarea{font:inherit}button{cursor:pointer}.app{min-height:100vh}
-.top{position:sticky;top:0;z-index:80;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);border-bottom:1px solid rgba(228,236,234,.8)}
-.topin{max-width:1280px;margin:auto;padding:11px 22px;display:flex;align-items:center;gap:20px}.brand-logo{width:152px;height:55px;object-fit:contain}.nav{display:flex;align-items:center;gap:3px;flex:1;overflow:auto}.nav button{border:0;background:transparent;color:#65767d;padding:10px 12px;border-radius:12px;white-space:nowrap;font-weight:600}.nav button:hover,.nav button.active{background:var(--mint);color:var(--navy)}
-.user{display:flex;align-items:center;gap:8px;margin-left:auto}.chip{display:none;background:var(--mint);color:var(--navy);padding:8px 11px;border-radius:999px;font-weight:700;font-size:13px}.chip.show{display:block}.logout{display:none;border:0;background:transparent;color:var(--muted);padding:8px}.logout.show{display:block}
-main{max-width:1280px;margin:auto;padding:28px 22px 65px}.page{display:none}.page.active{display:block}
-.hero{position:relative;overflow:hidden;min-height:520px;border-radius:34px;background:linear-gradient(125deg,#0e405d 0%,#0f756f 62%,#2cb8a5 100%);color:#fff;display:grid;grid-template-columns:1.03fr .97fr;box-shadow:var(--shadow)}
-.hero:after{content:"";position:absolute;width:430px;height:430px;border-radius:50%;right:-150px;bottom:-220px;background:rgba(255,255,255,.09)}
-.hero-copy{padding:60px;display:flex;justify-content:center;flex-direction:column;position:relative;z-index:2}.eyebrow{letter-spacing:2.2px;font-size:12px;font-weight:700;color:#b9eee6}.hero h1{font:700 clamp(42px,5.4vw,72px)/1.04 Prompt;margin:15px 0 16px}.hero p{font-size:18px;line-height:1.8;color:#e1f1ef;max-width:610px}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.btn{border:0;border-radius:14px;padding:12px 17px;font-weight:700;transition:.2s transform,.2s box-shadow}.btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.12)}.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}.primary{background:#fff;color:var(--navy)}.teal{background:var(--teal);color:#fff}.soft{background:var(--mint);color:var(--navy)}.outline{background:transparent;border:1px solid var(--line);color:var(--navy)}
-.hero-visual{display:flex;align-items:center;justify-content:center;padding:40px;position:relative;z-index:2}.hero-card{background:rgba(255,255,255,.94);width:min(470px,100%);border-radius:30px;padding:24px;color:var(--ink);box-shadow:0 30px 70px rgba(0,0,0,.18)}.hero-card img{width:100%;height:190px;object-fit:contain;border-radius:20px;background:#fff}.hero-card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.verified{font-size:12px;color:#168a75;background:#e5f6ef;padding:7px 10px;border-radius:999px;font-weight:700}.care-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.care-mini{background:#f3f8f6;border-radius:16px;padding:13px}.care-mini b{display:block;font:600 17px Prompt}.care-mini span{font-size:12px;color:var(--muted)}
-.section-head{display:flex;justify-content:space-between;align-items:end;gap:14px;margin:20px 0 18px}.section-head h2{font:700 29px Prompt;margin:0}.section-head p{margin:6px 0 0;color:var(--muted)}
-.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.trust-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;gap:12px;align-items:center}.trust-icon{width:45px;height:45px;border-radius:14px;background:var(--mint);display:grid;place-items:center;font-size:21px}.trust-card b{display:block}.trust-card span{font-size:12px;color:var(--muted)}
-.dash-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:18px}.panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:23px;box-shadow:var(--shadow)}.panel h3{font:600 21px Prompt;margin:0 0 15px}.mini-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.link{border:0;background:transparent;color:var(--teal);font-weight:700}
-.pet-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.pet{border:1px solid var(--line);border-radius:18px;padding:15px;background:#fbfdfc}.pet-avatar{width:52px;height:52px;background:var(--mint);border-radius:16px;display:grid;place-items:center;font-size:27px;margin-bottom:10px}.pet b{font:600 18px Prompt}.pet small{display:block;color:var(--muted);margin-top:3px}
-.notification-list{display:flex;flex-direction:column;gap:9px}.notice{display:flex;gap:11px;padding:12px;border-radius:15px;background:#f6faf8}.notice.unread{background:#eaf7f3}.notice-icon{width:34px;height:34px;border-radius:11px;background:#fff;display:grid;place-items:center}.notice b{font-size:14px}.notice p{margin:2px 0 0;color:var(--muted);font-size:12px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{display:block;font-weight:600;margin:13px 0 7px}input,select,textarea{width:100%;border:1px solid #dbe5e1;border-radius:13px;padding:11px 12px;background:#fbfdfc;outline:0}textarea{min-height:90px;resize:vertical}
-.result{display:none;margin-top:15px;padding:16px;border-radius:16px;background:var(--mint)}.result.show{display:block}.result.danger{background:#fae6e4;color:#8d2d27}.result.warn{background:#fff1cf;color:#7a5806}
-.table-list .record{display:flex;justify-content:space-between;gap:12px;padding:15px 0;border-bottom:1px solid #edf1ef}.record:last-child{border-bottom:0}.muted{color:var(--muted);line-height:1.6}
-.modal{display:none;position:fixed;inset:0;z-index:200;background:rgba(10,33,44,.5);place-items:center;padding:20px}.modal.open{display:grid}.modalbox{width:min(520px,100%);background:#fff;border-radius:25px;padding:25px;box-shadow:0 30px 80px rgba(0,0,0,.25)}
-#loginScreen{position:fixed;inset:0;z-index:300;background:linear-gradient(135deg,#103e5a,#0f756f);display:grid;place-items:center;padding:20px}#loginScreen.hidden{display:none}.login-box{width:min(430px,100%);background:#fff;border-radius:30px;padding:30px;box-shadow:0 30px 80px rgba(0,0,0,.25)}.login-logo{display:block;width:215px;height:88px;object-fit:contain;margin:auto}.login-box h1{font:700 27px Prompt;text-align:center;color:var(--navy);margin:8px 0}.login-sub{text-align:center;color:var(--muted);margin:0 0 20px}.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--mint);padding:4px;border-radius:13px}.tabs button{border:0;background:transparent;padding:10px;border-radius:10px;font-weight:700;color:var(--muted)}.tabs button.active{background:#fff;color:var(--navy)}.auth-form{display:none}.auth-form.active{display:block}.pass{position:relative}.pass input{padding-right:45px}.pass button{position:absolute;right:5px;top:4px;border:0;background:transparent;padding:8px}.error{display:none;background:#fae6e4;color:#963d37;padding:10px;border-radius:11px;font-size:13px;margin-top:10px}.error.show{display:block}.remember{display:flex;gap:7px;align-items:center;font-weight:400;color:var(--muted)}.remember input{width:auto}
-.toast{position:fixed;right:20px;bottom:20px;z-index:400;background:var(--navy);color:#fff;border-radius:14px;padding:12px 16px;box-shadow:var(--shadow);transform:translateY(100px);opacity:0;transition:.25s}.toast.show{transform:none;opacity:1}
-.location-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.location-controls select{padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;font-weight:600;color:var(--navy)}
-.nearby-layout{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.map-panel{min-height:450px;position:relative;overflow:hidden;border-radius:22px;background:#dcebea;box-shadow:0 12px 32px rgba(0,65,75,.10);border:1px solid #e0eceb}#petMap{width:100%;height:450px;z-index:1}
-.map-overlay{position:absolute;left:14px;top:14px;z-index:500;display:flex;gap:10px;align-items:center;padding:10px 14px;background:rgba(255,255,255,.95);border-radius:14px;box-shadow:0 8px 24px rgba(0,40,50,.13);backdrop-filter:blur(8px)}.live-dot{width:10px;height:10px;background:#13a38e;border-radius:50%;box-shadow:0 0 0 4px #dff7f0;animation:pulse 1.8s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(19,163,142,.5)}70%{box-shadow:0 0 0 8px rgba(19,163,142,0)}100%{box-shadow:0 0 0 0 rgba(19,163,142,0)}}
-.hospital-panel{min-height:450px;border:1px solid #e1eceb;border-radius:22px;padding:18px;background:#fff;box-shadow:0 12px 32px rgba(0,65,75,.08);display:flex;flex-direction:column}.panel-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.panel-top h3{font:600 18px Prompt;color:#174a58;margin:0}.count-pill{background:#e2f7f4;color:#078b87;border-radius:20px;padding:5px 10px;font-size:11px;font-weight:700}
-.hospital-list{display:flex;flex-direction:column;gap:11px;max-height:380px;overflow-y:auto;padding-right:4px;flex:1}
-.hospital-card{background:#f8faf9;border:1px solid var(--line);border-radius:18px;padding:15px;transition:.2s border-color}.hospital-card:hover{border-color:var(--teal)}.hospital-card h3{font:600 16px Prompt;margin:0 0 5px;color:var(--navy)}.hospital-card p{font-size:12px;color:var(--muted);line-height:1.5;margin:0 0 8px}.hospital-distance{display:inline-block;background:var(--mint);color:#16766c;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:700}.hospital-actions{display:flex;gap:8px;margin-top:10px}.hospital-actions a{flex:1;text-align:center;text-decoration:none;padding:9px;border-radius:10px;font-weight:700;font-size:12px}.route-link{background:var(--teal);color:#fff}.route-link:hover{background:var(--teal2)}
-.empty-hospital{text-align:center;padding:50px 20px;color:var(--muted)}.empty-icon{font-size:36px;margin-bottom:10px}
-.check-pet-card{display:flex;align-items:center;gap:12px;margin:12px 0 16px;padding:12px;border:1px solid var(--line);border-radius:15px;background:#f7fbfa;min-height:64px}.check-pet-avatar{width:48px;height:48px;border-radius:14px;background:var(--mint);display:grid;place-items:center;font-size:25px}.check-pet-card b{font:600 16px Prompt;color:#174a58}.check-pet-card small{display:block;color:var(--muted);font-size:11px;margin-top:2px}.check-pet-empty{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px}
-.symptom-topics{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.topic-chip{border:1px solid #d8e9e8;background:#fff;color:#4b6970;border-radius:20px;padding:8px 11px;font-family:inherit;font-size:12px;cursor:pointer}.topic-chip.active{background:#e2f7f4;border-color:#82cbc4;color:#087f7d;font-weight:700}
-.article-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.article-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}.article-card .article-icon{font-size:30px;margin-bottom:10px}.article-card h3{font:600 18px Prompt;margin:0 0 7px}.article-card p{color:var(--muted);font-size:13px;line-height:1.7;margin:0}.article-tag{display:inline-block;margin-top:12px;padding:5px 9px;border-radius:999px;background:var(--mint);color:var(--navy);font-size:10px;font-weight:700}
-.badge{padding:4px 8px;border-radius:8px;font-size:11px;font-weight:700;background:#e2f7f4;color:#087f7d}.badge.red{background:#fae6e4;color:#8d2d27}.badge.gold{background:#fff1cf;color:#7a5806}
-footer{background:#0e344c;color:#cfe0e7;padding:28px 22px}.foot{max-width:1280px;margin:auto;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}.foot b{color:#fff}
-@media(max-width:1000px){.hero{grid-template-columns:1fr}.trust{grid-template-columns:1fr 1fr}.dash-grid,.nearby-layout{grid-template-columns:1fr}.article-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:680px){.topin{flex-wrap:wrap}.nav{order:3;flex-basis:100%}.trust,.pet-strip,.form-row,.article-grid{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-
-<div id="loginScreen">
-  <div class="login-box">
-    <img class="login-logo" src="assets/pet-care-logo.png" alt="PET CARE Veterinary & Wellness Center">
-    <h1 id="authTitle">ยินดีต้อนรับกลับมา</h1>
-    <p class="login-sub" id="authSub">ดูแลสุขภาพน้องง่ายขึ้น ในที่เดียว</p>
-    <div class="tabs"><button id="tabLogin" class="active" onclick="switchAuth('login')">เข้าสู่ระบบ</button><button id="tabRegister" onclick="switchAuth('register')">สมัครสมาชิก</button></div>
-    <div id="loginForm" class="auth-form active">
-      <label>อีเมล</label><input id="loginEmail" type="email" placeholder="you@example.com">
-      <label>รหัสผ่าน</label><div class="pass"><input id="loginPassword" type="password" placeholder="อย่างน้อย 6 ตัวอักษร"><button onclick="togglePw('loginPassword',this)">👁</button></div>
-      <label class="remember"><input id="remember" type="checkbox"> จดจำการเข้าสู่ระบบ</label>
-      <div id="loginError" class="error"></div>
-      <button class="btn teal" style="width:100%;margin-top:12px" onclick="login()">เข้าสู่ระบบ</button>
-      <button class="btn outline" style="width:100%;margin-top:9px" onclick="demo()">เข้าสู่ระบบทดลอง</button>
-    </div>
-    <div id="registerForm" class="auth-form">
-      <label>ชื่อผู้ใช้งาน</label><input id="regName" placeholder="เช่น ณัฐวุฒิ">
-      <label>อีเมล</label><input id="regEmail" type="email" placeholder="you@example.com">
-      <label>รหัสผ่าน</label><input id="regPw" type="password" placeholder="อย่างน้อย 6 ตัวอักษร">
-      <label>ยืนยันรหัสผ่าน</label><input id="regCf" type="password">
-      <div id="regError" class="error"></div>
-      <button class="btn teal" style="width:100%;margin-top:14px" onclick="register()">สร้างบัญชี</button>
-    </div>
-  </div>
-</div>
-
-<div class="app">
-<header class="top"><div class="topin">
-  <img class="brand-logo" src="assets/pet-care-logo.png" alt="PET CARE">
-  <nav class="nav">
-    <button class="active" data-page="home">หน้าหลัก</button>
-    <button data-page="symptom">เช็กอาการ</button>
-    <button data-page="nearby">โรงพยาบาลใกล้ฉัน</button>
-    <button data-page="records">ประวัติ</button>
-    <button data-page="articles">บทความ</button>
-    <button class="nav-login" onclick="openLoginScreen()">Login</button>
-  </nav>
-  <div class="user"><span id="userChip" class="chip"></span><button id="logout" class="logout" onclick="logout()">ออกจากระบบ</button></div>
-</div></header>
-
-<main>
-<!-- หน้าหลัก -->
-<section id="home" class="page active">
-  <div class="hero">
-    <div class="hero-copy">
-      <div class="eyebrow">VETERINARY • WELLNESS • TRUST</div>
-      <h1>สุขภาพดี<br>เริ่มต้นที่การดูแล</h1>
-      <p>แพลตฟอร์มดูแลสัตว์เลี้ยงที่รวมโปรไฟล์สุขภาพ การคัดกรองอาการ โรงพยาบาลใกล้ฉัน และประวัติการดูแลไว้ในประสบการณ์เดียว</p>
-      <div class="hero-actions"><button class="btn teal" onclick="go('nearby')">ดูโรงพยาบาลใกล้ฉัน →</button><button class="btn soft" onclick="go('symptom')">เช็กอาการเบื้องต้น →</button></div>
-    </div>
-    <div class="hero-visual"><div class="hero-card">
-      <div class="hero-card-top"><b>Pet Care Wellness</b><span class="verified">✓ Trusted Care</span></div>
-      <img src="assets/pet-care-logo.png" alt="Pet Care logo">
-      <div class="care-row"><div class="care-mini"><b>24/7</b><span>จัดการข้อมูลสุขภาพ</span></div><div class="care-mini"><b>Smart</b><span>ช่วยเตรียมข้อมูลก่อนพบหมอ</span></div></div>
-    </div></div>
-  </div>
-  <div class="section-head"><div><h2>ทำไม Pet Care?</h2><p>ประสบการณ์ที่ออกแบบให้เจ้าของและสัตว์เลี้ยงใช้งานได้ง่าย</p></div></div>
-  <div class="trust">
-    <div class="trust-card"><div class="trust-icon">🩺</div><div><b>ดูแลอย่างเป็นระบบ</b><span>รวมข้อมูลสุขภาพไว้ที่เดียว</span></div></div>
-    <div class="trust-card"><div class="trust-icon">👨‍⚕️</div><div><b>เชื่อมต่อสัตวแพทย์</b><span>เตรียมข้อมูลก่อนพบคุณหมอ</span></div></div>
-    <div class="trust-card"><div class="trust-icon">🔔</div><div><b>ไม่พลาดนัดสำคัญ</b><span>การแจ้งเตือนและกำหนดการ</span></div></div>
-    <div class="trust-card"><div class="trust-icon">🔒</div><div><b>เป็นส่วนตัว</b><span>ข้อมูลเดโมเก็บในเครื่อง</span></div></div>
-  </div>
-</section>
-
-<!-- หน้าเช็กอาการ -->
-<section id="symptom" class="page">
-  <div class="section-head">
-    <div>
-      <h2>เช็กอาการ</h2>
-      <p>เลือกสัตว์เลี้ยงและระบุอาการที่พบเพื่อประเมินความรุนแรงเบื้องต้น</p>
-    </div>
-  </div>
-  <div class="dash-grid">
-    <div class="panel">
-      <label>🐾 สัตว์เลี้ยง</label>
-      <select id="checkPet" onchange="updateCheckPet()"></select>
-      <div id="checkPetCard" class="check-pet-card"></div>
-
-      <label>📋 หัวข้ออาการที่พบ</label>
-      <div class="symptom-topics">
-        <button type="button" class="topic-chip">🍚 กินอาหารน้อยลง</button>
-        <button type="button" class="topic-chip">🤢 อาเจียน</button>
-        <button type="button" class="topic-chip">💧 ท้องเสีย</button>
-        <button type="button" class="topic-chip">🤧 ไอ / จาม</button>
-        <button type="button" class="topic-chip">😴 ซึม / ตัวร้อน</button>
-        <button type="button" class="topic-chip">🫁 หายใจลำบาก</button>
-        <button type="button" class="topic-chip">🩸 มีเลือดออก</button>
-        <button type="button" class="topic-chip">⚡ ชัก / หมดสติ</button>
-      </div>
-
-      <div class="form-row" style="margin-top:10px">
-        <div>
-          <label>ระยะเวลาที่มีอาการ</label>
-          <select id="symptomDuration">
-            <option value="">เลือกช่วงเวลา</option>
-            <option>เพิ่งเริ่มวันนี้</option>
-            <option>1–2 วัน</option>
-            <option>3–7 วัน</option>
-            <option>มากกว่า 1 สัปดาห์</option>
-          </select>
-        </div>
-        <div>
-          <label>ระดับความรุนแรงเบื้องต้น</label>
-          <select id="symptomSeverity">
-            <option value="">เลือกประเมินด้วยตนเอง</option>
+            <option value="">เลือกประเมินตนเอง</option>
             <option>เล็กน้อย</option>
             <option>ปานกลาง</option>
             <option>รุนแรง / ฉุกเฉิน</option>
@@ -440,21 +254,11 @@ footer{background:#0e344c;color:#cfe0e7;padding:28px 22px}.foot{max-width:1280px
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-/* =========================================================
-   Helpers ที่ใช้ร่วมกันทั้งไฟล์ (ประกาศครั้งเดียวเพื่อกัน
-   SyntaxError: Identifier has already been declared)
-   ========================================================= */
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const setHTML=(sel,html)=>{const e=$(sel);if(e)e.innerHTML=html};
-const store={get(k,d=[]){try{return JSON.parse(localStorage.getItem('petcare_'+k))??d}catch{return d}},set(k,v){try{localStorage.setItem('petcare_'+k,JSON.stringify(v))}catch(e){console.warn('Storage unavailable:',e)}}};
+const store={get(k,d=[]){try{return JSON.parse(localStorage.getItem('petcare_'+k))??d}catch{return d}},set(k,v){localStorage.setItem('petcare_'+k,JSON.stringify(v))}};
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function toast(t){
-  let e=$('#toast');
-  if(e){e.textContent=t;e.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>e.classList.remove('show'),2300)}
-  else console.log('[Toast]:',t);
-  let s=$('#nearbyStatus');
-  if(s && $('#nearby')?.classList.contains('active')) s.textContent=t;
-}
+function toast(t){let e=$('#toast');if(!e)return;e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2300)}
 
 function go(id){
   $$('.page').forEach(p=>p.classList.toggle('active',p.id===id));
@@ -499,7 +303,6 @@ function register(){
   store.set('users',a);
   store.set('currentUser',{id:u.id,name:u.name,email:u.email});
   showApp();
-  refresh();
   toast('สมัครสมาชิกสำเร็จ');
 }
 
@@ -509,7 +312,6 @@ function login(){
   if(!u)return err('#loginError','อีเมลหรือรหัสผ่านไม่ถูกต้อง');
   store.set('currentUser',{id:u.id,name:u.name,email:u.email});
   showApp();
-  refresh();
   toast('เข้าสู่ระบบสำเร็จ');
 }
 
@@ -518,7 +320,6 @@ function demo(){
   if(!u){u={id:1,name:'Demo User',email:'demo@petcare.local',password:'petcare123'};a.push(u);store.set('users',a)}
   store.set('currentUser',{id:u.id,name:u.name,email:u.email});
   showApp();
-  refresh();
   toast('เข้าสู่ระบบทดลองแล้ว');
 }
 
@@ -591,530 +392,7 @@ function checkSymptoms(){
   let petObj=pets().find(p=>String(p.id)===String(cp.value));
   let petName=petObj?petObj.name:'สัตว์เลี้ยง';
 
-  let topics=$$('.topic-chip.active').map(x=>x.textContent.trim());
-  let note=$('#checkNote')?.value.trim()||'';
-  let duration=$('#symptomDuration')?.value||'';
-  let severity=$('#symptomSeverity')?.value||'';
-
-  if(!topics.length && !note){toast('กรุณาเลือกหัวข้ออาการหรือระบุรายละเอียด');return}
-
-  let isDanger = topics.some(t=>t.includes('หายใจ')||t.includes('เลือด')||t.includes('ชัก')) || severity==='รุนแรง / ฉุกเฉิน';
-  let isWarn = topics.some(t=>t.includes('อาเจียน')||t.includes('ท้องเสีย')||t.includes('ซึม')) || severity==='ปานกลาง';
-  
-  let level = isDanger ? 'danger' : isWarn ? 'warn' : 'ok';
-  let title = isDanger ? 'ควรพบสัตวแพทย์โดยเร็ว' : isWarn ? 'แนะนำให้ปรึกษาสัตวแพทย์' : 'ติดตามอาการเบื้องต้น';
-
-  let r=$('#checkResult');
-  r.className='result show '+level;
-  r.innerHTML=`<b>${title} (${esc(petName)})</b><br><span>${isDanger?'มีสัญญาณฉุกเฉินหรือรุนแรง หากน้องอาการไม่ดีขึ้นโปรดพบสัตวแพทย์ทันที':isWarn?'ควรติดตามอาการใกล้ชิด หากไม่ดีขึ้นใน 1-2 วันควรพาไปตรวจ':'ยังไม่พบสัญญาณฉุกเฉินเบื้องต้น สังเกตอาการต่อเนื่อง'}</span>`;
-
-  let a=store.get('checks',[]);
-  a.unshift({
-    id:Date.now(),
-    pet:petName,
-    title,
-    level,
-    note:`อาการ: ${topics.join(', ')} ${note?`(${note})`:''} | ระยะเวลา: ${duration||'ไม่ระบุ'}`
-  });
-  store.set('checks',a.slice(0,20));
-  refresh();
-  toast('บันทึกผลการเช็กอาการแล้ว');
-}
-
-function renderChecks(){
-  let a=store.get('checks',[]);
-  if($('#checkList')) $('#checkList').innerHTML=a.length?a.map(x=>`<div class="record"><div><b>${esc(x.pet)}</b><br><span class="muted">${esc(x.title)} — ${esc(x.note||'')}</span></div><span class="badge ${x.level==='danger'?'red':x.level==='warn'?'gold':''}">${x.level==='danger'?'เร่งด่วน':x.level==='warn'?'ควรปรึกษา':'ติดตาม'}</span></div>`).join('')
-  :'<div class="muted" style="padding:20px 0">ยังไม่มีประวัติ</div>';
-}
-
-function clearAll(){
-  if(confirm('ลบประวัติการเช็กอาการทั้งหมดหรือไม่?')){
-    localStorage.removeItem('petcare_checks');
-    refresh();
-    toast('ล้างข้อมูลแล้ว');
-  }
-}
-
-function refresh(){
-  fillPets();
-  renderChecks();
-}
-
-/* =========================================================
-   ระบบแผนที่โรงพยาบาลใกล้ฉัน (Leaflet + Dynamic Pin Search)
-   เวอร์ชันเสถียร — ค้นหาอ้างอิงจากจุดที่ปักไว้บนแผนที่เสมอ
-   หมายเหตุ: $ , $$ , esc , toast ใช้ตัวที่ประกาศไว้ด้านบนสุดของ
-   ไฟล์แล้ว ห้ามประกาศ const/let ซ้ำชื่อเดิมในส่วนนี้อีก
-   มิฉะนั้นจะเกิด SyntaxError และทั้งสคริปต์จะไม่ทำงานเลย
-   ========================================================= */
-
-// 2. Global Map Variables & Config
-let petMap = null;
-let userMarker = null;       // หมุดจุดศูนย์กลางการค้นหา (คลิก/ลากปักได้)
-let hospitalMarkers = [];    // หมุดโรงพยาบาลทั้งหมด
-let currentCenter = { lat: 13.3611, lon: 100.9847, name: 'ชลบุรี' }; // พิกัดจุดที่ปักอยู่ปัจจุบัน — ทุกการค้นหาอ้างอิงจากตรงนี้
-
-const LOCATIONS = {
-  chonburi: { name: "ชลบุรี", lat: 13.3611, lon: 100.9847, zoom: 12 },
-  bangkok: { name: "กรุงเทพฯ", lat: 13.7563, lon: 100.5018, zoom: 12 }
-};
-
-// 3. Initialize Map (ป้องกัน Re-initialization Error + คลิกปักจุดใหม่ได้)
-function initMap() {
-  const el = $('#petMap');
-  if (!el || !window.L) {
-    console.warn('Leaflet ไม่พร้อมใช้งาน (อาจโหลดจาก CDN ไม่สำเร็จ) — จะแสดงเฉพาะรายการโรงพยาบาลแบบไม่มีแผนที่');
-    const statusEl = $('#nearbyStatus');
-    if (statusEl) statusEl.textContent = 'ไม่สามารถโหลดแผนที่ได้ แต่ยังค้นหารายชื่อโรงพยาบาลได้ตามปกติ';
-    return;
-  }
-
-  if (petMap) {
-    petMap.remove();
-    petMap = null;
-  }
-
-  try {
-    petMap = L.map('petMap', { zoomControl: true })
-      .setView([currentCenter.lat, currentCenter.lon], 12);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(petMap);
-
-    // 📍 คลิกบนแผนที่เพื่อปักจุดค้นหาใหม่ แล้วค้นหาโรงพยาบาลรอบจุดนั้นทันที
-    petMap.on('click', (e) => {
-      const { lat, lng } = e.latlng;
-      setSearchPin(lat, lng, 'จุดที่ปักบนแผนที่');
-      searchHospitalsAroundPin();
-    });
-
-    setTimeout(() => { if (petMap) petMap.invalidateSize(); }, 300);
-  } catch (err) {
-    console.error('Map init error:', err);
-    petMap = null;
-  }
-}
-
-// 4. คำนวณระยะทาง (Haversine Formula)
-function haversine(lat1, lon1, lat2, lon2) {
-  if (!Number.isFinite(lat1) || !Number.isFinite(lon1) || !Number.isFinite(lat2) || !Number.isFinite(lon2)) return 0;
-  const R = 6371, rad = Math.PI / 180;
-  const dLat = (lat2 - lat1) * rad;
-  const dLon = (lon2 - lon1) * rad;
-  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin(dLon / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
-
-function formatDistance(km) {
-  if (km === undefined || km === null || isNaN(km)) return 'ไม่ระบุ';
-  return km < 1 ? Math.round(km * 1000) + ' ม.' : km.toFixed(1) + ' กม.';
-}
-
-// 5. ปักหมุดศูนย์กลางการค้นหา (ลากย้ายได้) — ทุกจุดที่ปักจะกลายเป็น currentCenter
-function setSearchPin(lat, lon, titleName) {
-  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return; // กันพิกัดเพี้ยนทำให้แผนที่พัง
-  currentCenter = { lat, lon, name: titleName };
-
-  const titleEl = $('#areaTitle');
-  if (titleEl) titleEl.textContent = `พื้นที่: ${titleName}`;
-
-  if (window.L && petMap) {
-    if (userMarker) userMarker.remove();
-
-    try {
-      userMarker = L.marker([lat, lon], { draggable: true }).addTo(petMap)
-        .bindPopup(`<b>📍 จุดศูนย์กลางการค้นหา</b><br>${esc(titleName)}<br><small>(ลากหมุดเพื่อย้ายจุดค้นหาได้)</small>`)
-        .openPopup();
-
-      // เมื่อลากหมุดเสร็จ ให้ค้นหา ณ จุดใหม่ทันที
-      userMarker.on('dragend', function (event) {
-        const position = event.target.getLatLng();
-        setSearchPin(position.lat, position.lng, 'จุดที่ลากปักบนแผนที่');
-        searchHospitalsAroundPin();
-      });
-    } catch (err) {
-      console.warn('setSearchPin marker error:', err);
-    }
-  }
-}
-
-// 6. แสดงผลรายการและหมุดโรงพยาบาล (อ้างอิงระยะทางจาก currentCenter เสมอ)
-function renderHospitals(hospitals) {
-  const list = $('#hospitalList');
-  const count = $('#hospitalCount');
-  if (count) count.textContent = `${hospitals ? hospitals.length : 0} แห่ง`;
-
-  if (window.L && petMap) {
-    hospitalMarkers.forEach(m => m.remove());
-    hospitalMarkers = [];
-  }
-
-  if (!hospitals || !hospitals.length) {
-    if (list) {
-      list.innerHTML = `
-        <div class="empty-hospital">
-          <div class="empty-icon">🔎</div>
-          <strong>ไม่พบข้อมูลในบริเวณนี้</strong>
-          <p>ลองคลิกปักจุดใหม่บนแผนที่ หรือเปลี่ยนตัวเลือกสถานที่ด้านบน</p>
-        </div>`;
-    }
-    return;
-  }
-
-  if (list) {
-    list.innerHTML = hospitals.map(h => `
-      <article class="hospital-card">
-        <h3>🏥 ${esc(h.name)}</h3>
-        <p>${esc(h.address)}</p>
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <span class="hospital-distance">📍 ห่างจากจุดปัก ${formatDistance(h.distance)}</span>
-        </div>
-        <div class="hospital-actions">
-          <a class="route-link" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lon}">🧭 นำทาง (Google Maps)</a>
-        </div>
-      </article>
-    `).join('');
-  }
-
-  if (window.L && petMap) {
-    const bounds = [[currentCenter.lat, currentCenter.lon]];
-
-    hospitals.forEach(h => {
-      if (!Number.isFinite(h.lat) || !Number.isFinite(h.lon)) return;
-      const m = L.marker([h.lat, h.lon]).addTo(petMap)
-        .bindPopup(`<b>${esc(h.name)}</b><br>${esc(h.address)}<br>ระยะทางจากจุดปัก: <b>${formatDistance(h.distance)}</b><br><a href="https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lon}" target="_blank">🧭 นำทาง Google Maps</a>`);
-
-      hospitalMarkers.push(m);
-      bounds.push([h.lat, h.lon]);
-    });
-
-    try {
-      petMap.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
-    } catch (e) {
-      console.warn('fitBounds error:', e);
-    }
-  }
-}
-
-// ดึงข้อมูลจาก Overpass แบบมี timeout กัน request ค้างไม่รู้จบ
-async function fetchOverpass(query, timeoutMs = 9000) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    const res = await fetch('https://overpass-api.de/api/interpreter', {
-      method: 'POST',
-      body: query,
-      signal: controller.signal
-    });
-    if (!res.ok) throw new Error('Overpass HTTP ' + res.status);
-    return await res.json();
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-// 7. ค้นหาโรงพยาบาลอ้างอิงจากพิกัด currentCenter เสมอ (Overpass API + Fallback)
-let searchInFlight = false;
-async function searchHospitalsAroundPin() {
-  if (searchInFlight) return; // กันการค้นหาซ้อนกันเวลาลากหมุด/คลิกรัวๆ
-  searchInFlight = true;
-
-  const nearbyBtn = $('#nearbyBtn');
-  if (nearbyBtn) nearbyBtn.disabled = true;
-
-  const statusEl = $('#nearbyStatus');
-  if (statusEl) statusEl.textContent = `กำลังค้นหารอบๆ ${currentCenter.name}...`;
-
-  try {
-    let hospitals = [];
-
-    try {
-      const query = `[out:json][timeout:10];(node["amenity"="veterinary"](around:15000,${currentCenter.lat},${currentCenter.lon});way["amenity"="veterinary"](around:15000,${currentCenter.lat},${currentCenter.lon}););out center tags;`;
-      const data = await fetchOverpass(query);
-      if (data && Array.isArray(data.elements)) {
-        hospitals = data.elements.map(x => {
-          const hLat = x.lat ?? x.center?.lat;
-          const hLon = x.lon ?? x.center?.lon;
-          const t = x.tags || {};
-          return {
-            name: t.name || t['name:th'] || t['name:en'] || 'โรงพยาบาล/คลินิกสัตว์',
-            address: [t['addr:street'], t['addr:suburb'], t['addr:city']].filter(Boolean).join(' ') || t['addr:full'] || `บริเวณใกล้เคียง`,
-            lat: hLat,
-            lon: hLon,
-            distance: haversine(currentCenter.lat, currentCenter.lon, hLat, hLon)
-          };
-        }).filter(x => Number.isFinite(x.lat) && Number.isFinite(x.lon))
-          .sort((a, b) => a.distance - b.distance);
-      }
-    } catch (e) {
-      console.warn('Overpass API error, falling back:', e);
-    }
-
-    // กรณี API ไม่ตอบสนอง/ไม่พบข้อมูล -> ใช้ข้อมูลสำรองพร้อมคำนวณระยะทางจากจุดที่ปักไว้จริง
-    if (!hospitals.length) {
-      const defaultData = [
-        { name: 'โรงพยาบาลสัตว์ชลบุรี', address: 'ถ.สุขุมวิท ต.บางปลาสรุป อ.เมืองชลบุรี', lat: 13.3635, lon: 100.9821 },
-        { name: 'โรงพยาบาลสัตว์แสนสุข (บางแสน)', address: 'ถ.ลงหาดบางแสน ต.แสนสุข อ.เมืองชลบุรี', lat: 13.2842, lon: 100.9235 },
-        { name: 'โรงพยาบาลสัตว์ศรีราชา', address: 'ถ.เจิมจอมพล อ.ศรีราชา จ.ชลบุรี', lat: 13.1702, lon: 100.9298 },
-        { name: 'โรงพยาบาลสัตว์พัทยา', address: 'ถ.สุขุมวิท พัทยากลาง อ.บางละมุง จ.ชลบุรี', lat: 12.9341, lon: 100.8942 },
-        { name: 'โรงพยาบาลสัตว์เกษตร (บางเขน)', address: 'ถ.พหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพฯ', lat: 13.8443, lon: 100.5702 },
-        { name: 'โรงพยาบาลสัตว์ทองหล่อ', address: 'ถ.พระราม 9 แขวงบางกะปิ เขตห้วยขวาง กรุงเทพฯ', lat: 13.7538, lon: 100.5823 }
-      ];
-
-      hospitals = defaultData.map(h => ({
-        ...h,
-        distance: haversine(currentCenter.lat, currentCenter.lon, h.lat, h.lon)
-      })).sort((a, b) => a.distance - b.distance);
-    }
-
-    renderHospitals(hospitals);
-    if (statusEl) statusEl.textContent = `พบ ${hospitals.length} แห่งรอบๆ ${currentCenter.name}`;
-  } catch (e) {
-    console.error('searchHospitalsAroundPin unexpected error:', e);
-    toast('เกิดข้อผิดพลาดในการค้นหาโรงพยาบาล ลองใหม่อีกครั้ง');
-  } finally {
-    searchInFlight = false;
-    if (nearbyBtn) nearbyBtn.disabled = false;
-  }
-}
-
-// 8. เมื่อกดเลือกดรอปดาวน์พื้นที่ หรือกดปุ่มค้นหา — ย้ายหมุดไปยังพื้นที่นั้นก่อน แล้วค้นหารอบจุดนั้น
-async function findHospitals() {
-  const presetEl = $('#locationPreset');
-  const preset = presetEl ? presetEl.value : 'chonburi';
-
-  if (preset === 'gps') {
-    const statusEl = $('#nearbyStatus');
-    if (statusEl) statusEl.textContent = '⏳ กำลังระบุตำแหน่ง GPS ของคุณ...';
-
-    try {
-      if (!navigator.geolocation) throw new Error('GPS not supported');
-      const pos = await new Promise((res, rej) => {
-        navigator.geolocation.getCurrentPosition(res, rej, {
-          enableHighAccuracy: true,
-          timeout: 8000,
-          maximumAge: 5000
-        });
-      });
-      setSearchPin(pos.coords.latitude, pos.coords.longitude, 'ตำแหน่ง GPS ของคุณ');
-    } catch (e) {
-      toast('GPS ขัดข้อง — สลับไปใช้ตำแหน่งชลบุรีแทน');
-      setSearchPin(LOCATIONS.chonburi.lat, LOCATIONS.chonburi.lon, 'ชลบุรี (สำรอง GPS)');
-    }
-  } else if (LOCATIONS[preset]) {
-    setSearchPin(LOCATIONS[preset].lat, LOCATIONS[preset].lon, LOCATIONS[preset].name);
-  }
-
-  searchHospitalsAroundPin();
-}
-
-function changePresetLocation() {
-  findHospitals();
-}
-
-// 9. Event Listener เมื่อ DOM พร้อมใช้งาน
-document.addEventListener('DOMContentLoaded', () => {
-  initMap();
-  showApp();
-  refresh();
-
-  // ตั้งค่าเริ่มต้นที่ชลบุรี แล้วค้นหารอบจุดนั้นทันที
-  setSearchPin(LOCATIONS.chonburi.lat, LOCATIONS.chonburi.lon, LOCATIONS.chonburi.name);
-  searchHospitalsAroundPin();
-
-  $$('.topic-chip').forEach(b => {
-    b.addEventListener('click', () => b.classList.toggle('active'));
-  });
-});
-</script>
-</body>
-</html>
-<!-- ประวัติ -->
-<section id="records" class="page">
-  <div class="section-head">
-    <div><h2>ประวัติและกิจกรรม</h2><p>ติดตามนัดหมายและประวัติการเช็กอาการ</p></div>
-    <button class="btn outline" onclick="clearAll()">ล้างข้อมูล</button>
-  </div>
-  <div class="dash-grid">
-    <div class="panel"><h3>ประวัติการเช็กอาการ</h3><div id="checkList" class="table-list"></div></div>
-    <div class="panel"><h3>สัตว์เลี้ยงของคุณ</h3><button class="btn teal" style="margin-bottom:12px" onclick="openPet()">＋ เพิ่มสัตว์เลี้ยง</button><div id="petList" class="pet-strip"></div></div>
-  </div>
-</section>
-
-<!-- บทความ -->
-<section id="articles" class="page">
-  <div class="section-head"><div><h2>บทความดูแลสัตว์เลี้ยง</h2><p>ความรู้สั้น ๆ สำหรับดูแลน้องให้แข็งแรงและมีความสุข</p></div></div>
-  <div class="article-grid">
-    <article class="article-card"><div class="article-icon">💉</div><h3>วัคซีนสำคัญแค่ไหน?</h3><p>รู้จักแนวทางการดูแลวัคซีนและการติดตามสุขภาพเชิงป้องกันของสุนัขและแมว</p><span class="article-tag">สุขภาพเชิงป้องกัน</span></article>
-    <article class="article-card"><div class="article-icon">🍽️</div><h3>เลือกอาหารให้เหมาะกับวัย</h3><p>พื้นฐานการเลือกอาหารตามช่วงวัย น้ำหนัก และกิจกรรม เพื่อช่วยให้น้องมีสุขภาพที่ดี</p><span class="article-tag">โภชนาการ</span></article>
-    <article class="article-card"><div class="article-icon">🐾</div><h3>สัญญาณที่ไม่ควรมองข้าม</h3><p>สังเกตอาการผิดปกติ เช่น ซึม หายใจลำบาก อาเจียน หรือพฤติกรรมที่เปลี่ยนไป</p><span class="article-tag">สังเกตอาการ</span></article>
-  </div>
-</section>
-</main>
-
-<footer><div class="foot"><div><b>PET CARE — Veterinary & Wellness Center</b><br>Smart care for every pet.</div><div>Premium Web App Prototype</div></div></footer>
-</div>
-
-<!-- Modal เพิ่มสัตว์เลี้ยง -->
-<div id="petModal" class="modal"><div class="modalbox"><h3 style="font:600 22px Prompt;margin-top:0">เพิ่มสัตว์เลี้ยง</h3><label>ชื่อ</label><input id="petName" placeholder="เช่น มะลิ"><label>ประเภท</label><select id="petType"><option>สุนัข</option><option>แมว</option><option>กระต่าย</option><option>อื่น ๆ</option></select><div class="form-row"><div><label>สายพันธุ์</label><input id="petBreed" placeholder="Golden Retriever"></div><div><label>อายุ (ปี)</label><input id="petAge" type="number" min="0"></div></div><label>น้ำหนัก (กก.)</label><input id="petWeight" type="number" min="0" step=".1"><div class="hero-actions" style="margin-top:20px"><button class="btn teal" onclick="savePet()">บันทึก</button><button class="btn outline" onclick="closePet()">ยกเลิก</button></div></div></div>
-<div id="toast" class="toast"></div>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-/* =========================================================
-   Helpers ที่ใช้ร่วมกันทั้งไฟล์ (ประกาศครั้งเดียวเพื่อกัน
-   SyntaxError: Identifier has already been declared)
-   ========================================================= */
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const setHTML=(sel,html)=>{const e=$(sel);if(e)e.innerHTML=html};
-const store={get(k,d=[]){try{return JSON.parse(localStorage.getItem('petcare_'+k))??d}catch{return d}},set(k,v){try{localStorage.setItem('petcare_'+k,JSON.stringify(v))}catch(e){console.warn('Storage unavailable:',e)}}};
-function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function toast(t){
-  let e=$('#toast');
-  if(e){e.textContent=t;e.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>e.classList.remove('show'),2300)}
-  else console.log('[Toast]:',t);
-  let s=$('#nearbyStatus');
-  if(s && $('#nearby')?.classList.contains('active')) s.textContent=t;
-}
-
-function go(id){
-  $$('.page').forEach(p=>p.classList.toggle('active',p.id===id));
-  $$('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
-  refresh();
-  if (id === 'nearby' && petMap) {
-    setTimeout(() => {
-      petMap.invalidateSize();
-      findHospitals();
-    }, 150);
-  }
-  scrollTo({top:0,behavior:'smooth'});
-}
-$$('.nav button').forEach(b=>{if(b.dataset.page) b.onclick=()=>go(b.dataset.page);});
-
-function users(){return store.get('users',[])}
-function user(){return store.get('currentUser',null)}
-function openLoginScreen(){$('#loginScreen').classList.remove('hidden');switchAuth('login')}
-
-function switchAuth(mode){
-  $('#loginForm').classList.toggle('active',mode==='login');
-  $('#registerForm').classList.toggle('active',mode==='register');
-  $('#tabLogin').classList.toggle('active',mode==='login');
-  $('#tabRegister').classList.toggle('active',mode==='register');
-  $('#authTitle').textContent=mode==='login'?'ยินดีต้อนรับกลับมา':'สร้างบัญชี Pet Care';
-  $('#authSub').textContent=mode==='login'?'ดูแลสุขภาพน้องง่ายขึ้น ในที่เดียว':'เริ่มต้นจัดการสุขภาพสัตว์เลี้ยงของคุณ';
-}
-function togglePw(id,b){let i=$('#'+id);i.type=i.type==='password'?'text':'password';b.textContent=i.type==='password'?'👁':'🙈'}
-function err(id,msg){$(id).textContent=msg;$(id).classList.add('show')}
-function clearErr(){$$('.error').forEach(e=>e.classList.remove('show'))}
-
-function register(){
-  clearErr();
-  let n=$('#regName').value.trim(),e=$('#regEmail').value.trim().toLowerCase(),p=$('#regPw').value,c=$('#regCf').value;
-  if(!n||!e||!p)return err('#regError','กรุณากรอกข้อมูลให้ครบ');
-  if(p.length<6)return err('#regError','รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร');
-  if(p!==c)return err('#regError','รหัสผ่านไม่ตรงกัน');
-  let a=users();
-  if(a.some(x=>x.email===e))return err('#regError','อีเมลนี้มีบัญชีแล้ว');
-  let u={id:Date.now(),name:n,email:e,password:p};
-  a.push(u);
-  store.set('users',a);
-  store.set('currentUser',{id:u.id,name:u.name,email:u.email});
-  showApp();
-  refresh();
-  toast('สมัครสมาชิกสำเร็จ');
-}
-
-function login(){
-  clearErr();
-  let e=$('#loginEmail').value.trim().toLowerCase(),p=$('#loginPassword').value,u=users().find(x=>x.email===e&&x.password===p);
-  if(!u)return err('#loginError','อีเมลหรือรหัสผ่านไม่ถูกต้อง');
-  store.set('currentUser',{id:u.id,name:u.name,email:u.email});
-  showApp();
-  refresh();
-  toast('เข้าสู่ระบบสำเร็จ');
-}
-
-function demo(){
-  let a=users(),u=a.find(x=>x.email==='demo@petcare.local');
-  if(!u){u={id:1,name:'Demo User',email:'demo@petcare.local',password:'petcare123'};a.push(u);store.set('users',a)}
-  store.set('currentUser',{id:u.id,name:u.name,email:u.email});
-  showApp();
-  refresh();
-  toast('เข้าสู่ระบบทดลองแล้ว');
-}
-
-function logout(){
-  store.set('currentUser',null);
-  $('#loginScreen').classList.remove('hidden');
-  $('#userChip').classList.remove('show');
-  $('#logout').classList.remove('show');
-  switchAuth('login');
-}
-
-function showApp(){
-  let u=user();
-  if(!u){$('#loginScreen').classList.remove('hidden');return}
-  $('#loginScreen').classList.add('hidden');
-  const chip=$('#userChip'),lo=$('#logout');
-  if(chip){chip.textContent='👤 '+u.name;chip.classList.add('show')}
-  if(lo)lo.classList.add('show');
-}
-
-function pets(){return store.get('pets',[])}
-function openPet(){$('#petModal').classList.add('open');$('#petName').focus()} 
-function closePet(){$('#petModal').classList.remove('open')}
-function savePet(){
-  let n=$('#petName').value.trim();
-  if(!n)return toast('กรุณาใส่ชื่อสัตว์เลี้ยง');
-  let a=pets();
-  a.push({id:Date.now(),name:n,type:$('#petType').value,breed:$('#petBreed').value||'ไม่ระบุ',age:$('#petAge').value||'ไม่ระบุ',weight:$('#petWeight').value||'ไม่ระบุ'});
-  store.set('pets',a);
-  ['petName','petBreed','petAge','petWeight'].forEach(id=>$('#'+id).value='');
-  closePet();
-  refresh();
-  toast('เพิ่มโปรไฟล์เรียบร้อย');
-}
-function removePet(id){store.set('pets',pets().filter(p=>p.id!==id));refresh();toast('ลบโปรไฟล์แล้ว')}
-function avatar(t){return t==='แมว'?'🐱':t==='สุนัข'?'🐶':t==='กระต่าย'?'🐰':'🐾'}
-
-function petCards(list){
-  return list.length?list.map(p=>`<div class="pet"><div class="pet-avatar">${avatar(p.type)}</div><b>${esc(p.name)}</b><small>${esc(p.type)} • ${esc(p.breed)}</small><small>อายุ ${esc(p.age)} ปี • ${esc(p.weight)} กก.</small><button class="btn outline" style="margin-top:10px;padding:8px 11px;font-size:12px" onclick="removePet(${p.id})">ลบ</button></div>`).join('')
-  :'<div class="muted" style="padding:30px;text-align:center;grid-column:1/-1">ยังไม่มีโปรไฟล์สัตว์เลี้ยง<br><button class="btn teal" style="margin-top:10px" onclick="openPet()">＋ เพิ่มน้องตัวแรก</button></div>';
-}
-
-function fillPets(){
-  let a=pets();
-  setHTML('#petList',petCards(a));
-  const cp=$('#checkPet');
-  if(cp){
-    const current=cp.value;
-    cp.innerHTML=a.length?a.map(p=>`<option value="${p.id}">${esc(p.name)} (${esc(p.type)})</option>`).join(''):'<option value="">ยังไม่มีสัตว์เลี้ยง</option>';
-    if(a.some(p=>String(p.id)===String(current)))cp.value=current;
-    else if(a.length)cp.value=String(a[0].id);
-    updateCheckPet();
-  }
-}
-
-function updateCheckPet(){
-  const cp=$('#checkPet'),card=$('#checkPetCard');
-  if(!cp||!card)return;
-  const p=pets().find(x=>String(x.id)===String(cp.value));
-  if(!p){
-    card.innerHTML='<div class="check-pet-empty"><span>ยังไม่มีโปรไฟล์สัตว์เลี้ยง</span><button class="btn teal" onclick="openPet()">＋ เพิ่มสัตว์เลี้ยง</button></div>';
-    return;
-  }
-  card.innerHTML=`<div class="check-pet-avatar">${avatar(p.type)}</div><div><b>${esc(p.name)}</b><small>${esc(p.type)} • ${esc(p.breed)} • อายุ ${esc(p.age)} ปี</small></div>`;
-}
-
-function checkSymptoms(){
-  let cp=$('#checkPet');
-  if(!cp||!cp.value){toast('กรุณาเลือกสัตว์เลี้ยงก่อน');return}
-  let petObj=pets().find(p=>String(p.id)===String(cp.value));
-  let petName=petObj?petObj.name:'สัตว์เลี้ยง';
-
-  let topics=$$('.topic-chip.active').map(x=>x.textContent.trim());
+  let topics=[...document.querySelectorAll('.topic-chip.active')].map(x=>x.textContent.trim());
   let note=$('#checkNote')?.value.trim()||'';
   let duration=$('#symptomDuration')?.value||'';
   let severity=$('#symptomSeverity')?.value||'';
@@ -1165,90 +443,44 @@ function refresh(){
 
 /* =========================================================
    ระบบแผนที่โรงพยาบาลใกล้ฉัน (Leaflet + Chonburi Priority & GPS)
-   เวอร์ชันปรับปรุงเสถียรภาพ (Crash-Proof & Production-Ready)
-   หมายเหตุ: $ , $$ , esc , toast ใช้ตัวที่ประกาศไว้ด้านบนแล้ว
-   (ห้ามประกาศ const/let ซ้ำชื่อเดิม มิฉะนั้นทั้งสคริปต์จะพังทันที)
    ========================================================= */
-
-// 2. Global Map Variables & Config
-let petMap = null;
-let userMarker = null;
-let hospitalMarkers = [];
+let petMap = null, userMarker = null, hospitalMarkers = [];
 
 const LOCATIONS = {
   chonburi: { name: "ชลบุรี", lat: 13.3611, lon: 100.9847, zoom: 12 },
   bangkok: { name: "กรุงเทพฯ", lat: 13.7563, lon: 100.5018, zoom: 12 }
 };
 
-// 3. Map Initialization (ป้องกัน Re-initialization Error)
 function initMap() {
   const el = $('#petMap');
-  if (!el || !window.L) {
-    console.warn('Leaflet ไม่พร้อมใช้งาน (อาจโหลดจาก CDN ไม่สำเร็จ) — จะแสดงเฉพาะรายการโรงพยาบาลแบบไม่มีแผนที่');
-    const statusEl = $('#nearbyStatus');
-    if (statusEl) statusEl.textContent = 'ไม่สามารถโหลดแผนที่ได้ แต่ยังค้นหารายชื่อโรงพยาบาลได้ตามปกติ';
-    return;
-  }
-
-  // ลบแผนที่เดิมก่อนหากมีอยู่แล้ว
-  if (petMap) {
-    petMap.remove();
-    petMap = null;
-  }
-
-  try {
-    petMap = L.map('petMap', { zoomControl: true })
-      .setView([LOCATIONS.chonburi.lat, LOCATIONS.chonburi.lon], LOCATIONS.chonburi.zoom);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(petMap);
-
-    setTimeout(() => { if (petMap) petMap.invalidateSize(); }, 300);
-  } catch (err) {
-    console.error('Map initialization error:', err);
-    petMap = null;
-  }
+  if (!el || !window.L) return;
+  petMap = L.map(el, { zoomControl: true }).setView([LOCATIONS.chonburi.lat, LOCATIONS.chonburi.lon], LOCATIONS.chonburi.zoom);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(petMap);
 }
 
-// 4. Mathematical Distance Calculator (Haversine Formula)
 function haversine(lat1, lon1, lat2, lon2) {
-  if (!Number.isFinite(lat1) || !Number.isFinite(lon1) || !Number.isFinite(lat2) || !Number.isFinite(lon2)) return 0;
   const R = 6371, rad = Math.PI / 180;
-  const dLat = (lat2 - lat1) * rad;
-  const dLon = (lon2 - lon1) * rad;
-  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin(dLon / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const dLat = (lat2-lat1)*rad, dLon=(lon2-lon1)*rad;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*rad)*Math.cos(lat2*rad)*Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
-function formatDistance(km) {
-  if (km === undefined || km === null || isNaN(km)) return 'ไม่ระบุ';
-  return km < 1 ? Math.round(km * 1000) + ' ม.' : km.toFixed(1) + ' กม.';
-}
+function formatDistance(km){ return km < 1 ? Math.round(km*1000)+' ม.' : km.toFixed(1)+' กม.'; }
 
-// 5. Render Results & Map Markers (พร้อม Auto Fit Bounds)
-function renderHospitals(hospitals, centerLat, centerLon) {
-  const list = $('#hospitalList');
-  const count = $('#hospitalCount');
-  if (count) count.textContent = `${hospitals ? hospitals.length : 0} แห่ง`;
+function renderHospitals(hospitals) {
+  const list=$('#hospitalList'), count=$('#hospitalCount');
+  if(count) count.textContent=`${hospitals.length} แห่ง`;
 
-  // ล้างหมุดเดิมบนแผนที่
-  if (window.L && petMap) {
-    hospitalMarkers.forEach(m => m.remove());
-    hospitalMarkers = [];
-  }
-
-  if (!hospitals || !hospitals.length) {
-    if (list) {
-      list.innerHTML = '<div class="empty-hospital"><div class="empty-icon">🔎</div><strong>ไม่พบข้อมูลในบริเวณนี้</strong><p>ลองเปลี่ยนตำแหน่งการค้นหาด้านบน</p></div>';
-    }
+  if(!hospitals.length){
+    if(list) list.innerHTML='<div class="empty-hospital"><div class="empty-icon">🔎</div><strong>ไม่พบข้อมูลในบริเวณนี้</strong></div>';
     return;
   }
 
-  // แสดงรายการการ์ด HTML
-  if (list) {
-    list.innerHTML = hospitals.map(h => `
+  if(list){
+    list.innerHTML=hospitals.map(h=>`
       <article class="hospital-card">
         <h3>🏥 ${esc(h.name)}</h3>
         <p>${esc(h.address)}</p>
@@ -1262,176 +494,104 @@ function renderHospitals(hospitals, centerLat, centerLon) {
     `).join('');
   }
 
-  // ปักหมุด Leaflet และปรับมุมมองแผนที่
-  if (window.L && petMap) {
-    const bounds = [];
-    if (Number.isFinite(centerLat) && Number.isFinite(centerLon)) bounds.push([centerLat, centerLon]);
+  if(window.L && petMap){
+    hospitalMarkers.forEach(m=>m.remove());
+    hospitalMarkers=[];
 
-    hospitals.forEach(h => {
-      if (!Number.isFinite(h.lat) || !Number.isFinite(h.lon)) return;
+    hospitals.forEach(h=>{
       const m = L.marker([h.lat, h.lon]).addTo(petMap)
         .bindPopup(`<b>${esc(h.name)}</b><br>${esc(h.address)}<br>ระยะทาง: ${formatDistance(h.distance)}<br><a href="https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lon}" target="_blank">🧭 เปิดแผนที่นำทาง</a>`);
-      
       hospitalMarkers.push(m);
-      bounds.push([h.lat, h.lon]);
     });
-
-    // Auto Zoom ปรับมุมมองให้ครอบคลุมทุกหมุด
-    if (bounds.length > 0) {
-      try {
-        petMap.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
-      } catch(e) {
-        console.warn('fitBounds warning:', e);
-      }
-    }
   }
 }
 
-// ดึงข้อมูลจาก Overpass แบบมี timeout กัน request ค้าง
-async function fetchOverpass(query, timeoutMs = 9000) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    const res = await fetch('https://overpass-api.de/api/interpreter', {
-      method: 'POST',
-      body: query,
-      signal: controller.signal
-    });
-    if (!res.ok) throw new Error('Overpass HTTP ' + res.status);
-    return await res.json();
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-// 6. Search Logic with Overpass API & Smart Fallback
-let findHospitalsInFlight = false;
 async function findHospitals() {
-  if (findHospitalsInFlight) return; // กันการกดซ้ำซ้อนระหว่างที่กำลังโหลดอยู่
-  findHospitalsInFlight = true;
+  const preset = $('#locationPreset').value;
+  let targetLat, targetLon, areaName;
 
-  const nearbyBtn = $('#nearbyBtn');
-  if (nearbyBtn) nearbyBtn.disabled = true;
+  $('#nearbyStatus').textContent = 'กำลังโหลดข้อมูลสถานที่...';
 
-  try {
-    const presetEl = $('#locationPreset');
-    const preset = presetEl ? presetEl.value : 'chonburi';
-    let targetLat, targetLon, areaName;
-
-    const statusEl = $('#nearbyStatus');
-    if (statusEl) statusEl.textContent = 'กำลังโหลดข้อมูลสถานที่...';
-
-    if (preset === 'gps') {
-      areaName = 'ตำแหน่ง GPS ของคุณ';
-      try {
-        if (!navigator.geolocation) throw new Error('GPS not supported');
-        const pos = await new Promise((res, rej) => {
-          navigator.geolocation.getCurrentPosition(res, rej, {
-            enableHighAccuracy: true,
-            timeout: 8000,
-            maximumAge: 10000
-          });
-        });
-        targetLat = pos.coords.latitude;
-        targetLon = pos.coords.longitude;
-      } catch (e) {
-        toast('GPS ขัดข้อง — สลับไปใช้ตำแหน่งชลบุรีแทน');
-        targetLat = LOCATIONS.chonburi.lat;
-        targetLon = LOCATIONS.chonburi.lon;
-        areaName = 'ชลบุรี (สำรอง GPS)';
-      }
-    } else if (LOCATIONS[preset]) {
-      targetLat = LOCATIONS[preset].lat;
-      targetLon = LOCATIONS[preset].lon;
-      areaName = LOCATIONS[preset].name;
-    } else {
+  if (preset === 'gps') {
+    areaName = 'ตำแหน่ง GPS ของคุณ';
+    try {
+      const pos = await new Promise((res, rej) => {
+        navigator.geolocation.getCurrentPosition(res, rej, { enableHighAccuracy: true, timeout: 8000 });
+      });
+      targetLat = pos.coords.latitude;
+      targetLon = pos.coords.longitude;
+    } catch(e) {
+      toast('GPS ขัดข้อง — สลับไปใช้ตำแหน่งชลบุรีแทน');
       targetLat = LOCATIONS.chonburi.lat;
       targetLon = LOCATIONS.chonburi.lon;
-      areaName = LOCATIONS.chonburi.name;
+      areaName = 'ชลบุรี (สำรอง)';
     }
-
-    const titleEl = $('#areaTitle');
-    if (titleEl) titleEl.textContent = `พื้นที่: ${areaName}`;
-
-    if (window.L && petMap) {
-      if (userMarker) userMarker.remove();
-      userMarker = L.marker([targetLat, targetLon]).addTo(petMap)
-        .bindPopup(`<b>📍 จุดศูนย์กลางการค้นหา (${esc(areaName)})</b>`).openPopup();
-    }
-
-    let hospitals = [];
-
-    // ดึงข้อมูลโรงพยาบาลสัตว์จาก Overpass API
-    try {
-      const query = `[out:json][timeout:10];(node["amenity"="veterinary"](around:15000,${targetLat},${targetLon});way["amenity"="veterinary"](around:15000,${targetLat},${targetLon}););out center tags;`;
-      const data = await fetchOverpass(query);
-      if (data && Array.isArray(data.elements)) {
-        hospitals = data.elements.map(x => {
-          const hLat = x.lat ?? x.center?.lat;
-          const hLon = x.lon ?? x.center?.lon;
-          const t = x.tags || {};
-          return {
-            name: t.name || t['name:th'] || t['name:en'] || 'โรงพยาบาล/คลินิกสัตว์',
-            address: [t['addr:street'], t['addr:suburb'], t['addr:city']].filter(Boolean).join(' ') || t['addr:full'] || `พื้นที่ ${areaName}`,
-            lat: hLat,
-            lon: hLon,
-            distance: haversine(targetLat, targetLon, hLat, hLon)
-          };
-        }).filter(x => Number.isFinite(x.lat) && Number.isFinite(x.lon))
-          .sort((a, b) => a.distance - b.distance);
-      }
-    } catch (e) {
-      console.warn('Overpass API error, using fallback data:', e);
-    }
-
-    // กรณี API ล้มเหลว หรือ ไม่พบข้อมูล -> แสดงข้อมูลสำรอง
-    if (!hospitals.length) {
-      if (preset === 'bangkok') {
-        hospitals = [
-          { name: 'โรงพยาบาลสัตว์เกษตร', address: 'ถ.พหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพฯ', lat: 13.8443, lon: 100.5702 },
-          { name: 'โรงพยาบาลสัตว์จุฬาลงกรณ์', address: 'ถ.อังรีดูนังต์ แขวงปทุมวัน เขตปทุมวัน กรุงเทพฯ', lat: 13.7335, lon: 100.5312 },
-          { name: 'โรงพยาบาลสัตว์ทองหล่อ', address: 'ถ.พระราม 9 แขวงบางกะปิ เขตห้วยขวาง กรุงเทพฯ', lat: 13.7538, lon: 100.5823 }
-        ];
-      } else {
-        hospitals = [
-          { name: 'โรงพยาบาลสัตว์ชลบุรี', address: 'ถ.สุขุมวิท ต.บางปลาสรุป อ.เมืองชลบุรี', lat: 13.3635, lon: 100.9821 },
-          { name: 'โรงพยาบาลสัตว์แสนสุข (บางแสน)', address: 'ถ.ลงหาดบางแสน ต.แสนสุข อ.เมืองชลบุรี', lat: 13.2842, lon: 100.9235 },
-          { name: 'โรงพยาบาลสัตว์ศรีราชา', address: 'ถ.เจิมจอมพล อ.ศรีราชา จ.ชลบุรี', lat: 13.1702, lon: 100.9298 },
-          { name: 'โรงพยาบาลสัตว์พัทยา', address: 'ถ.สุขุมวิท พัทยากลาง อ.บางละมุง จ.ชลบุรี', lat: 12.9341, lon: 100.8942 }
-        ];
-      }
-
-      hospitals = hospitals.map(h => ({
-        ...h,
-        distance: haversine(targetLat, targetLon, h.lat, h.lon)
-      })).sort((a, b) => a.distance - b.distance);
-    }
-
-    renderHospitals(hospitals, targetLat, targetLon);
-    if (statusEl) statusEl.textContent = `พบ ${hospitals.length} แห่งในพื้นที่ ${areaName}`;
-  } catch (e) {
-    console.error('findHospitals unexpected error:', e);
-    toast('เกิดข้อผิดพลาดในการค้นหาโรงพยาบาล ลองใหม่อีกครั้ง');
-  } finally {
-    findHospitalsInFlight = false;
-    if (nearbyBtn) nearbyBtn.disabled = false;
+  } else {
+    targetLat = LOCATIONS[preset].lat;
+    targetLon = LOCATIONS[preset].lon;
+    areaName = LOCATIONS[preset].name;
   }
+
+  $('#areaTitle').textContent = `พื้นที่: ${areaName}`;
+
+  if (petMap) {
+    if (userMarker) userMarker.remove();
+    userMarker = L.marker([targetLat, targetLon]).addTo(petMap).bindPopup(`<b>📍 จุดศูนย์กลางการค้นหา (${areaName})</b>`).openPopup();
+    petMap.setView([targetLat, targetLon], 12);
+  }
+
+  let hospitals = [];
+
+  try {
+    const query = `[out:json][timeout:10];(node["amenity"="veterinary"](around:15000,${targetLat},${targetLon});way["amenity"="veterinary"](around:15000,${targetLat},${targetLon}););out center tags;`;
+    const res = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: query });
+    if (res.ok) {
+      const data = await res.json();
+      hospitals = data.elements.map(x => {
+        const hLat = x.lat ?? x.center?.lat;
+        const hLon = x.lon ?? x.center?.lon;
+        const t = x.tags || {};
+        return {
+          name: t.name || t['name:th'] || t['name:en'] || 'โรงพยาบาล/คลินิกสัตว์',
+          address: [t['addr:street'], t['addr:suburb'], t['addr:city']].filter(Boolean).join(' ') || t['addr:full'] || 'จังหวัดชลบุรี',
+          lat: hLat,
+          lon: hLon,
+          distance: haversine(targetLat, targetLon, hLat, hLon)
+        };
+      }).filter(x => Number.isFinite(x.lat) && Number.isFinite(x.lon))
+        .sort((a, b) => a.distance - b.distance);
+    }
+  } catch(e) {
+    console.warn('API error, using fallback');
+  }
+
+  if (!hospitals.length && (preset === 'chonburi' || targetLat.toFixed(1) === '13.4')) {
+    hospitals = [
+      { name: 'โรงพยาบาลสัตว์ชลบุรี', address: 'ถ.สุขุมวิท ต.บางปลาสรุป อ.เมืองชลบุรี', lat: 13.3635, lon: 100.9821 },
+      { name: 'โรงพยาบาลสัตว์แสนสุข (บางแสน)', address: 'ถ.ลงหาดบางแสน ต.แสนสุข อ.เมืองชลบุรี', lat: 13.2842, lon: 100.9235 },
+      { name: 'โรงพยาบาลสัตว์ศรีราชา', address: 'ถ.เจิมจอมพล อ.ศรีราชา จ.ชลบุรี', lat: 13.1702, lon: 100.9298 },
+      { name: 'โรงพยาบาลสัตว์พัทยา', address: 'ถ.สุขุมวิท พัทยากลาง อ.บางละมุง จ.ชลบุรี', lat: 12.9341, lon: 100.8942 }
+    ].map(h => ({ ...h, distance: haversine(targetLat, targetLon, h.lat, h.lon) }))
+     .sort((a,b) => a.distance - b.distance);
+  }
+
+  renderHospitals(hospitals);
+  $('#nearbyStatus').textContent = `พบ ${hospitals.length} แห่งในพื้นที่ ${areaName}`;
 }
 
-function changePresetLocation() {
+function changePresetLocation(){
   findHospitals();
 }
 
-// 7. Event Listener เมื่อ DOM พร้อม
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', ()=>{
   initMap();
   showApp();
   refresh();
   findHospitals();
 
-  $$('.topic-chip').forEach(b => {
-    b.addEventListener('click', () => b.classList.toggle('active'));
-  });
+  document.querySelectorAll('.topic-chip').forEach(b=>b.addEventListener('click',()=>{
+    b.classList.toggle('active');
+  }));
 });
 </script>
 </body>
