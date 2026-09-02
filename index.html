@@ -188,39 +188,279 @@ footer{background:#0e344c;color:#cfe0e7;padding:28px 22px}.foot{max-width:1280px
 <section id="nearby" class="page">
   <div class="section-head">
     <div>
-      <h2>โรงพยาบาลสัตว์ใกล้ฉัน</h2>
-      <p>เลือกพื้นที่ หรือค้นหาอัตโนมัติจากตำแหน่งปัจจุบัน</p>
-    </div>
-    <div class="location-controls">
-      <select id="locationPreset" onchange="changePresetLocation()">
-        <option value="chonburi" selected>📍 ชลบุรี (เมือง / ศรีราชา / พัทยา)</option>
-        <option value="bangkok">📍 กรุงเทพมหานคร</option>
-        <option value="gps">📡 ใช้ตำแหน่ง GPS จริง</option>
-      </select>
-      <button class="btn teal" id="nearbyBtn" onclick="findHospitals()">ค้นหาโรงพยาบาล</button>
-    </div>
-  </div>
+     /* =========================================================
+   ระบบแผนที่โรงพยาบาลใกล้ฉัน (Leaflet + Dynamic Pin Search)
+   เวอร์ชันเสถียร ค้นหาอ้างอิงจากจุดที่ปักไว้บนแผนที่
+   ========================================================= */
 
-  <div class="nearby-layout">
-    <div class="map-panel">
-      <div id="petMap"></div>
-      <div class="map-overlay">
-        <div class="live-dot"></div>
-        <div>
-          <strong id="areaTitle">พื้นที่: ชลบุรี</strong><br>
-          <small id="nearbyStatus">กดปุ่มค้นหาเพื่อโหลดข้อมูลล่าสุด</small>
+// 1. Selector Helper & Safe Functions
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => document.querySelectorAll(selector);
+
+function esc(str) {
+  if (!str) return '';
+  return String(str).replace(/[&<>"']/g, m => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[m]));
+}
+
+function toast(msg) {
+  if (typeof window.showToast === 'function') {
+    window.showToast(msg);
+  } else {
+    console.log('[Notice]:', msg);
+    const statusEl = $('#nearbyStatus');
+    if (statusEl) statusEl.textContent = msg;
+  }
+}
+
+// 2. Global Map Variables & Config
+let petMap = null;
+let userMarker = null;       // หมุดจุดศูนย์กลางการค้นหา (ลาก/ปักได้)
+let hospitalMarkers = [];    // หมุดโรงพยาบาลทั้งหมด
+let currentCenter = { lat: 13.3611, lon: 100.9847, name: 'ชลบุรี' }; // พิกัดปักจุดปัจจุบัน
+
+const LOCATIONS = {
+  chonburi: { name: "ชลบุรี", lat: 13.3611, lon: 100.9847, zoom: 12 },
+  bangkok: { name: "กรุงเทพฯ", lat: 13.7563, lon: 100.5018, zoom: 12 }
+};
+
+// 3. Initialize Map (พร้อม Event คลิกปักจุด)
+function initMap() {
+  const el = $('#petMap');
+  if (!el || !window.L) return;
+
+  if (petMap) {
+    petMap.remove();
+    petMap = null;
+  }
+
+  try {
+    petMap = L.map('petMap', { zoomControl: true })
+      .setView([currentCenter.lat, currentCenter.lon], 12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(petMap);
+
+    // 📍 ฟีเจอร์: คลิกบนแผนที่เพื่อปักจุดค้นหาใหม่
+    petMap.on('click', (e) => {
+      const { lat, lng } = e.latlng;
+      setSearchPin(lat, lng, 'จุดที่ปักบนแผนที่');
+      searchHospitalsAroundPin();
+    });
+
+    setTimeout(() => { if (petMap) petMap.invalidateSize(); }, 300);
+  } catch (err) {
+    console.error('Map init error:', err);
+  }
+}
+
+// 4. คำนวณระยะทาง (Haversine Formula)
+function haversine(lat1, lon1, lat2, lon2) {
+  if (!lat1 || !lon1 || !lat2 || !lon2) return 0;
+  const R = 6371, rad = Math.PI / 180;
+  const dLat = (lat2 - lat1) * rad;
+  const dLon = (lon2 - lon1) * rad;
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function formatDistance(km) {
+  if (km === undefined || km === null || isNaN(km)) return 'ไม่ระบุ';
+  return km < 1 ? Math.round(km * 1000) + ' ม.' : km.toFixed(1) + ' กม.';
+}
+
+// 5. ปักหมุดศูนย์กลางการค้นหา (สามารถลากย้ายได้)
+function setSearchPin(lat, lon, titleName) {
+  currentCenter = { lat, lon, name: titleName };
+
+  const titleEl = $('#areaTitle');
+  if (titleEl) titleEl.textContent = `พื้นที่: ${titleName}`;
+
+  if (petMap) {
+    if (userMarker) userMarker.remove();
+
+    // สร้างหมุดที่ลากได้ (Draggable)
+    userMarker = L.marker([lat, lon], { draggable: true }).addTo(petMap)
+      .bindPopup(`<b>📍 จุดศูนย์กลางการค้นหา</b><br>${esc(titleName)}<br><small>(คลิกลากหมุดเพื่อย้ายจุดได้)</small>`)
+      .openPopup();
+
+    // Event เมื่อลากหมุดเสร็จ ให้ค้นหา ณ จุดใหม่ทันที
+    userMarker.on('dragend', function (event) {
+      const position = event.target.getLatLng();
+      setSearchPin(position.lat, position.lng, 'จุดที่ลากปักบนแผนที่');
+      searchHospitalsAroundPin();
+    });
+  }
+}
+
+// 6. แสดงผลรายการและหมุดโรงพยาบาล
+function renderHospitals(hospitals) {
+  const list = $('#hospitalList');
+  const count = $('#hospitalCount');
+  if (count) count.textContent = `${hospitals ? hospitals.length : 0} แห่ง`;
+
+  if (window.L && petMap) {
+    hospitalMarkers.forEach(m => m.remove());
+    hospitalMarkers = [];
+  }
+
+  if (!hospitals || !hospitals.length) {
+    if (list) {
+      list.innerHTML = `
+        <div class="empty-hospital">
+          <div class="empty-icon">🔎</div>
+          <strong>ไม่พบข้อมูลในบริเวณนี้</strong>
+          <p>ลองคลิกปักจุดใหม่บนแผนที่ หรือเปลี่ยนตัวเลือกสถานที่ด้านบน</p>
+        </div>`;
+    }
+    return;
+  }
+
+  // สร้างรายการการ์ด HTML
+  if (list) {
+    list.innerHTML = hospitals.map(h => `
+      <article class="hospital-card">
+        <h3>🏥 ${esc(h.name)}</h3>
+        <p>${esc(h.address)}</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span class="hospital-distance">📍 ห่างจากจุดปัก ${formatDistance(h.distance)}</span>
         </div>
-      </div>
-    </div>
-    <div class="hospital-panel">
-      <div class="panel-top">
-        <h3>สถานพยาบาลใกล้เคียง</h3>
-        <span class="count-pill" id="hospitalCount">0 แห่ง</span>
-      </div>
-      <div id="hospitalList" class="hospital-list"></div>
-    </div>
-  </div>
-</section>
+        <div class="hospital-actions">
+          <a class="route-link" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lon}">🧭 นำทาง (Google Maps)</a>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  // ปักหมุดโรงพยาบาลรอบๆ จุดที่เลือก
+  if (window.L && petMap) {
+    const bounds = [[currentCenter.lat, currentCenter.lon]];
+
+    hospitals.forEach(h => {
+      if (!h.lat || !h.lon) return;
+      const m = L.marker([h.lat, h.lon]).addTo(petMap)
+        .bindPopup(`<b>${esc(h.name)}</b><br>${esc(h.address)}<br>ระยะทางจากจุดปัก: <b>${formatDistance(h.distance)}</b><br><a href="https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lon}" target="_blank">🧭 นำทาง Google Maps</a>`);
+
+      hospitalMarkers.push(m);
+      bounds.push([h.lat, h.lon]);
+    });
+
+    // Auto Fit Zoom ให้มองเห็นหมุดทั้งหมด
+    try {
+      petMap.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
+    } catch (e) {
+      console.warn('fitBounds error:', e);
+    }
+  }
+}
+
+// 7. ค้นหาโรงพยาบาลอ้างอิงจากพิกัด currentCenter ( Overpass API + Fallback )
+async function searchHospitalsAroundPin() {
+  const statusEl = $('#nearbyStatus');
+  if (statusEl) statusEl.textContent = `กำลังค้นหารอบๆ ${currentCenter.name}...`;
+
+  let hospitals = [];
+
+  try {
+    // ดึงข้อมูลโรงพยาบาลสัตว์ในรัศมี 15 กม. จากพิกัดจุดที่ปักไว้
+    const query = `[out:json][timeout:10];(node["amenity"="veterinary"](around:15000,${currentCenter.lat},${currentCenter.lon});way["amenity"="veterinary"](around:15000,${currentCenter.lat},${currentCenter.lon}););out center tags;`;
+    const res = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: query });
+    
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.elements) {
+        hospitals = data.elements.map(x => {
+          const hLat = x.lat ?? x.center?.lat;
+          const hLon = x.lon ?? x.center?.lon;
+          const t = x.tags || {};
+          return {
+            name: t.name || t['name:th'] || t['name:en'] || 'โรงพยาบาล/คลินิกสัตว์',
+            address: [t['addr:street'], t['addr:suburb'], t['addr:city']].filter(Boolean).join(' ') || t['addr:full'] || `บริเวณใกล้เคียง`,
+            lat: hLat,
+            lon: hLon,
+            distance: haversine(currentCenter.lat, currentCenter.lon, hLat, hLon)
+          };
+        }).filter(x => Number.isFinite(x.lat) && Number.isFinite(x.lon))
+          .sort((a, b) => a.distance - b.distance);
+      }
+    }
+  } catch (e) {
+    console.warn('Overpass API error, falling back:', e);
+  }
+
+  // กรณี API ไม่ตอบสนอง ใช้ข้อมูลสำรองพร้อมคำนวณระยะทางจากจุดที่ปักใหม่
+  if (!hospitals.length) {
+    const defaultData = [
+      { name: 'โรงพยาบาลสัตว์ชลบุรี', address: 'ถ.สุขุมวิท ต.บางปลาสรุป อ.เมืองชลบุรี', lat: 13.3635, lon: 100.9821 },
+      { name: 'โรงพยาบาลสัตว์แสนสุข (บางแสน)', address: 'ถ.ลงหาดบางแสน ต.แสนสุข อ.เมืองชลบุรี', lat: 13.2842, lon: 100.9235 },
+      { name: 'โรงพยาบาลสัตว์ศรีราชา', address: 'ถ.เจิมจอมพล อ.ศรีราชา จ.ชลบุรี', lat: 13.1702, lon: 100.9298 },
+      { name: 'โรงพยาบาลสัตว์พัทยา', address: 'ถ.สุขุมวิท พัทยากลาง อ.บางละมุง จ.ชลบุรี', lat: 12.9341, lon: 100.8942 },
+      { name: 'โรงพยาบาลสัตว์เกษตร (บางเขน)', address: 'ถ.พหลโยธิน แขวงลาดยาว เขตจตุจักร กรุงเทพฯ', lat: 13.8443, lon: 100.5702 },
+      { name: 'โรงพยาบาลสัตว์ทองหล่อ', address: 'ถ.พระราม 9 แขวงบางกะปิ เขตห้วยขวาง กรุงเทพฯ', lat: 13.7538, lon: 100.5823 }
+    ];
+
+    hospitals = defaultData.map(h => ({
+      ...h,
+      distance: haversine(currentCenter.lat, currentCenter.lon, h.lat, h.lon)
+    })).sort((a, b) => a.distance - b.distance);
+  }
+
+  renderHospitals(hospitals);
+  if (statusEl) statusEl.textContent = `พบ ${hospitals.length} แห่งรอบๆ ${currentCenter.name}`;
+}
+
+// 8. ฟังก์ชันเมื่อกดเลือกดรอปดาวน์พื้นที่ หรือกดปุ่มค้นหา
+async function findHospitals() {
+  const presetEl = $('#locationPreset');
+  const preset = presetEl ? presetEl.value : 'chonburi';
+
+  if (preset === 'gps') {
+    const statusEl = $('#nearbyStatus');
+    if (statusEl) statusEl.textContent = '⏳ กำลังระบุตำแหน่ง GPS ของคุณ...';
+
+    try {
+      if (!navigator.geolocation) throw new Error('GPS not supported');
+      const pos = await new Promise((res, rej) => {
+        navigator.geolocation.getCurrentPosition(res, rej, {
+          enableHighAccuracy: true,
+          timeout: 8000,
+          maximumAge: 5000
+        });
+      });
+      setSearchPin(pos.coords.latitude, pos.coords.longitude, 'ตำแหน่ง GPS ของคุณ');
+    } catch (e) {
+      toast('GPS ขัดข้อง — สลับไปใช้ตำแหน่งชลบุรีแทน');
+      setSearchPin(LOCATIONS.chonburi.lat, LOCATIONS.chonburi.lon, 'ชลบุรี (สำรอง GPS)');
+    }
+  } else if (LOCATIONS[preset]) {
+    setSearchPin(LOCATIONS[preset].lat, LOCATIONS[preset].lon, LOCATIONS[preset].name);
+  }
+
+  searchHospitalsAroundPin();
+}
+
+function changePresetLocation() {
+  findHospitals();
+}
+
+// 9. Event Listener เมื่อ DOM พร้อมใช้งาน
+document.addEventListener('DOMContentLoaded', () => {
+  initMap();
+
+  if (typeof showApp === 'function') showApp();
+  if (typeof refresh === 'function') refresh();
+
+  // ตั้งค่าเริ่มต้นที่ชลบุรี และทำการค้นหาทันที
+  setSearchPin(LOCATIONS.chonburi.lat, LOCATIONS.chonburi.lon, LOCATIONS.chonburi.name);
+  searchHospitalsAroundPin();
+
+  $$('.topic-chip').forEach(b => {
+    b.addEventListener('click', () => b.classList.toggle('active'));
+  });
+});
 
 <!-- ประวัติ -->
 <section id="records" class="page">
